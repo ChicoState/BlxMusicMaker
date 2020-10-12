@@ -28,6 +28,27 @@ public:
         env1.setRelease(*release);
     }
     
+    bool setCurrentSine(string val)
+    {
+        if (val == "Sine" || val == "sine")
+            currentSineFlag = Sine;
+
+        else if (val == "Saw" || val == "saw")
+            currentSineFlag = Saw;
+
+        else if (val == "Noise" || val == "noise")
+            currentSineFlag = Noise;
+
+        else if (val == "Triangle" || val == "triangle")
+            currentSineFlag = Triangle;
+
+        else if (val == "Square" || val == "square")
+            currentSineFlag = Square;
+        else
+            return false;
+        return true;
+    }
+
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound,
         int currentPitchWheelPosition)
     {
