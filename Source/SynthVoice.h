@@ -17,6 +17,8 @@
 class SynthVoice : public juce::SynthesiserVoice
 {
 public:
+    enum sineFlag{Sine, Saw, Noise, Triangle, Square};
+
     bool canPlaySound(juce::SynthesiserSound* sound) 
     {
         return dynamic_cast<SynthSound*>(sound) != nullptr;
@@ -26,6 +28,11 @@ public:
     {
         env1.setAttack(*attack);
         env1.setRelease(*release);
+    }
+
+    void setCurrentSine(SynthVoice::sineFlag flag) 
+    {
+        currentSineFlag = flag;
     }
     
     bool setCurrentSine(string val)
@@ -125,7 +132,6 @@ private:
     double level;
     double frequency;
     //enum type and object declarations and assignment.
-    enum sineFlag{Sine, Saw, Noise, Triangle, Square};
     sineFlag currentSineFlag = Sine;
 
     maxiOsc osc1;

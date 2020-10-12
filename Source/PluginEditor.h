@@ -10,7 +10,8 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-
+#include "Menu.h"
+#include "InstrumentWindow.h"
 //==============================================================================
 /**
 */
@@ -30,11 +31,9 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     BlxMusicMakerAudioProcessor& audioProcessor;
-
-    juce::ScopedPointer<juce::AudioProcessorValueTreeState::SliderAttachment> attackTree;
-    juce::ScopedPointer<juce::AudioProcessorValueTreeState::SliderAttachment> releaseTree;
-    juce::Slider attackSlider;
-    juce::Slider releaseSlider;
+    
+    Menu* menu;
+    InstrumentWindow* instrumentWindow;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessorEditor)
 };

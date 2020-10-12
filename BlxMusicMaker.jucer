@@ -45,7 +45,7 @@
   <EXPORTFORMATS>
     <VS2019 targetFolder="Builds/VisualStudio2019">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="Blx Music Maker" headerPath="C:\Users\alext\Documents\cs430_software_engineering\BlxMusicMaker\LIBRARIES\Maximilian"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="Blx Music Maker" headerPath="C:\Users\alext\Documents\cs430_software_engineering\BlxMusicMaker\LIBRARIES\Maximilian;F:\BlxMusicMaker\LIBRARIES\Maximilian"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="Blx Music Maker"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
