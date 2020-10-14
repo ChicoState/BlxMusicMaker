@@ -1,8 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
-
-class TypeSelector;
-class EnvelopeSliders;
+#include "EnvelopeSliders.h"
+#include "TypeSelector.h"
 
 class InstrumentEditorPanel : public juce::Component
 {
@@ -19,34 +18,3 @@ private:
     EnvelopeSliders* sliders;
 };
 
-
-class TypeSelector : public juce::Component
-{
-public:
-    TypeSelector();
-    ~TypeSelector() override;
-
-    void paint(juce::Graphics&) override;
-    void resized() override;
-
-private:
-    void updateToggleState(juce::TextButton*);
-    juce::TextButton* buttons;
-    int radioId = 1001;
-};
-
-
-class EnvelopeSliders : public juce::Component
-{
-public:
-    EnvelopeSliders();
-    ~EnvelopeSliders() override;
-
-    void paint(juce::Graphics&) override;
-    void resized() override;
-    void sliderValueChanged(int);
-
-private:
-    juce::Slider* sliders;
-    juce::Label* labels;
-};

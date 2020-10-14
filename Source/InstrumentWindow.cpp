@@ -3,7 +3,7 @@
 InstrumentWindow::InstrumentWindow()
 {
 	instrumentPanel = new InstrumentPanel;
-	instrumentEditorPanel = new InstrumentEditorPanel;
+	instrumentEditorPanel = new InstrumentEditorPanel();
 	addAndMakeVisible(instrumentPanel);
 	addAndMakeVisible(instrumentEditorPanel);
 }
