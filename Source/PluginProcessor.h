@@ -15,7 +15,7 @@
 //==============================================================================
 /**
 */
-class BlxMusicMakerAudioProcessor  : public juce::AudioProcessor
+class BlxMusicMakerAudioProcessor : public juce::AudioProcessor
 {
 public:
     //==============================================================================
@@ -55,9 +55,11 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float attackTime;
-    float releaseTime;
-    juce::AudioProcessorValueTreeState tree; // links values btw slider and processor
+    // accessed by envelope sliders
+    static float attackTime;
+    static float decayTime;
+    static float sustainTime;
+    static float releaseTime;
 
 private:
     juce::Synthesiser mySynth;
@@ -66,3 +68,12 @@ private:
     double lastSampleRate;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessor)
 };
+
+
+
+
+
+
+
+
+

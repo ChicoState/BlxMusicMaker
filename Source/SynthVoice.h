@@ -24,10 +24,13 @@ public:
         return dynamic_cast<SynthSound*>(sound) != nullptr;
     }
 
-    void getParam(std::atomic<float>* attack, std::atomic<float>* release) 
+    // connection between processor and voice
+    void getParam(float attack, float decay, float sustain, float release)
     {
-        env1.setAttack(*attack);
-        env1.setRelease(*release);
+        env1.setAttack(attack);
+        env1.setDecay(decay);
+        env1.setSustain(sustain);
+        env1.setRelease(release);
     }
 
     void setCurrentSine(SynthVoice::sineFlag flag) 
@@ -87,9 +90,6 @@ public:
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample,
         int numSamples)
     {
-        env1.setDecay(500); // TODO create sliders for them
-        env1.setSustain(0.8); // TODO create sliders for them
-
         for (int sample = 0; sample < numSamples; ++sample)
         {
             //sinewave manipulation

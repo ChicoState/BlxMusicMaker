@@ -9,6 +9,12 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+// default times for adsr
+float BlxMusicMakerAudioProcessor::attackTime = 0.1; 
+float BlxMusicMakerAudioProcessor::decayTime = 1.0;
+float BlxMusicMakerAudioProcessor::sustainTime = 0.1;
+float BlxMusicMakerAudioProcessor::releaseTime = 0.1;
+
 //==============================================================================
 BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -19,23 +25,9 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 		#endif
 				.withOutput("Output", juce::AudioChannelSet::stereo(), true)
 	#endif
-		),
-		attackTime(.1f),
-		releaseTime(.1f),
-		tree(*this, nullptr)
+		)
 #endif
 {
-    // add parameters to attack and release tree
-    juce::NormalisableRange<float> attackParam(attackTime, 5000);
-    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam,
-        attackTime, nullptr, nullptr);
-
-    juce::NormalisableRange<float> releaseParam(releaseTime, 5000);
-    tree.createAndAddParameter("release", "Release", "Release", releaseParam,
-        releaseTime, nullptr, nullptr);
-    
-    tree.state = juce::ValueTree("Sliders");
-
     // init voices and add them to synth
     mySynth.clearVoices();
     int numVoices = 10;
@@ -166,8 +158,7 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
         {
             // adjust the parameters of the voice
-            myVoice->getParam(tree.getRawParameterValue("attack"),
-                tree.getRawParameterValue("release"));
+            myVoice->getParam(attackTime, decayTime, sustainTime, releaseTime);
         }
     }
 

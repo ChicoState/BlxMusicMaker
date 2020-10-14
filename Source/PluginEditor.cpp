@@ -6,15 +6,14 @@
   ==============================================================================
 */
 
-#include "PluginProcessor.h"
 #include "PluginEditor.h"
 
 //==============================================================================
 BlxMusicMakerAudioProcessorEditor::BlxMusicMakerAudioProcessorEditor (BlxMusicMakerAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor(p)
 {
     menu = new Menu;
-    instrumentWindow = new InstrumentWindow;
+    instrumentWindow = new InstrumentWindow();
     addAndMakeVisible(menu);
     addAndMakeVisible(instrumentWindow);
     setSize(900, 600);
@@ -42,18 +41,6 @@ void BlxMusicMakerAudioProcessorEditor::resized()
     menu->setBounds(area.removeFromTop(menuBarHeight));
     instrumentWindow->setBounds(area);
 }
-
-void BlxMusicMakerAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
-{
-    /*
-    // adjust the slider that was passed in's values 
-    if (slider == &attackSlider)
-        audioProcessor.attackTime = attackSlider.getValue();
-    else if (slider == &releaseSlider)
-        audioProcessor.releaseTime = releaseSlider.getValue();
-    */
-}
-
 
 
 

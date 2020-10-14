@@ -6,6 +6,27 @@
               pluginVST3Category="Instrument">
   <MAINGROUP id="Gv2P3l" name="BlxMusicMaker">
     <GROUP id="{E50457CE-4ACC-3235-9851-C6276EC786C1}" name="Source">
+      <FILE id="bjI5TD" name="InstrumentEditorPanel.cpp" compile="1" resource="0"
+            file="Source/InstrumentEditorPanel.cpp"/>
+      <FILE id="W6Qdpc" name="InstrumentEditorPanel.h" compile="0" resource="0"
+            file="Source/InstrumentEditorPanel.h"/>
+      <FILE id="V117NA" name="InstrumentPanel.cpp" compile="1" resource="0"
+            file="Source/InstrumentPanel.cpp"/>
+      <FILE id="DN7Ihu" name="InstrumentPanel.h" compile="0" resource="0"
+            file="Source/InstrumentPanel.h"/>
+      <FILE id="OgD9Up" name="InstrumentWindow.cpp" compile="1" resource="0"
+            file="Source/InstrumentWindow.cpp"/>
+      <FILE id="l0pvXj" name="InstrumentWindow.h" compile="0" resource="0"
+            file="Source/InstrumentWindow.h"/>
+      <FILE id="nSsIOQ" name="Menu.cpp" compile="1" resource="0" file="Source/Menu.cpp"/>
+      <FILE id="iVZ9VU" name="Menu.h" compile="0" resource="0" file="Source/Menu.h"/>
+      <FILE id="fIpd6J" name="TypeSelector.cpp" compile="1" resource="0"
+            file="Source/TypeSelector.cpp"/>
+      <FILE id="OUbJcO" name="TypeSelector.h" compile="0" resource="0" file="Source/TypeSelector.h"/>
+      <FILE id="ysQrJd" name="EnvelopeSliders.cpp" compile="1" resource="0"
+            file="Source/EnvelopeSliders.cpp"/>
+      <FILE id="qIiwXB" name="EnvelopeSliders.h" compile="0" resource="0"
+            file="Source/EnvelopeSliders.h"/>
       <GROUP id="{DCCFAB2E-1263-46E5-D01A-F1EFE9B1096F}" name="Maximilian">
         <GROUP id="{6C782ACD-A28A-D8B6-D8F5-8B774FDBE998}" name="libs">
           <FILE id="j7KYUG" name="fft.cpp" compile="1" resource="0" file="LIBRARIES/Maximilian/libs/fft.cpp"/>
