@@ -69,30 +69,29 @@ public:
     {
         for (int sample = 0; sample < numSamples; ++sample)
         {
-            //sinewave manipulation
-            double theWave = NULL;  
-            switch (currentWaveFlag)
-            {
-            case SynthVoice::Sine:
-                theWave = osc1.sinewave(frequency); // TODO allow for multiple instruments
-                break;
-            case SynthVoice::Saw:
-                theWave = osc1.saw(frequency); // TODO allow for multiple instruments
-                break;
-            case SynthVoice::Noise:
-                theWave = osc1.noise(); // TODO allow for multiple instruments
-                break;
-            case SynthVoice::Triangle:
-                theWave = osc1.triangle(frequency); // TODO allow for multiple instruments
-                break;
-            case SynthVoice::Square:
-                theWave = osc1.square(frequency); // TODO allow for multiple instruments
-                break;
-            default:
-                theWave = osc1.sinewave(frequency); // TODO allow for multiple instruments
-                std::cerr << "This should not have happened. Default case for currentSineFlag triggered; setting sine value to SINE";
-                break;
-            }
+			float theWave;
+			switch (currentWaveFlag)
+			{
+			case SynthVoice::Sine:
+				theWave = osc1.sinewave(frequency);
+				break;
+			case SynthVoice::Saw:
+				theWave = osc1.saw(frequency);
+				break;
+			case SynthVoice::Noise:
+				theWave = osc1.noise(); 
+				break;
+			case SynthVoice::Triangle:
+				theWave = osc1.triangle(frequency);
+				break;
+			case SynthVoice::Square:
+				theWave = osc1.square(frequency);
+				break;
+			default:
+				theWave = osc1.sinewave(frequency);
+				std::cerr << "This should not have happened. Default case for currentSineFlag triggered; setting sine value to SINE";
+				break;
+			}
             double theSound = env1.adsr(theWave, env1.trigger) * level;
             double filteredSound = fil1.lores(theSound, 500, 0.1); //TODO low/high pass filter
 

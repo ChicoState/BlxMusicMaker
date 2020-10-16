@@ -52,6 +52,7 @@
         <FILE id="Qz0is2" name="maximilian.h" compile="0" resource="0" file="LIBRARIES/Maximilian/maximilian.h"/>
       </GROUP>
       <FILE id="biHxVT" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
+      <FILE id="cNyx6k" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
       <FILE id="gIQMTo" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="QOvxUA" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
