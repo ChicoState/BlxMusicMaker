@@ -12,8 +12,6 @@
 BlxMusicMakerAudioProcessorEditor::BlxMusicMakerAudioProcessorEditor (BlxMusicMakerAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor(p)
 {
-    menu = new Menu;
-    instrumentWindow = new InstrumentWindow();
     addAndMakeVisible(menu);
     addAndMakeVisible(instrumentWindow);
     setSize(900, 600);
@@ -21,8 +19,6 @@ BlxMusicMakerAudioProcessorEditor::BlxMusicMakerAudioProcessorEditor (BlxMusicMa
 
 BlxMusicMakerAudioProcessorEditor::~BlxMusicMakerAudioProcessorEditor()
 {
-    delete menu;
-    delete instrumentWindow;
 }
 
 //==============================================================================
@@ -38,8 +34,8 @@ void BlxMusicMakerAudioProcessorEditor::resized()
     juce::LookAndFeel_V4 lookAndFeel;
     auto area = getLocalBounds();
     int menuBarHeight = lookAndFeel.getDefaultMenuBarHeight();
-    menu->setBounds(area.removeFromTop(menuBarHeight));
-    instrumentWindow->setBounds(area);
+    menu.setBounds(area.removeFromTop(menuBarHeight));
+    instrumentWindow.setBounds(area);
 }
 
 

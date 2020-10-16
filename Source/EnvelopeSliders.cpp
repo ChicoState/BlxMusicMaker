@@ -12,7 +12,6 @@
 
 EnvelopeSliders::EnvelopeSliders()
 {
-	sliders = new juce::Slider[4];
 	for (int i = 0; i < 4; i++) {
 		sliders[i].setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
 		sliders[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
@@ -37,7 +36,6 @@ EnvelopeSliders::EnvelopeSliders()
 	sliders[3].setRange(BlxMusicMakerAudioProcessor::releaseTime, 5000.0f);
 
 	std::string sliderNames[] = { "Attack", "Decay", "Sustain", "Release" };
-	labels = new juce::Label[4];
 	for (int i = 0; i < 4; i++) {
 		labels[i].setText(sliderNames[i], juce::NotificationType::dontSendNotification);
 		labels[i].setJustificationType(juce::Justification::centredTop);
@@ -47,8 +45,6 @@ EnvelopeSliders::EnvelopeSliders()
 
 EnvelopeSliders::~EnvelopeSliders()
 {
-	delete[] sliders;
-	delete[] labels;
 }
 
 void EnvelopeSliders::paint(juce::Graphics& g)

@@ -23,8 +23,8 @@ public:
     void sliderValueChanged(int);
 
 private:
-    juce::Slider* sliders;
-    juce::Label* labels;
+    juce::Slider sliders[4];
+    juce::Label labels[4];
 
 };
 

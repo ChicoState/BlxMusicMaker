@@ -28,8 +28,8 @@ public:
 private:
     BlxMusicMakerAudioProcessor& audioProcessor;
     
-    Menu* menu;
-    InstrumentWindow* instrumentWindow;
+    Menu menu;
+    InstrumentWindow instrumentWindow;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessorEditor)
 };

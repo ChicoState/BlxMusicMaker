@@ -10,6 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "SynthVoice.h"
 
 class TypeSelector : public juce::Component
 {
@@ -21,7 +22,7 @@ public:
     void resized() override;
 
 private:
-    void updateToggleState(juce::TextButton*);
-    juce::TextButton* buttons;
+    void updateToggleState(int);
+    juce::TextButton waveButtons[5];
     int radioId = 1001;
 };

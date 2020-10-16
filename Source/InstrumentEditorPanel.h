@@ -13,8 +13,8 @@ public:
     void resized() override;
 
 private:
-    juce::Label* panelLabel;
-    TypeSelector* selector;
-    EnvelopeSliders* sliders;
+    juce::Label panelLabel;
+    TypeSelector selector;
+    EnvelopeSliders sliders;
 };
 

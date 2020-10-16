@@ -13,19 +13,17 @@
 TypeSelector::TypeSelector()
 {
 	std::string buttonNames[] = { "Pulse", "Triangle", "Saw", "Sine", "Noise" };
-	buttons = new juce::TextButton[5];
 	for (int i = 0; i < 5; i++) {
-		buttons[i].setButtonText(buttonNames[i]);
-		buttons[i].setRadioGroupId(radioId);
-		buttons[i].setClickingTogglesState(true);
-		buttons[i].onClick = [this, i] { updateToggleState(&buttons[i]); };
-		addAndMakeVisible(buttons[i]);
+		waveButtons[i].setButtonText(buttonNames[i]);
+		waveButtons[i].setRadioGroupId(radioId);
+		waveButtons[i].setClickingTogglesState(true);
+		waveButtons[i].onClick = [this, i] { updateToggleState(i); };
+		addAndMakeVisible(waveButtons[i]);
 	}
 }
 
 TypeSelector::~TypeSelector()
 {
-	delete[] buttons;
 }
 
 void TypeSelector::paint(juce::Graphics& g)
@@ -41,7 +39,7 @@ void TypeSelector::resized()
 	topFlexBox.justifyContent = juce::FlexBox::JustifyContent::flexStart;
 	topFlexBox.alignContent = juce::FlexBox::AlignContent::center;
 	for (int i = 0; i < 3; i++) {
-		topFlexBox.items.add(juce::FlexItem(buttons[i]).withMinWidth(100).withMinHeight(100).withMargin(5));
+		topFlexBox.items.add(juce::FlexItem(waveButtons[i]).withMinWidth(100).withMinHeight(100).withMargin(5));
 	}
 	topFlexBox.performLayout(area.removeFromTop(100));
 
@@ -51,15 +49,15 @@ void TypeSelector::resized()
 	bottomFlexBox.justifyContent = juce::FlexBox::JustifyContent::flexStart;
 	bottomFlexBox.alignContent = juce::FlexBox::AlignContent::center;
 	for (int i = 3; i < 5; i++) {
-		bottomFlexBox.items.add(juce::FlexItem(buttons[i]).withMinWidth(100).withMinHeight(100).withMargin(5));
+		bottomFlexBox.items.add(juce::FlexItem(waveButtons[i]).withMinWidth(100).withMinHeight(100).withMargin(5));
 	}
 	bottomFlexBox.performLayout(area.removeFromTop(100));
 }
 
-void TypeSelector::updateToggleState(juce::TextButton* button)
+void TypeSelector::updateToggleState(int buttonIndex)
 {
-	if (button->getToggleState())
+	if (waveButtons[buttonIndex].getToggleState())
 	{
-		juce::Logger::writeToLog(button->getButtonText());
+		SynthVoice::currentWaveFlag = (SynthVoice::waveFlag)buttonIndex;
 	}
 }

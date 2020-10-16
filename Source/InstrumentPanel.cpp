@@ -34,20 +34,14 @@ int InstrumentList::getInstrumentStackHeight() {
 
 InstrumentPanel::InstrumentPanel()
 {
-	panelLabel = new juce::Label;
-	viewPort = new juce::Viewport;
-	instrumentList = new InstrumentList;
-	viewPort->setViewedComponent(instrumentList);
-	panelLabel->setText("Instruments", juce::NotificationType::dontSendNotification);
+	viewPort.setViewedComponent(&instrumentList);
+	panelLabel.setText("Instruments", juce::NotificationType::dontSendNotification);
 	addAndMakeVisible(panelLabel);
 	addAndMakeVisible(viewPort);
 }
 
 InstrumentPanel::~InstrumentPanel()
 {
-	delete panelLabel;
-	delete instrumentList;
-	delete viewPort;
 }
 
 void InstrumentPanel::paint(juce::Graphics& g)
@@ -59,7 +53,7 @@ void InstrumentPanel::paint(juce::Graphics& g)
 void InstrumentPanel::resized()
 {
 	auto area = getLocalBounds();
-	panelLabel->setBounds(area.removeFromTop(30));
-	viewPort->setBounds(area);
-	viewPort->setSize(area.getWidth(), area.getHeight());
+	panelLabel.setBounds(area.removeFromTop(30));
+	viewPort.setBounds(area);
+	viewPort.setSize(area.getWidth(), area.getHeight());
 }

@@ -17,7 +17,10 @@
 class SynthVoice : public juce::SynthesiserVoice
 {
 public:
-    enum sineFlag{Sine, Saw, Noise, Triangle, Square};
+
+    //Do not change the order
+    enum waveFlag{ Square, Sine, Saw, Noise, Triangle };
+    static waveFlag currentWaveFlag;
 
     bool canPlaySound(juce::SynthesiserSound* sound) 
     {
@@ -31,32 +34,6 @@ public:
         env1.setDecay(decay);
         env1.setSustain(sustain);
         env1.setRelease(release);
-    }
-
-    void setCurrentSine(SynthVoice::sineFlag flag) 
-    {
-        currentSineFlag = flag;
-    }
-    
-    bool setCurrentSine(string val)
-    {
-        if (val == "Sine" || val == "sine")
-            currentSineFlag = Sine;
-
-        else if (val == "Saw" || val == "saw")
-            currentSineFlag = Saw;
-
-        else if (val == "Noise" || val == "noise")
-            currentSineFlag = Noise;
-
-        else if (val == "Triangle" || val == "triangle")
-            currentSineFlag = Triangle;
-
-        else if (val == "Square" || val == "square")
-            currentSineFlag = Square;
-        else
-            return false;
-        return true;
     }
 
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound,
@@ -94,7 +71,7 @@ public:
         {
             //sinewave manipulation
             double theWave = NULL;  
-            switch (currentSineFlag)
+            switch (currentWaveFlag)
             {
             case SynthVoice::Sine:
                 theWave = osc1.sinewave(frequency); // TODO allow for multiple instruments
@@ -131,8 +108,6 @@ public:
 private:
     double level;
     double frequency;
-    //enum type and object declarations and assignment.
-    sineFlag currentSineFlag = Sine;
 
     maxiOsc osc1;
     maxiEnv env1;

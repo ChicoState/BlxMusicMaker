@@ -14,6 +14,6 @@ public:
     void resized() override;
 
 private:
-    InstrumentPanel* instrumentPanel;
-    InstrumentEditorPanel* instrumentEditorPanel;
+    InstrumentPanel instrumentPanel;
+    InstrumentEditorPanel instrumentEditorPanel;
 };
