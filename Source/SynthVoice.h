@@ -13,13 +13,12 @@
 #include "SynthSound.h"
 #include "maximilian.h"
 
-#pragma once
 class SynthVoice : public juce::SynthesiserVoice
 {
 public:
 
     //Do not change the order
-    enum waveFlag{ Square, Sine, Saw, Noise, Triangle };
+    enum waveFlag{ Square, Triangle, Saw, Sine, Noise};
     static waveFlag currentWaveFlag;
 
     bool canPlaySound(juce::SynthesiserSound* sound) 

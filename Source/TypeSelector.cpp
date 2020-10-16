@@ -20,6 +20,7 @@ TypeSelector::TypeSelector()
 		waveButtons[i].onClick = [this, i] { updateToggleState(i); };
 		addAndMakeVisible(waveButtons[i]);
 	}
+	waveButtons[0].triggerClick();
 }
 
 TypeSelector::~TypeSelector()
