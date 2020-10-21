@@ -16,9 +16,8 @@
 class SynthVoice : public juce::SynthesiserVoice
 {
 public:
-
     //Do not change the order
-    enum waveFlag{ Square, Triangle, Saw, Sine, Noise};
+    enum waveFlag{ Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
     static waveFlag currentWaveFlag;
 
     bool canPlaySound(juce::SynthesiserSound* sound) 
@@ -71,33 +70,28 @@ public:
 			float theWave;
 			switch (currentWaveFlag)
 			{
-			case SynthVoice::Sine:
-				theWave = osc1.sinewave(frequency);
-				break;
 			case SynthVoice::Saw:
-				theWave = osc1.saw(frequency);
-				break;
+				theWave = osc1.saw(frequency); break;
 			case SynthVoice::Noise:
-				theWave = osc1.noise(); 
-				break;
+				theWave = osc1.noise(frequency); break;
 			case SynthVoice::Triangle:
-				theWave = osc1.triangle(frequency);
-				break;
-			case SynthVoice::Square:
-				theWave = osc1.square(frequency);
-				break;
+				theWave = osc1.triangle(frequency); break;
+			case SynthVoice::Pulse25:
+				theWave = osc1.pulse(frequency, 0.25); break;
+			case SynthVoice::Pulse50:
+				theWave = osc1.pulse(frequency, 0.5); break;
+			case SynthVoice::Pulse75:
+				theWave = osc1.pulse(frequency, 0.75); break;
 			default:
-				theWave = osc1.sinewave(frequency);
-				std::cerr << "This should not have happened. Default case for currentSineFlag triggered; setting sine value to SINE";
-				break;
+				theWave = osc1.sinewave(frequency); break;
 			}
             double theSound = env1.adsr(theWave, env1.trigger) * level;
-            double filteredSound = fil1.lores(theSound, 500, 0.1); //TODO low/high pass filter
+            //double filteredSound = fil1.lores(theSound, 100, 0.1); //TODO low/high pass filter
 
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
                 // if you want to filter the sound, then replace theSound with filteredSound
-                outputBuffer.addSample(channel, startSample, filteredSound); 
+                outputBuffer.addSample(channel, startSample, theSound); 
             }
             ++startSample;
         }

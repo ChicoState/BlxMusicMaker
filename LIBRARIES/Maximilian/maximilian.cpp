@@ -216,6 +216,12 @@ double maxiOsc::noise() {
 	return(output);
 }
 
+double maxiOsc::noise(double frequency) {
+	float r = rand()/(float)RAND_MAX;
+	output=r*2-1;
+	return(output);
+}
+
 void maxiOsc::phaseReset(double phaseIn) {
 	//This allows you to set the phase of the oscillator to anything you like.
 	phase=phaseIn;

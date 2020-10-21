@@ -11,9 +11,9 @@
 
 // default times for adsr
 float BlxMusicMakerAudioProcessor::attackTime = 0.1; 
-float BlxMusicMakerAudioProcessor::decayTime = 1.0;
-float BlxMusicMakerAudioProcessor::sustainTime = 0.1;
-float BlxMusicMakerAudioProcessor::releaseTime = 0.1;
+float BlxMusicMakerAudioProcessor::decayTime = 0.0;
+float BlxMusicMakerAudioProcessor::sustainTime = 0.0;
+float BlxMusicMakerAudioProcessor::releaseTime = 0.0;
 
 //==============================================================================
 BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
