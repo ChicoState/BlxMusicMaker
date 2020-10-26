@@ -1,28 +1,30 @@
 /*
   ==============================================================================
 
-    TypeSelector.h
-    Created: 13 Oct 2020 9:28:10pm
-    Author:  alext
+    EnvelopePanel.h
+    Created: 20 Oct 2020 8:03:47pm
+    Author: kyle 
 
   ==============================================================================
 */
 
 #pragma once
-#include <JuceHeader.h>
-#include "SynthVoice.h"
 
-class TypeSelector : public juce::Component
+#include <JuceHeader.h>
+#include "BLXLookAndFeel.h"
+#include "EnvelopeSliders.h"
+
+class EnvelopePanel : public juce::Component
 {
 public:
-    TypeSelector();
-    ~TypeSelector() override;
+    EnvelopePanel();
 
     void paint(juce::Graphics&) override;
     void resized() override;
 
 private:
-    void updateToggleState(int);
-    juce::TextButton waveButtons[7];
-    int radioId = 1001;
+
+    juce::Label panelLabel;
+    EnvelopeSliders sliders;
+
 };

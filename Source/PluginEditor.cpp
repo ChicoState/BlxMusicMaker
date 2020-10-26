@@ -12,43 +12,36 @@
 BlxMusicMakerAudioProcessorEditor::BlxMusicMakerAudioProcessorEditor (BlxMusicMakerAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor(p)
 {
-    addAndMakeVisible(menu);
-    addAndMakeVisible(instrumentWindow);
+    blxLookAndFeel = new BLXLookAndFeel;
+    juce::LookAndFeel::setDefaultLookAndFeel(blxLookAndFeel);
+    addAndMakeVisible(presetsBar);
+    addAndMakeVisible(wavePanel);
+    addAndMakeVisible(envelopePanel);
+    addAndMakeVisible(effectsPanel);
     setSize(900, 600);
 }
 
 BlxMusicMakerAudioProcessorEditor::~BlxMusicMakerAudioProcessorEditor()
 {
+    delete blxLookAndFeel;
 }
 
 //==============================================================================
 void BlxMusicMakerAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+    g.fillAll(juce::Colours::black);
     g.setFont(juce::Font(16.0f));
     g.setColour(juce::Colours::white);
 }
 
 void BlxMusicMakerAudioProcessorEditor::resized()
 {
-    juce::LookAndFeel_V4 lookAndFeel;
     auto area = getLocalBounds();
-    int menuBarHeight = lookAndFeel.getDefaultMenuBarHeight();
-    menu.setBounds(area.removeFromTop(menuBarHeight));
-    instrumentWindow.setBounds(area);
+    int menuBarHeight = getLookAndFeel().getDefaultMenuBarHeight();
+    presetsBar.setBounds(area.removeFromTop(menuBarHeight));
+    auto waveArea = area.removeFromLeft(area.getWidth() / 2);
+    auto envelopeArea = waveArea.removeFromBottom(200);
+    wavePanel.setBounds(waveArea);
+    envelopePanel.setBounds(envelopeArea);
+    effectsPanel.setBounds(area);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

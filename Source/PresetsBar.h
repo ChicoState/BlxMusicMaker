@@ -1,11 +1,12 @@
 #pragma once
 #include <JuceHeader.h>
+#include "BLXLookAndFeel.h"
 
-class Menu : public juce::Component, public juce::MenuBarModel
+class PresetsBar : public juce::Component, public juce::MenuBarModel
 {
 public:
-    Menu();
-    ~Menu() override;
+    PresetsBar ();
+    ~PresetsBar() override;
 
     void paint(juce::Graphics&) override;
     void resized() override;

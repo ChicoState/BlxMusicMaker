@@ -1,28 +1,29 @@
 /*
   ==============================================================================
 
-    TypeSelector.h
-    Created: 13 Oct 2020 9:28:10pm
-    Author:  alext
+    WavePanel.h
+    Created: 20 Oct 2020 7:34:09pm
+    Author: kyle 
 
   ==============================================================================
 */
 
 #pragma once
 #include <JuceHeader.h>
-#include "SynthVoice.h"
+#include "BLXLookAndFeel.h"
+#include "TypeSelector.h"
 
-class TypeSelector : public juce::Component
+class WavePanel : public juce::Component 
 {
 public:
-    TypeSelector();
-    ~TypeSelector() override;
 
+    WavePanel();
     void paint(juce::Graphics&) override;
     void resized() override;
 
 private:
-    void updateToggleState(int);
-    juce::TextButton waveButtons[7];
-    int radioId = 1001;
+    
+    juce::Label panelLabel;
+    TypeSelector typeSelector;
+
 };

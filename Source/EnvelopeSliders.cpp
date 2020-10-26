@@ -12,9 +12,10 @@
 
 EnvelopeSliders::EnvelopeSliders()
 {
-	for (int i = 0; i < 4; i++) {
-		sliders[i].setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-		sliders[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+	for (int i = 0; i < 4; i++) 
+	{
+		sliders[i].setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+		sliders[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, 50, 20);
 		sliders[i].onValueChange = [this, i] { sliderValueChanged(i); };
 		addAndMakeVisible(sliders[i]);
 	}
@@ -35,11 +36,26 @@ EnvelopeSliders::EnvelopeSliders()
 	sliders[3].setValue(BlxMusicMakerAudioProcessor::releaseTime);
 	sliders[3].setRange(BlxMusicMakerAudioProcessor::releaseTime, 5000.0f);
 
+	//Set slider decimal points, needs to be assigned after range
+	for (int i = 0; i < 4; i++) 
+	{
+		if (i == 2) 
+		{
+			sliders[i].setNumDecimalPlacesToDisplay(2);
+		}
+		else
+		{
+			sliders[i].setNumDecimalPlacesToDisplay(0);
+		}
+	}
+
+	//Add labels to sliders
 	std::string sliderNames[] = { "Attack", "Decay", "Sustain", "Release" };
-	for (int i = 0; i < 4; i++) {
-		labels[i].setText(sliderNames[i], juce::NotificationType::dontSendNotification);
-		labels[i].setJustificationType(juce::Justification::centredTop);
+	for (int i = 0; i < 4; i++) 
+	{
 		addAndMakeVisible(labels[i]);
+		labels[i].setText(sliderNames[i], juce::NotificationType::dontSendNotification);
+		labels[i].attachToComponent(&sliders[i], true);
 	}
 }
 
@@ -54,24 +70,14 @@ void EnvelopeSliders::paint(juce::Graphics& g)
 void EnvelopeSliders::resized()
 {
 	auto area = getLocalBounds();
-
-	juce::FlexBox sliderBox;
-	sliderBox.flexWrap = juce::FlexBox::Wrap::noWrap;
-	sliderBox.justifyContent = juce::FlexBox::JustifyContent::flexStart;
-	sliderBox.alignContent = juce::FlexBox::AlignContent::center;
-	for (int i = 0; i < 4; i++) {
-		sliderBox.items.add(juce::FlexItem(sliders[i]).withMinWidth(50).withMinHeight(200));
+	area.reduce(0, 10);
+	area.removeFromLeft(70);
+	area.removeFromRight(20);
+	for (int i = 0; i < 4; i++)
+	{ 
+		sliders[i].setBounds(area.removeFromTop(36));
 	}
-	sliderBox.performLayout(area.removeFromTop(200));
-
-	juce::FlexBox labelBox;
-	labelBox.flexWrap = juce::FlexBox::Wrap::noWrap;
-	labelBox.justifyContent = juce::FlexBox::JustifyContent::flexStart;
-	labelBox.alignContent = juce::FlexBox::AlignContent::center;
-	for (int i = 0; i < 4; i++) {
-		labelBox.items.add(juce::FlexItem(labels[i]).withMinWidth(50).withMinHeight(20));
-	}
-	labelBox.performLayout(area.removeFromTop(20));
+	juce::Logger::writeToLog(to_string(sliders[0].getHeight()));
 }
 
 void EnvelopeSliders::sliderValueChanged(int sliderIndex)
