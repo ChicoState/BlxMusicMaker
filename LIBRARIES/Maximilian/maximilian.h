@@ -125,7 +125,7 @@ public:
 	double pulse(double frequency, double duty);
     double impulse(double frequency);
 	double noise();
-	double noise(double frequency);
+	double noise(double);
 	double sinebuf(double frequency);
 	double sinebuf4(double frequency);
     double sawn(double frequency);

@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 #include "maximilian.h"
+#include <cmath>
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -28,23 +29,30 @@ public:
     // connection between processor and voice
     void getParam(float attack, float decay, float sustain, float release)
     {
-        env1.setAttack(attack);
-        env1.setDecay(decay);
-        env1.setSustain(sustain);
-        env1.setRelease(release);
+        env.setAttack(attack);
+        env.setDecay(decay);
+        env.setSustain(sustain);
+        env.setRelease(release);
+    }
+
+    void initMaxiSampleRate(double sampleRate)
+    {
+        set.setSampleRate(sampleRate);
+        //juce::Logger::writeToLog("maxi sample rate: " + juce::String(set.getSampleRate()));
     }
 
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound,
         int currentPitchWheelPosition)
     {
-        env1.trigger = 1; // means envolope starts
+        env.trigger = 1; // means envolope starts
         level = velocity; // setting the volume
         frequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber); // finding the key pressed
+        midiNoteLetter = midiNoteNumber % 12;
     }
 
     void stopNote(float velocity, bool allowTailOff) 
     {
-        env1.trigger = 0;
+        env.trigger = 0;
         allowTailOff = true;
         if (velocity == 0)
         {
@@ -71,22 +79,22 @@ public:
 			switch (currentWaveFlag)
 			{
 			case SynthVoice::Saw:
-				theWave = osc1.saw(frequency); break;
+				theWave = osc.saw(frequency); break;
 			case SynthVoice::Noise:
-				theWave = osc1.noise(frequency); break;
+				theWave = osc.noise(); break;
 			case SynthVoice::Triangle:
-				theWave = osc1.triangle(frequency); break;
+				theWave = osc.triangle(frequency); break;
 			case SynthVoice::Pulse25:
-				theWave = osc1.pulse(frequency, 0.25); break;
+				theWave = osc.pulse(frequency, 0.25); break;
 			case SynthVoice::Pulse50:
-				theWave = osc1.pulse(frequency, 0.5); break;
+				theWave = osc.pulse(frequency, 0.5); break;
 			case SynthVoice::Pulse75:
-				theWave = osc1.pulse(frequency, 0.75); break;
+				theWave = osc.pulse(frequency, 0.75); break;
 			default:
-				theWave = osc1.sinewave(frequency); break;
+				theWave = osc.sinewave(frequency); break;
 			}
-            double theSound = env1.adsr(theWave, env1.trigger) * level;
-            //double filteredSound = fil1.lores(theSound, 100, 0.1); //TODO low/high pass filter
+            double theSound = env.adsr(theWave, env.trigger) * level;
+            //double filteredSound = fil.lores(theSound, 100, 0.1); //TODO low/high pass filter
 
             for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
             {
@@ -100,10 +108,12 @@ public:
 private:
     double level;
     double frequency;
+    int midiNoteLetter; // note C = 0, D = 1, etc
 
-    maxiOsc osc1;
-    maxiEnv env1;
-    maxiFilter fil1;
+    maxiOsc osc;
+    maxiEnv env;
+    maxiFilter fil;
+    maxiSettings set;
 };
 
 

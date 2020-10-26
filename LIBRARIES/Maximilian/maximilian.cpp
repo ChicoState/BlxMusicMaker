@@ -216,9 +216,16 @@ double maxiOsc::noise() {
 	return(output);
 }
 
+// this was alex messing with noise...
 double maxiOsc::noise(double frequency) {
 	float r = rand()/(float)RAND_MAX;
-	output=r*2-1;
+
+	output = sin(TWOPI * phase);
+	//output += 5 * r;
+
+	if ( phase >= 1.0 ) phase -= 1.0;
+	phase += (r*50 / (maxiSettings::sampleRate/(frequency)));
+
 	return(output);
 }
 

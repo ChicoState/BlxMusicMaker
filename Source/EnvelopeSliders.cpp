@@ -77,7 +77,7 @@ void EnvelopeSliders::resized()
 	{ 
 		sliders[i].setBounds(area.removeFromTop(36));
 	}
-	juce::Logger::writeToLog(to_string(sliders[0].getHeight()));
+	//juce::Logger::writeToLog(to_string(sliders[0].getHeight()));
 }
 
 void EnvelopeSliders::sliderValueChanged(int sliderIndex)
@@ -98,8 +98,8 @@ void EnvelopeSliders::sliderValueChanged(int sliderIndex)
 		BlxMusicMakerAudioProcessor::releaseTime = sliders[3].getValue();
 		break;
 	}
-	juce::Logger::writeToLog(labels[sliderIndex].getText());
-	juce::Logger::writeToLog(std::to_string(sliders[sliderIndex].getValue()));
+	//juce::Logger::writeToLog(labels[sliderIndex].getText());
+	//juce::Logger::writeToLog(std::to_string(sliders[sliderIndex].getValue()));
 }
 
 

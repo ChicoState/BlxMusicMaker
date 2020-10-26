@@ -8,12 +8,13 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "maximilian.h"
 
 // default times for adsr
 float BlxMusicMakerAudioProcessor::attackTime = 0.1; 
-float BlxMusicMakerAudioProcessor::decayTime = 0.0;
-float BlxMusicMakerAudioProcessor::sustainTime = 0.0;
-float BlxMusicMakerAudioProcessor::releaseTime = 0.0;
+float BlxMusicMakerAudioProcessor::decayTime = 0.1;
+float BlxMusicMakerAudioProcessor::sustainTime = 0.1;
+float BlxMusicMakerAudioProcessor::releaseTime = 0.1;
 
 //==============================================================================
 BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
@@ -28,6 +29,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 		)
 #endif
 {
+
     // init voices and add them to synth
     mySynth.clearVoices();
     int numVoices = 10;
@@ -37,6 +39,15 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
     }
     mySynth.clearSounds();
     mySynth.addSound(new SynthSound());
+
+    // set buffer size (8) and sample rate (7872.9Hz)
+    lastSampleRate = 48000;
+    // lastSampleRate = 7872.9; // NES sample rate... will sound BAD.
+    for (int i = 0; i < mySynth.getNumVoices(); i++)
+    {
+        if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
+            myVoice->initMaxiSampleRate(48000);
+    }
 }
 
 BlxMusicMakerAudioProcessor::~BlxMusicMakerAudioProcessor()
@@ -108,9 +119,6 @@ void BlxMusicMakerAudioProcessor::changeProgramName (int index, const juce::Stri
 //==============================================================================
 void BlxMusicMakerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-
     // insures initialized sample rate
     juce::ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
@@ -155,11 +163,9 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
 
     for (int i = 0; i < mySynth.getNumVoices(); i++)
     {
+		// adjust the parameters of the voice
         if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
-        {
-            // adjust the parameters of the voice
             myVoice->getParam(attackTime, decayTime, sustainTime, releaseTime);
-        }
     }
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
