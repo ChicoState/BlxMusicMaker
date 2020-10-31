@@ -34,20 +34,9 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
     mySynth.clearVoices();
     int numVoices = 10;
     for (int i = 0; i < numVoices; i++)
-    {
         mySynth.addVoice(new SynthVoice());
-    }
     mySynth.clearSounds();
     mySynth.addSound(new SynthSound());
-
-    // set buffer size (8) and sample rate (7872.9Hz)
-    lastSampleRate = 48000;
-    // lastSampleRate = 7872.9; // NES sample rate... will sound BAD.
-    for (int i = 0; i < mySynth.getNumVoices(); i++)
-    {
-        if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
-            myVoice->initMaxiSampleRate(48000);
-    }
 }
 
 BlxMusicMakerAudioProcessor::~BlxMusicMakerAudioProcessor()
@@ -123,6 +112,11 @@ void BlxMusicMakerAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     juce::ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
     mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
+    for (int i = 0; i < mySynth.getNumVoices(); i++)
+    {
+        if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
+            myVoice->initMaxiSampleRate(lastSampleRate);
+    }
 }
 
 void BlxMusicMakerAudioProcessor::releaseResources()

@@ -47,7 +47,6 @@ public:
         env.trigger = 1; // means envolope starts
         level = velocity; // setting the volume
         frequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber); // finding the key pressed
-        midiNoteLetter = midiNoteNumber % 12;
     }
 
     void stopNote(float velocity, bool allowTailOff) 
@@ -108,7 +107,6 @@ public:
 private:
     double level;
     double frequency;
-    int midiNoteLetter; // note C = 0, D = 1, etc
 
     maxiOsc osc;
     maxiEnv env;
