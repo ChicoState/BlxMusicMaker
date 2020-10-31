@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    WavePanel.h
-    Created: 20 Oct 2020 7:34:09pm
+    SliderComponent.h
+    Created: 28 Oct 2020 2:24:18pm
     Author: kyle 
 
   ==============================================================================
@@ -10,20 +10,16 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "BLXLookAndFeel.h"
-#include "WaveSelector.h"
 
-class WavePanel : public juce::Component 
+class SliderComponent : public juce::Component
 {
 public:
 
-    WavePanel();
+    SliderComponent(std::string text, int minValue, int maxValue);
     void paint(juce::Graphics&) override;
     void resized() override;
 
-private:
-    
-    juce::Label panelLabel;
-    TypeSelector typeSelector;
+    juce::Label label;
+    juce::Slider slider;
 
 };

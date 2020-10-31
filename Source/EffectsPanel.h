@@ -11,18 +11,26 @@
 #pragma once
 #include <JuceHeader.h>
 #include "BLXLookAndFeel.h"
-#include "TypeSelector.h"
+#include "ArpeggiatorEffect.h"
+#include "TremoloEffect.h"
+#include "VibratoEffect.h" 
+#include "NoteSlideEffect.h" 
 
 class EffectsPanel : public juce::Component
 {
 public:
 
     EffectsPanel();
+    ~EffectsPanel();
     void paint(juce::Graphics&) override;
     void resized() override;
 
 private:
-
+    
     juce::Label panelLabel;
+    ArpeggiatorEffect arpegEffect;
+    TremoloEffect tremEffect;
+    VibratoEffect vibEffect;
+    NoteSlideEffect noteEffect;
 
 };

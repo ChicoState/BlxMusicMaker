@@ -16,6 +16,15 @@ EffectsPanel::EffectsPanel()
     panelLabel.setText("Effects", juce::NotificationType::dontSendNotification);
     panelLabel.setColour(juce::Label::backgroundColourId, blx.getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::menuBackground));
     addAndMakeVisible(panelLabel);
+
+    addAndMakeVisible(arpegEffect);
+    addAndMakeVisible(tremEffect);
+    addAndMakeVisible(vibEffect);
+    addAndMakeVisible(noteEffect);
+}
+
+EffectsPanel::~EffectsPanel()
+{
 }
 
 void EffectsPanel::paint(juce::Graphics& g)
@@ -31,4 +40,16 @@ void EffectsPanel::resized()
     auto labelArea = area.removeFromTop(BLXLookAndFeel::getPanelLabelHeight());
     panelLabel.setBounds(labelArea);
     panelLabel.setJustificationType(juce::Justification::centred);
+
+    area.reduce(10, 10);
+    arpegEffect.setBounds(area.removeFromTop(arpegEffect.getNeededHeight()));
+
+    area.removeFromTop(10);
+    tremEffect.setBounds(area.removeFromTop(tremEffect.getNeededHeight()));
+
+    area.removeFromTop(10);
+    vibEffect.setBounds(area.removeFromTop(vibEffect.getNeededHeight()));
+
+    area.removeFromTop(10);
+    noteEffect.setBounds(area.removeFromTop(noteEffect.getNeededHeight()));
 }

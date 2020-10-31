@@ -22,6 +22,8 @@ highlightedFill,
 menuText,
 */
 
+int BLXLookAndFeel::currentRadioID = 100;
+
 BLXLookAndFeel::BLXLookAndFeel()
 {
     LookAndFeel_V4 lookAndFeel;
@@ -33,7 +35,7 @@ BLXLookAndFeel::BLXLookAndFeel()
     //Menu Color
     scheme.setUIColour(juce::LookAndFeel_V4::ColourScheme::menuBackground, juce::Colour::fromRGB(53, 55, 61));
 
-    //scheme.setUIColour(juce::LookAndFeel_V4::ColourScheme::outline, juce::Colour::fromFloatRGBA(53, 55, 61, 0));
+    scheme.setUIColour(juce::LookAndFeel_V4::ColourScheme::outline, juce::Colour::fromRGB(33, 34, 35));
     //scheme.setUIColour(juce::LookAndFeel_V4::ColourScheme::defaultText, juce::Colour::fromRGB(53, 55, 61));
     //scheme.setUIColour(juce::LookAndFeel_V4::ColourScheme::highlightedText, juce::Colour::fromRGB(53, 55, 61));
 
@@ -41,6 +43,11 @@ BLXLookAndFeel::BLXLookAndFeel()
     scheme.setUIColour(juce::LookAndFeel_V4::ColourScheme::highlightedFill, juce::Colour::fromRGB(33, 169, 255));
     //scheme.setUIColour(juce::LookAndFeel_V4::ColourScheme::menuText, juce::Colour::fromRGB(53, 55, 61));
     setColourScheme(scheme);
+}
+
+int BLXLookAndFeel::getNewRadioID()
+{
+    return currentRadioID++;
 }
 
 int BLXLookAndFeel::getPanelLabelHeight()

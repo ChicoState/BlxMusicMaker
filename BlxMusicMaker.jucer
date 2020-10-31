@@ -7,25 +7,58 @@
   <MAINGROUP id="Gv2P3l" name="BlxMusicMaker">
     <GROUP id="{E50457CE-4ACC-3235-9851-C6276EC786C1}" name="Source">
       <GROUP id="{825F6C46-BBB0-076D-48F2-776BECE174A9}" name="GUI">
+        <GROUP id="{FF69F01A-716F-84E9-C153-8C5114DAD69E}" name="EnvelopePanel">
+          <FILE id="qIiwXB" name="EnvelopeSliders.h" compile="0" resource="0"
+                file="Source/EnvelopeSliders.h"/>
+          <FILE id="ysQrJd" name="EnvelopeSliders.cpp" compile="1" resource="0"
+                file="Source/EnvelopeSliders.cpp"/>
+          <FILE id="pVEBVY" name="EnvelopePanel.cpp" compile="1" resource="0"
+                file="Source/EnvelopePanel.cpp"/>
+          <FILE id="iZQZVV" name="EnvelopePanel.h" compile="0" resource="0" file="Source/EnvelopePanel.h"/>
+        </GROUP>
+        <GROUP id="{DF63CF60-94DE-8FC1-C103-B23E8490960F}" name="EffectsPanel">
+          <FILE id="A6CcxI" name="NoteSlideEffect.cpp" compile="1" resource="0"
+                file="Source/NoteSlideEffect.cpp"/>
+          <FILE id="Bi53rU" name="NoteSlideEffect.h" compile="0" resource="0"
+                file="Source/NoteSlideEffect.h"/>
+          <FILE id="dLfOXT" name="VibratoEffect.cpp" compile="1" resource="0"
+                file="Source/VibratoEffect.cpp"/>
+          <FILE id="XTJE82" name="VibratoEffect.h" compile="0" resource="0" file="Source/VibratoEffect.h"/>
+          <FILE id="QURPOn" name="TremoloEffect.cpp" compile="1" resource="0"
+                file="Source/TremoloEffect.cpp"/>
+          <FILE id="l8vW3u" name="TremoloEffect.h" compile="0" resource="0" file="Source/TremoloEffect.h"/>
+          <FILE id="lVF7tM" name="ArpeggiatorEffect.cpp" compile="1" resource="0"
+                file="Source/ArpeggiatorEffect.cpp"/>
+          <FILE id="udogQg" name="ArpeggiatorEffect.h" compile="0" resource="0"
+                file="Source/ArpeggiatorEffect.h"/>
+          <FILE id="Ahf1yp" name="EffectsPanel.cpp" compile="1" resource="0"
+                file="Source/EffectsPanel.cpp"/>
+          <FILE id="yIOOcP" name="EffectsPanel.h" compile="0" resource="0" file="Source/EffectsPanel.h"/>
+          <GROUP id="{B97DE825-1CA1-7A68-DD76-6D7F4FF5A493}" name="EffectsComponents">
+            <FILE id="d6UyO3" name="EffectParent.cpp" compile="1" resource="0"
+                  file="Source/EffectParent.cpp"/>
+            <FILE id="L1Tbr4" name="EffectParent.h" compile="0" resource="0" file="Source/EffectParent.h"/>
+            <FILE id="C3yVId" name="SliderComponent.cpp" compile="1" resource="0"
+                  file="Source/SliderComponent.cpp"/>
+            <FILE id="c8KHIE" name="SliderComponent.h" compile="0" resource="0"
+                  file="Source/SliderComponent.h"/>
+            <FILE id="ytprTa" name="SpeedComponent.cpp" compile="1" resource="0"
+                  file="Source/SpeedComponent.cpp"/>
+            <FILE id="EkdE75" name="SpeedComponent.h" compile="0" resource="0"
+                  file="Source/SpeedComponent.h"/>
+          </GROUP>
+        </GROUP>
+        <GROUP id="{54CF08FF-8871-ECFE-9CF7-1315A06DD595}" name="WavePanel">
+          <FILE id="OUbJcO" name="WaveSelector.h" compile="0" resource="0" file="Source/WaveSelector.h"/>
+          <FILE id="fIpd6J" name="WaveSelector.cpp" compile="1" resource="0"
+                file="Source/WaveSelector.cpp"/>
+          <FILE id="p6ElXm" name="WavePanel.cpp" compile="1" resource="0" file="Source/WavePanel.cpp"/>
+          <FILE id="Uup29o" name="WavePanel.h" compile="0" resource="0" file="Source/WavePanel.h"/>
+        </GROUP>
         <FILE id="puyVGW" name="BLXLookAndFeel.cpp" compile="1" resource="0"
               file="Source/BLXLookAndFeel.cpp"/>
         <FILE id="kPEXxI" name="BLXLookAndFeel.h" compile="0" resource="0"
               file="Source/BLXLookAndFeel.h"/>
-        <FILE id="Ahf1yp" name="EffectsPanel.cpp" compile="1" resource="0"
-              file="Source/EffectsPanel.cpp"/>
-        <FILE id="yIOOcP" name="EffectsPanel.h" compile="0" resource="0" file="Source/EffectsPanel.h"/>
-        <FILE id="pVEBVY" name="EnvelopePanel.cpp" compile="1" resource="0"
-              file="Source/EnvelopePanel.cpp"/>
-        <FILE id="iZQZVV" name="EnvelopePanel.h" compile="0" resource="0" file="Source/EnvelopePanel.h"/>
-        <FILE id="p6ElXm" name="WavePanel.cpp" compile="1" resource="0" file="Source/WavePanel.cpp"/>
-        <FILE id="Uup29o" name="WavePanel.h" compile="0" resource="0" file="Source/WavePanel.h"/>
-        <FILE id="qIiwXB" name="EnvelopeSliders.h" compile="0" resource="0"
-              file="Source/EnvelopeSliders.h"/>
-        <FILE id="ysQrJd" name="EnvelopeSliders.cpp" compile="1" resource="0"
-              file="Source/EnvelopeSliders.cpp"/>
-        <FILE id="OUbJcO" name="TypeSelector.h" compile="0" resource="0" file="Source/TypeSelector.h"/>
-        <FILE id="fIpd6J" name="TypeSelector.cpp" compile="1" resource="0"
-              file="Source/TypeSelector.cpp"/>
         <FILE id="iVZ9VU" name="PresetsBar.h" compile="0" resource="0" file="Source/PresetsBar.h"/>
         <FILE id="nSsIOQ" name="PresetsBar.cpp" compile="1" resource="0" file="Source/PresetsBar.cpp"/>
       </GROUP>

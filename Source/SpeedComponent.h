@@ -1,28 +1,27 @@
 /*
   ==============================================================================
 
-    TypeSelector.h
-    Created: 13 Oct 2020 9:28:10pm
-    Author:  alext
+    SpeedComponent.h
+    Created: 28 Oct 2020 2:31:19pm
+    Author: kyle 
 
   ==============================================================================
 */
 
 #pragma once
 #include <JuceHeader.h>
-#include "SynthVoice.h"
+#include "BLXLookAndFeel.h"
 
-class TypeSelector : public juce::Component
+class SpeedComponent : public juce::Component
 {
 public:
-    TypeSelector();
-    ~TypeSelector() override;
 
+    SpeedComponent();
     void paint(juce::Graphics&) override;
     void resized() override;
+    enum SpeedValue{ eighth, quarter, half, whole };
 
-private:
-    void updateToggleState(int);
-    juce::TextButton waveButtons[7];
-    int radioId = 1001;
+    juce::Label label;
+    juce::TextButton buttons[4];
+
 };

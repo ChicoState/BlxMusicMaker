@@ -18,6 +18,7 @@ class BLXLookAndFeel : public juce::LookAndFeel_V4
 public:
     
     BLXLookAndFeel();
+    static int getNewRadioID();
     static int getPanelLabelHeight();
     static juce::Rectangle<int> getEffectsInsetArea(juce::Rectangle<int>);
     static juce::Rectangle<int> getWaveInsetArea(juce::Rectangle<int>);
@@ -26,4 +27,6 @@ public:
 
 private:
     
+    static int currentRadioID;
+
 };

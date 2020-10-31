@@ -8,14 +8,15 @@
   ==============================================================================
 */
 
-#include "TypeSelector.h"
+#include "WaveSelector.h"
 
 TypeSelector::TypeSelector()
 {
+	int radioID = BLXLookAndFeel::getNewRadioID();
 	std::string buttonNames[] = { "Pulse25", "Pulse50", "Pulse75", "Triangle", "Saw", "Sine", "Noise" };
 	for (int i = 0; i < 7; i++) {
 		waveButtons[i].setButtonText(buttonNames[i]);
-		waveButtons[i].setRadioGroupId(radioId);
+		waveButtons[i].setRadioGroupId(radioID);
 		waveButtons[i].setClickingTogglesState(true);
 		waveButtons[i].onClick = [this, i] { updateToggleState(i); };
 		addAndMakeVisible(waveButtons[i]);
