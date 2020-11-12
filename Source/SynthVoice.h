@@ -67,8 +67,8 @@ public:
         if (tremoloActive)
         {
             oscTremolo.phaseReset(0.0);
-            depthTremolo = 1; // 0 < depth <= 1
-            currentTremoloDurFlag = tremoloDurFlag::Eighth;
+            depthTremolo = 0.5; 
+            currentTremoloDurFlag = tremoloDurFlag::Thirtysecond;
             switch (currentTremoloDurFlag)
             {
             case tremoloDurFlag::Whole:
@@ -143,8 +143,11 @@ public:
 
 		for (int sample = 0; sample < numSamples; ++sample)
 		{
-			if (tremoloActive)
+            if (tremoloActive)
+            {
                 level = startLevel + depthTremolo * oscTremolo.sinewave(durationTremolo);
+                if (level < 0) level = 0;
+            }
 
 			float theWave = getWave(); // the current sample
 			double theSound = env.adsr(theWave, env.trigger) * level;
