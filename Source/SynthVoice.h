@@ -14,12 +14,18 @@
 #include "maximilian.h"
 #include <cmath>
 
+
 class SynthVoice : public juce::SynthesiserVoice
 {
 public:
     //Do not change the order
-    enum waveFlag{ Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
+	enum class waveFlag{ Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
+	enum class tremoloDurFlag{ Whole, Half, Quarter, Eighth, Sixteenth, Thirtysecond };
+	enum class noteSlideDurFlag{ Whole, Half, Quarter, Eighth };
+
     static waveFlag currentWaveFlag;
+    static tremoloDurFlag currentTremoloDurFlag;
+    static noteSlideDurFlag currentNoteSlideDurFlag;
 
     bool canPlaySound(juce::SynthesiserSound* sound) 
     {
@@ -50,27 +56,66 @@ public:
     {
         env.trigger = 1;        // means envolope starts
         level = velocity;       // setting the volume
+        startLevel = level;
         osc.phaseReset(0.0);    // reset delta-theta
         timer = 0;              // start time for note slide
         freq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 
+        // tremolo
+        // TODO manage thru UI
+        tremoloActive = true;
+        if (tremoloActive)
+        {
+            oscTremolo.phaseReset(0.0);
+            depthTremolo = 1; // 0 < depth <= 1
+            currentTremoloDurFlag = tremoloDurFlag::Eighth;
+            switch (currentTremoloDurFlag)
+            {
+            case tremoloDurFlag::Whole:
+                durationTremolo = 0.5 * (60 / bpm);
+                break;
+            case tremoloDurFlag::Half:
+                durationTremolo = 1 * (60 / bpm);
+                break;
+            case tremoloDurFlag::Quarter:
+                durationTremolo = 2 * (60 / bpm);
+                break;
+            case tremoloDurFlag::Eighth:
+                durationTremolo = 4 * (60 / bpm);
+                break;
+            case tremoloDurFlag::Sixteenth:
+                durationTremolo = 8 * (60 / bpm);
+                break;
+			case tremoloDurFlag::Thirtysecond:
+                durationTremolo = 16 * (60 / bpm);
+                break;
+            }
+        }
+
         // note slide
-        // TODO noteSlideActive, targetMidiOffset, durationType, managed by UI
-        noteSlideActive = false; // activate note slide
+        // TODO manage thru UI
+        noteSlideActive = false;
         if (noteSlideActive)
         {
-		    int targetMidiOffset = 7; // change where you're sliding by half-steps
-			juce::String durationType = "1/8"; // TODO change to enum
+		    int targetMidiOffset = 7; // in half-steps
+            currentNoteSlideDurFlag = noteSlideDurFlag::Eighth;
 
 			// math'ed out for 4/4 time
-			if (durationType == "1")
+            switch (currentNoteSlideDurFlag)
+            {
+            case noteSlideDurFlag::Whole:
 				duration = 4 * (60 / bpm);
-			else if (durationType == "1/2")
+                break;
+            case noteSlideDurFlag::Half:
 				duration = 2 * (60 / bpm);
-			else if (durationType == "1/4")
+                break;
+            case noteSlideDurFlag::Quarter:
 				duration = 1 * (60 / bpm);
-			else //if (durationType == "1/8")
+                break;
+            case noteSlideDurFlag::Eighth:
 				duration = 0.5 * (60 / bpm);
+                break;
+            }
 
             targetFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber+targetMidiOffset); 
             originalFreq = freq;
@@ -98,24 +143,10 @@ public:
 
 		for (int sample = 0; sample < numSamples; ++sample)
 		{
-			float theWave; // the current sample
-			switch (currentWaveFlag)
-			{
-			case SynthVoice::Saw:
-				theWave = osc.saw(freq); break;
-			case SynthVoice::Noise:
-				theWave = osc.noise(); break;
-			case SynthVoice::Triangle:
-				theWave = osc.triangle(freq); break;
-			case SynthVoice::Pulse25:
-				theWave = osc.pulse(freq, 0.25); break;
-			case SynthVoice::Pulse50:
-				theWave = osc.pulse(freq, 0.5); break;
-			case SynthVoice::Pulse75:
-				theWave = osc.pulse(freq, 0.75); break;
-			default:
-				theWave = osc.sinewave(freq); break;
-			}
+			if (tremoloActive)
+                level = startLevel + depthTremolo * oscTremolo.sinewave(durationTremolo);
+
+			float theWave = getWave(); // the current sample
 			double theSound = env.adsr(theWave, env.trigger) * level;
 
 			for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
@@ -128,17 +159,41 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) { }
 
 private:
-    double level; // volume
-    double freq, originalFreq, targetFreq; // cycles per second
+    double level, startLevel;               // volume
+    double freq, originalFreq, targetFreq;  // cycles per second
+    double timer, duration;                 // for note slide
+    double durationTremolo, depthTremolo;   // for tremolo
     double bpm, timeSigNum, timeSigDenom; 
-    double timer, duration; // for note slide
 
     bool noteSlideActive;
+    bool tremoloActive;
 
     maxiOsc osc;
+    maxiOsc oscTremolo;
     maxiEnv env;
     maxiFilter fil;
     maxiSettings set;
+
+    float getWave()
+    {
+		switch (currentWaveFlag)
+		{
+		case waveFlag::Saw:
+			return osc.saw(freq); break;
+		case waveFlag::Noise:
+			return osc.noise(); break;
+		case waveFlag::Triangle:
+			return osc.triangle(freq); break;
+		case waveFlag::Pulse25:
+			return osc.pulse(freq, 0.25); break;
+		case waveFlag::Pulse50:
+			return osc.pulse(freq, 0.5); break;
+		case waveFlag::Pulse75:
+			return osc.pulse(freq, 0.75); break;
+		default:
+			return osc.sinewave(freq); break;
+		}
+    }
 };
 
 

@@ -216,7 +216,7 @@ double maxiOsc::noise() {
 	return(output);
 }
 
-// this was alex messing with noise...
+// this was alex messing with noise... :P
 double maxiOsc::noise(double frequency) {
 	float r = rand()/(float)RAND_MAX;
 
@@ -241,7 +241,6 @@ double maxiOsc::sinewave(double frequency) {
 	if ( phase >= 1.0 ) phase -= 1.0;
 	phase += (1./(maxiSettings::sampleRate/(frequency)));
 	return(output);
-
 }
 
 double maxiOsc::sinebuf4(double frequency) {
