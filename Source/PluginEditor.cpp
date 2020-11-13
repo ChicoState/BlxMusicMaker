@@ -8,22 +8,25 @@
 
 #include "PluginEditor.h"
 
+
 //==============================================================================
-BlxMusicMakerAudioProcessorEditor::BlxMusicMakerAudioProcessorEditor (BlxMusicMakerAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor(p)
+BlxMusicMakerAudioProcessorEditor::BlxMusicMakerAudioProcessorEditor(BlxMusicMakerAudioProcessor& p)
+                                                                    : AudioProcessorEditor(&p), audioProcessor(p)
 {
-    blxLookAndFeel = new BLXLookAndFeel;
-    juce::LookAndFeel::setDefaultLookAndFeel(blxLookAndFeel);
+    juce::LookAndFeel::setDefaultLookAndFeel(&blxLookAndFeel);
     addAndMakeVisible(presetsBar);
     addAndMakeVisible(wavePanel);
     addAndMakeVisible(envelopePanel);
+
+     
+    effectsPanel = new EffectsPanel();
     addAndMakeVisible(effectsPanel);
     setSize(900, 600);
 }
 
 BlxMusicMakerAudioProcessorEditor::~BlxMusicMakerAudioProcessorEditor()
 {
-    delete blxLookAndFeel;
+    delete effectsPanel;
 }
 
 //==============================================================================
@@ -43,5 +46,6 @@ void BlxMusicMakerAudioProcessorEditor::resized()
     auto envelopeArea = waveArea.removeFromBottom(200);
     wavePanel.setBounds(waveArea);
     envelopePanel.setBounds(envelopeArea);
-    effectsPanel.setBounds(area);
+    effectsPanel->setBounds(area);
 }
+

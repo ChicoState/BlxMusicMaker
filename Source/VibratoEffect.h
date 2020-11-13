@@ -16,9 +16,9 @@ class VibratoEffect : public EffectParent
 {
 public:
 
-    VibratoEffect() : EffectParent::EffectParent("Vibrato") 
+    VibratoEffect(juce::AudioProcessorValueTreeState& treeState) : EffectParent::EffectParent("Vibrato")
     {
-        EffectParent::addSpeedComponent();
+        //EffectParent::addSpeedComponent();
         EffectParent::addSliderComponent("Depth", -12, 12);
     };
     void onEffectToggle(juce::ToggleButton*) override;

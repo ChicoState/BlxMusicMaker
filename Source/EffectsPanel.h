@@ -28,9 +28,9 @@ public:
 private:
     
     juce::Label panelLabel;
-    ArpeggiatorEffect arpegEffect;
-    TremoloEffect tremEffect;
-    VibratoEffect vibEffect;
-    NoteSlideEffect noteEffect;
+    ArpeggiatorEffect *arpegEffect;
+    TremoloEffect *tremEffect;
+    VibratoEffect *vibEffect;
+    NoteSlideEffect *noteEffect;
 
 };

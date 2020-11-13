@@ -13,12 +13,14 @@
 #include "SliderComponent.h" 
 #include "SpeedComponent.h" 
 #include "BLXLookAndFeel.h"
+#include "StateManager.h"
 
 class EffectParent : public juce::Component
 {
 public:
     
     EffectParent(std::string);
+    ~EffectParent();
     void paint(juce::Graphics&) override;
     void resized() override;
     int getNeededHeight();
@@ -35,5 +37,8 @@ public:
 private:
 
     juce::ToggleButton toggle;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
+    SpeedComponent* speedComp;
+    SliderComponent* sliderComp;
 
 };

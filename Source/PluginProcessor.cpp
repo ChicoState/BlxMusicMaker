@@ -29,7 +29,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 		)
 #endif
 {
-
+    StateManager::get().SetAudioProcessor(*this);
     // init voices and add them to synth
     mySynth.clearVoices();
     int numVoices = 10;
@@ -176,6 +176,8 @@ bool BlxMusicMakerAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* BlxMusicMakerAudioProcessor::createEditor()
 {
+    //StateManager::get().Save();
+    //StateManager::get().Load();
     return new BlxMusicMakerAudioProcessorEditor (*this);
 }
 
@@ -185,12 +187,15 @@ void BlxMusicMakerAudioProcessor::getStateInformation (juce::MemoryBlock& destDa
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    StateManager::get().Save();
 }
 
 void BlxMusicMakerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    
+    //StateManager::get().Load(data, sizeInBytes);
 }
 
 //==============================================================================

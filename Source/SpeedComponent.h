@@ -11,6 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "BLXLookAndFeel.h"
+#include "PluginProcessor.h"
 
 class SpeedComponent : public juce::Component
 {
@@ -19,6 +20,7 @@ public:
     SpeedComponent();
     void paint(juce::Graphics&) override;
     void resized() override;
+
     enum SpeedValue{ eighth, quarter, half, whole };
 
     juce::Label label;

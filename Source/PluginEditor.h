@@ -27,13 +27,13 @@ public:
 
 private:
     BlxMusicMakerAudioProcessor& audioProcessor;
-    
+
     //Main GUI Classes
-    BLXLookAndFeel *blxLookAndFeel;
+    BLXLookAndFeel blxLookAndFeel;
     PresetsBar presetsBar;
     WavePanel wavePanel;
     EnvelopePanel envelopePanel;
-    EffectsPanel effectsPanel;
+    EffectsPanel *effectsPanel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessorEditor)
 };

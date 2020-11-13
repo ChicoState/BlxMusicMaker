@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "SynthVoice.h"
 #include "SynthSound.h"
+#include "StateManager.h"
 
 //==============================================================================
 /**
@@ -62,6 +63,7 @@ public:
     static float releaseTime;
 
 private:
+
     juce::Synthesiser mySynth;
     SynthVoice* myVoice;
 

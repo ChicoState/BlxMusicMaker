@@ -10,6 +10,11 @@
 
 #include "ArpeggiatorEffect.h"
 
+ArpeggiatorEffect::~ArpeggiatorEffect()
+{
+    delete speedComp;
+}
+
 void ArpeggiatorEffect::onEffectToggle(juce::ToggleButton *toggle)
 {
     if (toggle->getToggleState())
@@ -20,22 +25,9 @@ void ArpeggiatorEffect::onEffectToggle(juce::ToggleButton *toggle)
     //Place code for off
 }
 
+
 void ArpeggiatorEffect::onSpeedToggle(SpeedComponent::SpeedValue speedValue)
 {
-    switch (speedValue)
-    {
-    case SpeedComponent::SpeedValue::eighth: 
-
-        break;
-    case SpeedComponent::SpeedValue::quarter: 
-
-        break;
-    case SpeedComponent::SpeedValue::half: 
-
-        break;
-    case SpeedComponent::SpeedValue::whole: 
-
-        break;
-    }
+    speedSlider.setValue((int)speedValue);
 }
 
