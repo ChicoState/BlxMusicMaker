@@ -13,18 +13,16 @@
 EffectParent::EffectParent(std::string effectName)
 {
     toggle.setButtonText(effectName);
-	//toggle.onClick = [this] { onEffectToggle(&toggle); };
     addAndMakeVisible(toggle);
-    toggleAttachment.reset
-    (
-        new juce::AudioProcessorValueTreeState::ButtonAttachment(*StateManager::get().treeState, effectName, toggle)
-    );
+    toggleAttachment.reset(new juce::AudioProcessorValueTreeState::ButtonAttachment(*StateManager::get().treeState, effectName, toggle));
 }
 
 EffectParent::~EffectParent()
 {
-    //delete speedComp;
-    //delete sliderComp;
+    for(int i = 0; i < (int)components.size(); i++)
+    {
+        delete components[i];
+    }
 }
 
 int EffectParent::getNeededHeight()
@@ -33,22 +31,18 @@ int EffectParent::getNeededHeight()
     return (childCount * 24) + 6 + 4;
 }
 
-void EffectParent::addSliderComponent(std::string text, int minValue, int maxValue)
+void EffectParent::addSliderComponent(std::string text, std::string stateID, int minValue, int maxValue)
 {
-    sliderComp = new SliderComponent(text, minValue, maxValue);
-    //sliderComp->slider.onValueChange = [this, sliderComp] { onSliderMove(&sliderComp->slider); };
+    SliderComponent* sliderComp = new SliderComponent(text, stateID, minValue, maxValue);
     addAndMakeVisible(sliderComp);
+    components.push_back(sliderComp);
 }
 
-void EffectParent::addSpeedComponent()
+void EffectParent::addSpeedComponent(std::string stateID)
 {
-    //speedComp = new SpeedComponent();
-    /*
-    for (int i = 0; i < 4; i++) {
-        speedComp->buttons[i].onClick = [this, i] { onSpeedToggle(static_cast<SpeedComponent::SpeedValue>(i)); };
-    }
-    */
+    SpeedComponent* speedComp = new SpeedComponent(stateID);
     addAndMakeVisible(speedComp);
+    components.push_back(speedComp);
 }
 
 void EffectParent::paint(juce::Graphics& g)

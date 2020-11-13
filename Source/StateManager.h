@@ -15,20 +15,17 @@ class StateManager
 {
 public:
     
-    StateManager() {};
-    ~StateManager();
     static StateManager& get();
     void Save();
     void Load();
 
-    void SetAudioProcessor(juce::AudioProcessor&);
-    void SetProperty(std::string, int);
+    void SetTreeState(juce::AudioProcessorValueTreeState&);
 
     juce::AudioProcessorValueTreeState* treeState;
-    juce::UndoManager* undoManager;
 
 private:
 
+    StateManager() {};
     static StateManager instance;
 
 };

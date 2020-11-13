@@ -20,16 +20,33 @@ float BlxMusicMakerAudioProcessor::releaseTime = 0.1;
 BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(BusesProperties()
-	#if ! JucePlugin_IsMidiEffect
-		#if ! JucePlugin_IsSynth
+	    #if ! JucePlugin_IsMidiEffect
+		    #if ! JucePlugin_IsSynth
 				.withInput("Input", juce::AudioChannelSet::stereo(), true)
-		#endif
+		    #endif
 				.withOutput("Output", juce::AudioChannelSet::stereo(), true)
-	#endif
-		)
+	    #endif
+    ),
+	treeState(*this, &undoManager, "Params",
+	{
+		std::make_unique<juce::AudioParameterBool>("Arpeggiator", "ArpeggiatorToggle", false),
+		std::make_unique<juce::AudioParameterInt>("ArpegSpeed", "ArpegSpeed", 0, 3, 0),
+
+		std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
+		std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 3, 0),
+		std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", -12, 12, 0),
+
+		std::make_unique <juce::AudioParameterBool>("Vibrato", "VibratoToggle", false),
+		std::make_unique<juce::AudioParameterInt>("VibratoSpeed", "VibratoSpeed", 0, 3, 0),
+		std::make_unique<juce::AudioParameterFloat>("VibratoDepth", "VibratoDepth", -12, 12, 0),
+
+		std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
+		std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 3, 0),
+		std::make_unique<juce::AudioParameterFloat>("NoteSlideDepth", "NoteSlideDepth", -1, 1, 0)
+	})
 #endif
 {
-    StateManager::get().SetAudioProcessor(*this);
+    StateManager::get().SetTreeState(treeState);
     // init voices and add them to synth
     mySynth.clearVoices();
     int numVoices = 10;
@@ -186,18 +203,12 @@ juce::AudioProcessorEditor* BlxMusicMakerAudioProcessor::createEditor()
 //==============================================================================
 void BlxMusicMakerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
     StateManager::get().Save();
 }
 
 void BlxMusicMakerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
-    
-    //StateManager::get().Load(data, sizeInBytes);
+    //Load
 }
 
 //==============================================================================

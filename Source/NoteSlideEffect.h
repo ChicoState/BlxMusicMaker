@@ -16,13 +16,10 @@ class NoteSlideEffect : public EffectParent
 {
 public:
 
-    NoteSlideEffect(juce::AudioProcessorValueTreeState& treeState) : EffectParent::EffectParent("Note Slide")
+    NoteSlideEffect() : EffectParent::EffectParent("Note Slide")
     {
-        //EffectParent::addSpeedComponent();
-        EffectParent::addSliderComponent("Half-Steps", -12, 12);
+        EffectParent::addSpeedComponent("NoteSlideSpeed");
+        EffectParent::addSliderComponent("Half-Steps", "NoteSlideDepth", -12, 12);
     };
-    void onEffectToggle(juce::ToggleButton*) override;
-    void onSliderMove(juce::Slider*) override;
-    void onSpeedToggle(SpeedComponent::SpeedValue) override;
 
 };

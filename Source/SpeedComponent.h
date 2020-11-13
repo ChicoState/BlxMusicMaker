@@ -17,13 +17,19 @@ class SpeedComponent : public juce::Component
 {
 public:
 
-    SpeedComponent();
+    SpeedComponent(std::string stateID);
+    void onSpeedToggle(int i);
     void paint(juce::Graphics&) override;
     void resized() override;
 
-    enum SpeedValue{ eighth, quarter, half, whole };
+    enum SpeedValue{ thirtysecond, sixteenth, eighth, quarter, half, whole };
+
+private:
 
     juce::Label label;
-    juce::TextButton buttons[4];
+    juce::TextButton buttons[6];
+
+    juce::Slider speedSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> speedAttachment;
 
 };

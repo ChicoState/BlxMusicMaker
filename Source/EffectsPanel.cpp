@@ -19,27 +19,23 @@ EffectsPanel::EffectsPanel()
 
     arpegEffect = new ArpeggiatorEffect();
     addAndMakeVisible(arpegEffect);
-    /*
 
-    tremEffect = new TremoloEffect(treeState);
+    tremEffect = new TremoloEffect();
     addAndMakeVisible(tremEffect);
 
-    vibEffect = new VibratoEffect(treeState);
+    vibEffect = new VibratoEffect();
     addAndMakeVisible(vibEffect);
 
-    noteEffect = new NoteSlideEffect(treeState);
+    noteEffect = new NoteSlideEffect();
     addAndMakeVisible(noteEffect);
-    */
 }
 
 EffectsPanel::~EffectsPanel()
 {
     delete arpegEffect;
-    /*
     delete tremEffect;
     delete vibEffect;
     delete noteEffect;
-    */
 }
 
 void EffectsPanel::paint(juce::Graphics& g)
@@ -59,7 +55,6 @@ void EffectsPanel::resized()
     area.reduce(10, 10);
     arpegEffect->setBounds(area.removeFromTop(arpegEffect->getNeededHeight()));
 
-    /*
     area.removeFromTop(10);
     tremEffect->setBounds(area.removeFromTop(tremEffect->getNeededHeight()));
 
@@ -68,5 +63,4 @@ void EffectsPanel::resized()
 
     area.removeFromTop(10);
     noteEffect->setBounds(area.removeFromTop(noteEffect->getNeededHeight()));
-    */
 }

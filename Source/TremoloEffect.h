@@ -16,13 +16,10 @@ class TremoloEffect : public EffectParent
 {
 public:
 
-    TremoloEffect(juce::AudioProcessorValueTreeState& treeState) : EffectParent::EffectParent("Tremolo")
+    TremoloEffect() : EffectParent::EffectParent("Tremolo")
     {
-        //EffectParent::addSpeedComponent();
-        EffectParent::addSliderComponent("Depth", -12, 12);
+        EffectParent::addSpeedComponent("TremoloSpeed");
+        EffectParent::addSliderComponent("Depth", "TremoloDepth", 0, 1);
     };
-    void onEffectToggle(juce::ToggleButton*) override;
-    void onSliderMove(juce::Slider*) override;
-    void onSpeedToggle(SpeedComponent::SpeedValue) override;
 
 };

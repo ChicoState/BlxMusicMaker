@@ -9,6 +9,7 @@
 */
 
 #pragma once
+#include <vector>
 #include <JuceHeader.h>
 #include "SliderComponent.h" 
 #include "SpeedComponent.h" 
@@ -26,19 +27,18 @@ public:
     int getNeededHeight();
 
     //Add Components
-    void addSliderComponent(std::string, int, int);
-    void addSpeedComponent();
+    void addSliderComponent(std::string, std::string, int, int);
+    void addSpeedComponent(std::string);
 
     //Callbacks
-    virtual void onEffectToggle(juce::ToggleButton*) = 0;
-    virtual void onSliderMove(juce::Slider*) {};
-    virtual void onSpeedToggle(SpeedComponent::SpeedValue) {};
+    //virtual void onEffectToggle(juce::ToggleButton*) = 0;
+    //virtual void onSliderMove(juce::Slider*) {};
+    //virtual void onSpeedToggle(SpeedComponent::SpeedValue) = 0;
 
 private:
 
     juce::ToggleButton toggle;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
-    SpeedComponent* speedComp;
-    SliderComponent* sliderComp;
+    std::vector<juce::Component*> components;
 
 };

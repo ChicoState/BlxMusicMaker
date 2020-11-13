@@ -19,20 +19,7 @@ public:
 
     ArpeggiatorEffect() : EffectParent("Arpeggiator") 
     {
-        speedAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, "ArpegSpeed", speedSlider));
-        speedComp = new SpeedComponent();
-        for (int i = 0; i < 4; i++) {
-            speedComp->buttons[i].onClick = [this, i] { onSpeedToggle(static_cast<SpeedComponent::SpeedValue>(i)); };
-        }
-        EffectParent::addAndMakeVisible(speedComp);
+        addSpeedComponent("ArpegSpeed");
     };
-    ~ArpeggiatorEffect();
-    void onSpeedToggle(SpeedComponent::SpeedValue);
-    void onEffectToggle(juce::ToggleButton*) override;
 
-private:
-
-    SpeedComponent* speedComp;
-    juce::Slider speedSlider;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> speedAttachment;
 };

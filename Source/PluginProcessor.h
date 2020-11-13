@@ -64,6 +64,9 @@ public:
 
 private:
 
+    juce::AudioProcessorValueTreeState treeState;
+    juce::UndoManager undoManager;
+
     juce::Synthesiser mySynth;
     SynthVoice* myVoice;
     double lastSampleRate;

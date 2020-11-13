@@ -12,22 +12,9 @@
 
 StateManager StateManager::instance;
 
-StateManager::~StateManager()
+void StateManager::SetTreeState(juce::AudioProcessorValueTreeState& tree) 
 {
-    delete treeState;
-    delete undoManager;
-}
-
-void StateManager::SetAudioProcessor(juce::AudioProcessor& processor) {
-    undoManager = new juce::UndoManager;
-    treeState = new juce::AudioProcessorValueTreeState(processor, undoManager, "Params",
-    {
-		std::make_unique<juce::AudioParameterBool>("Arpeggiator", "ArpeggiatorToggle", false),
-		std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
-		std::make_unique <juce::AudioParameterBool>("Vibrato", "VibratoToggle", false),
-		std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
-		std::make_unique<juce::AudioParameterInt>("ArpegSpeed", "ArpegSpeed", 0, 3, 0)
-    });
+    treeState = &tree;
     Load();
 }
 
