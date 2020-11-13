@@ -66,8 +66,12 @@ private:
 
     juce::Synthesiser mySynth;
     SynthVoice* myVoice;
-
     double lastSampleRate;
+
+    // get info of DAW
+    juce::AudioPlayHead* audioPlayHead; 
+    juce::AudioPlayHead::CurrentPositionInfo currentPositionInfo;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessor)
 };
 

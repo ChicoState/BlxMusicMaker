@@ -111,12 +111,6 @@ void BlxMusicMakerAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     // insures initialized sample rate
     juce::ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
-    mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
-    for (int i = 0; i < mySynth.getNumVoices(); i++)
-    {
-        if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
-            myVoice->initMaxiSampleRate(lastSampleRate);
-    }
 }
 
 void BlxMusicMakerAudioProcessor::releaseResources()
@@ -155,11 +149,19 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    audioPlayHead = this->getPlayHead();
+    audioPlayHead->getCurrentPosition(currentPositionInfo);
+    mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
+
     for (int i = 0; i < mySynth.getNumVoices(); i++)
     {
 		// adjust the parameters of the voice
         if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
-            myVoice->getParam(attackTime, decayTime, sustainTime, releaseTime);
+        {
+            myVoice->getParam(attackTime, decayTime, sustainTime, releaseTime, currentPositionInfo.bpm,
+                currentPositionInfo.timeSigNumerator, currentPositionInfo.timeSigDenominator);
+            myVoice->setMaxiSettings(lastSampleRate, totalNumOutputChannels, buffer.getNumSamples());
+        }
     }
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
