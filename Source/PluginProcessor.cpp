@@ -34,7 +34,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 
             std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
             std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 5, 0),
-            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", -12, 12, 0),
+            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0, 1, 0),
 
             std::make_unique <juce::AudioParameterBool>("Vibrato", "VibratoToggle", false),
             std::make_unique<juce::AudioParameterInt>("VibratoSpeed", "VibratoSpeed", 0, 5, 0),
@@ -42,7 +42,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 
             std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
             std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 5, 0),
-            std::make_unique<juce::AudioParameterFloat>("NoteSlideDepth", "NoteSlideDepth", -1, 1, 0)
+            std::make_unique<juce::AudioParameterInt>("NoteSlideDepth", "NoteSlideDepth", -12, 12, 0)
         }),
     valueTree("Presets")
 #endif
