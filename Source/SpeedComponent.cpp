@@ -12,6 +12,7 @@
 
 SpeedComponent::SpeedComponent(std::string stateID)
 {
+    this->stateID = stateID;
     int radioID = BLXLookAndFeel::getNewRadioID();
     std::string speedTexts[] = { "1/32", "1/16", "1/8", "1/4", "1/2", "1" };
     for (int i = 0; i < 6; i++) {
@@ -26,6 +27,10 @@ SpeedComponent::SpeedComponent(std::string stateID)
     label.setText("Speed", juce::NotificationType::dontSendNotification);
     addAndMakeVisible(label);
 
+    int i = StateManager::get().treeState->getRawParameterValue(stateID)->load();
+    buttons[i].triggerClick();
+
+    speedSlider.onValueChange = [this] { onValueChange(); };
 }
 
 void SpeedComponent::paint(juce::Graphics&)
@@ -50,4 +55,10 @@ void SpeedComponent::resized()
 void SpeedComponent::onSpeedToggle(int i)
 {
     speedSlider.setValue(i);
+}
+
+void SpeedComponent::onValueChange()
+{
+    int i = speedSlider.getValue();
+    buttons[i].triggerClick();
 }

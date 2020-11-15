@@ -19,13 +19,13 @@ public:
 
     SpeedComponent(std::string stateID);
     void onSpeedToggle(int i);
+    void onValueChange();
     void paint(juce::Graphics&) override;
     void resized() override;
 
-    enum SpeedValue{ thirtysecond, sixteenth, eighth, quarter, half, whole };
-
 private:
 
+    juce::String stateID;
     juce::Label label;
     juce::TextButton buttons[6];
 

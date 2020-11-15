@@ -65,6 +65,7 @@ public:
 private:
 
     juce::AudioProcessorValueTreeState treeState;
+    juce::ValueTree valueTree;
     juce::UndoManager undoManager;
 
     juce::Synthesiser mySynth;

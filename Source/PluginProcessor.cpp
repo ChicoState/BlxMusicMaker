@@ -20,33 +20,37 @@ float BlxMusicMakerAudioProcessor::releaseTime = 0.1;
 BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(BusesProperties()
-	    #if ! JucePlugin_IsMidiEffect
-		    #if ! JucePlugin_IsSynth
-				.withInput("Input", juce::AudioChannelSet::stereo(), true)
-		    #endif
-				.withOutput("Output", juce::AudioChannelSet::stereo(), true)
-	    #endif
+#if ! JucePlugin_IsMidiEffect
+#if ! JucePlugin_IsSynth
+        .withInput("Input", juce::AudioChannelSet::stereo(), true)
+#endif
+        .withOutput("Output", juce::AudioChannelSet::stereo(), true)
+#endif
     ),
-	treeState(*this, &undoManager, "Params",
-	{
-		std::make_unique<juce::AudioParameterBool>("Arpeggiator", "ArpeggiatorToggle", false),
-		std::make_unique<juce::AudioParameterInt>("ArpegSpeed", "ArpegSpeed", 0, 3, 0),
+    treeState(*this, &undoManager, "Params",
+        {
+            std::make_unique<juce::AudioParameterBool>("Arpeggiator", "ArpeggiatorToggle", false),
+            std::make_unique<juce::AudioParameterInt>("ArpegSpeed", "ArpegSpeed", 0, 5, 0),
 
-		std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
-		std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 3, 0),
-		std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", -12, 12, 0),
+            std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
+            std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 5, 0),
+            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", -12, 12, 0),
 
-		std::make_unique <juce::AudioParameterBool>("Vibrato", "VibratoToggle", false),
-		std::make_unique<juce::AudioParameterInt>("VibratoSpeed", "VibratoSpeed", 0, 3, 0),
-		std::make_unique<juce::AudioParameterFloat>("VibratoDepth", "VibratoDepth", -12, 12, 0),
+            std::make_unique <juce::AudioParameterBool>("Vibrato", "VibratoToggle", false),
+            std::make_unique<juce::AudioParameterInt>("VibratoSpeed", "VibratoSpeed", 0, 5, 0),
+            std::make_unique<juce::AudioParameterFloat>("VibratoDepth", "VibratoDepth", -12, 12, 0),
 
-		std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
-		std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 3, 0),
-		std::make_unique<juce::AudioParameterFloat>("NoteSlideDepth", "NoteSlideDepth", -1, 1, 0)
-	})
+            std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
+            std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 5, 0),
+            std::make_unique<juce::AudioParameterFloat>("NoteSlideDepth", "NoteSlideDepth", -1, 1, 0)
+        }),
+    valueTree("Presets")
 #endif
 {
-    StateManager::get().SetTreeState(treeState);
+    valueTree.setProperty("Preset", "Default", &undoManager);
+    treeState.replaceState(valueTree);
+    StateManager::get().setTreeState(treeState);
+
     // init voices and add them to synth
     mySynth.clearVoices();
     int numVoices = 10;
@@ -195,20 +199,27 @@ bool BlxMusicMakerAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* BlxMusicMakerAudioProcessor::createEditor()
 {
-    //StateManager::get().Save();
-    //StateManager::get().Load();
     return new BlxMusicMakerAudioProcessorEditor (*this);
 }
 
 //==============================================================================
 void BlxMusicMakerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    StateManager::get().Save();
+    auto state = StateManager::get().treeState->copyState();
+    std::unique_ptr<juce::XmlElement> xml(state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void BlxMusicMakerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    //Load
+    std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+    if (xmlState.get() != nullptr)
+    {
+        if (xmlState->hasTagName(StateManager::get().treeState->state.getType())) 
+        {
+            StateManager::get().treeState->replaceState(juce::ValueTree::fromXml(*xmlState));
+        }
+    }
 }
 
 //==============================================================================

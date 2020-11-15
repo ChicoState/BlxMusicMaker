@@ -1,12 +1,15 @@
 #pragma once
 #include <JuceHeader.h>
+#include "StateManager.h"
 #include "BLXLookAndFeel.h"
 
 class PresetsBar : public juce::Component, public juce::MenuBarModel
 {
 public:
-    PresetsBar ();
+    PresetsBar();
     ~PresetsBar() override;
+
+    void onSaveClick();
 
     void paint(juce::Graphics&) override;
     void resized() override;
@@ -18,5 +21,6 @@ public:
 
 private:
     juce::MenuBarComponent menu;
+    juce::TextButton saveButton;
 };
 

@@ -16,16 +16,19 @@ class StateManager
 public:
     
     static StateManager& get();
-    void Save();
-    void Load();
+    void saveCurrentPreset();
+    void loadPreset(juce::String);
+    void createPreset(juce::String);
 
-    void SetTreeState(juce::AudioProcessorValueTreeState&);
+    void setTreeState(juce::AudioProcessorValueTreeState&);
 
     juce::AudioProcessorValueTreeState* treeState;
 
 private:
 
     StateManager() {};
+    juce::String getFilePath(juce::String);
+    juce::String currentPreset;
     static StateManager instance;
 
 };
