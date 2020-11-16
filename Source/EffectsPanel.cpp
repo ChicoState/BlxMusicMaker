@@ -52,7 +52,7 @@ void EffectsPanel::resized()
     panelLabel.setBounds(labelArea);
     panelLabel.setJustificationType(juce::Justification::centred);
 
-    area.reduce(10, 10);
+    area.reduce(10, 18);
     arpegEffect->setBounds(area.removeFromTop(arpegEffect->getNeededHeight()));
 
     area.removeFromTop(10);

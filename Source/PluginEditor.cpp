@@ -14,19 +14,14 @@ BlxMusicMakerAudioProcessorEditor::BlxMusicMakerAudioProcessorEditor(BlxMusicMak
                                                                     : AudioProcessorEditor(&p), audioProcessor(p)
 {
     juce::LookAndFeel::setDefaultLookAndFeel(&blxLookAndFeel);
-    addAndMakeVisible(presetsBar);
     addAndMakeVisible(wavePanel);
     addAndMakeVisible(envelopePanel);
-
-     
-    effectsPanel = new EffectsPanel();
     addAndMakeVisible(effectsPanel);
-    setSize(900, 600);
+    setSize(800, 500);
 }
 
 BlxMusicMakerAudioProcessorEditor::~BlxMusicMakerAudioProcessorEditor()
 {
-    delete effectsPanel;
 }
 
 //==============================================================================
@@ -40,12 +35,10 @@ void BlxMusicMakerAudioProcessorEditor::paint (juce::Graphics& g)
 void BlxMusicMakerAudioProcessorEditor::resized()
 {
     auto area = getLocalBounds();
-    int menuBarHeight = getLookAndFeel().getDefaultMenuBarHeight();
-    presetsBar.setBounds(area.removeFromTop(menuBarHeight));
     auto waveArea = area.removeFromLeft(area.getWidth() / 2);
     auto envelopeArea = waveArea.removeFromBottom(200);
     wavePanel.setBounds(waveArea);
     envelopePanel.setBounds(envelopeArea);
-    effectsPanel->setBounds(area);
+    effectsPanel.setBounds(area);
 }
 

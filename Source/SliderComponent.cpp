@@ -30,6 +30,6 @@ void SliderComponent::paint(juce::Graphics&)
 void SliderComponent::resized()
 {
     auto area = getLocalBounds();
-    label.setBounds(area.removeFromLeft(60));
+    label.setBounds(area.removeFromLeft(80));
     slider.setBounds(area);
 }

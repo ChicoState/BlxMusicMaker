@@ -27,7 +27,6 @@ void PresetsBar::resized()
 
 void PresetsBar::onSaveClick()
 {
-	StateManager::get().saveCurrentPreset();
 }
 
 juce::StringArray PresetsBar::getMenuBarNames()
@@ -59,6 +58,7 @@ juce::PopupMenu PresetsBar::getMenuForIndex(int topLevelMenuIndex, const juce::S
 
 void PresetsBar::menuItemSelected(int menuItemID, int topLevelMenuIndex)
 {
+	/*
 	switch (topLevelMenuIndex)
 	{
 	case 1:
@@ -68,6 +68,7 @@ void PresetsBar::menuItemSelected(int menuItemID, int topLevelMenuIndex)
 		StateManager::get().loadPreset("Preset" + std::to_string(menuItemID));
 		break;
 	}
+	*/
 }
 
 void PresetsBar::menuBarActivated(bool isActive)

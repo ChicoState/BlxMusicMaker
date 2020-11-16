@@ -28,7 +28,7 @@ EffectParent::~EffectParent()
 int EffectParent::getNeededHeight()
 {
     int childCount = getNumChildComponents();
-    return (childCount * 24) + 6 + 4;
+    return (childCount * 26) + 6 + 4;
 }
 
 void EffectParent::addSliderComponent(std::string text, std::string stateID, int minValue, int maxValue)
@@ -49,7 +49,7 @@ void EffectParent::paint(juce::Graphics& g)
 {
     int childCount = getNumChildComponents();
     auto area = getLocalBounds();
-    area.removeFromTop((childCount * 24) + 6);
+    area.removeFromTop((childCount * 26) + 6);
     BLXLookAndFeel blx;
     g.setColour(blx.getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::outline));
     g.fillRect(area.removeFromTop(4));
@@ -64,5 +64,9 @@ void EffectParent::resized()
             area.removeFromLeft(35);
         }
         getChildComponent(i)->setBounds(area.removeFromTop(24));
+        if (i != 0)
+        {
+            area.removeFromTop(2);
+        }
     }
 }

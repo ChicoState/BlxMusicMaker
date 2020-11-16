@@ -43,12 +43,9 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
             std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 5, 0),
             std::make_unique<juce::AudioParameterFloat>("NoteSlideDepth", "NoteSlideDepth", -1, 1, 0)
-        }),
-    valueTree("Presets")
+        })
 #endif
 {
-    valueTree.setProperty("Preset", "Default", &undoManager);
-    treeState.replaceState(valueTree);
     StateManager::get().setTreeState(treeState);
 
     // init voices and add them to synth

@@ -36,14 +36,14 @@ void TypeSelector::resized()
 {
 	auto area = getLocalBounds();
 
-	area.reduce(15, 15);
+	area.reduce(15, 10);
 
 	juce::FlexBox topFlexBox;
 	topFlexBox.flexWrap = juce::FlexBox::Wrap::noWrap;
 	topFlexBox.justifyContent = juce::FlexBox::JustifyContent::center;
 	topFlexBox.alignContent = juce::FlexBox::AlignContent::center;
 	for (int i = 0; i < 4; i++) {
-		topFlexBox.items.add(juce::FlexItem(waveButtons[i]).withMinWidth(100).withMinHeight(100).withMargin(5));
+		topFlexBox.items.add(juce::FlexItem(waveButtons[i]).withMinWidth(80).withMinHeight(80).withMargin(5));
 	}
 	topFlexBox.performLayout(area.removeFromTop(100));
 
@@ -53,7 +53,7 @@ void TypeSelector::resized()
 	bottomFlexBox.justifyContent = juce::FlexBox::JustifyContent::center;
 	bottomFlexBox.alignContent = juce::FlexBox::AlignContent::center;
 	for (int i = 4; i < 7; i++) {
-		bottomFlexBox.items.add(juce::FlexItem(waveButtons[i]).withMinWidth(100).withMinHeight(100).withMargin(5));
+		bottomFlexBox.items.add(juce::FlexItem(waveButtons[i]).withMinWidth(80).withMinHeight(80).withMargin(5));
 	}
 	bottomFlexBox.performLayout(area.removeFromTop(100));
 }

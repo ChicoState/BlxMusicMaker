@@ -21,20 +21,20 @@ EnvelopeSliders::EnvelopeSliders()
 	}
 	
 	// Attack value and range
-	sliders[0].setValue(BlxMusicMakerAudioProcessor::attackTime);
-	sliders[0].setRange(BlxMusicMakerAudioProcessor::attackTime, 5000.0f);
+	//sliders[0].setValue(BlxMusicMakerAudioProcessor::attackTime);
+	sliders[0].setRange(0.0f, 5000.0f);
 
 	// Decay value and range
-	sliders[1].setValue(BlxMusicMakerAudioProcessor::decayTime);
-	sliders[1].setRange(BlxMusicMakerAudioProcessor::decayTime, 5000.0f);
+	//sliders[1].setValue(BlxMusicMakerAudioProcessor::decayTime);
+	sliders[1].setRange(0.0f, 5000.0f);
 
 	// Sustain value and range
-	sliders[2].setValue(BlxMusicMakerAudioProcessor::sustainTime);
-	sliders[2].setRange(BlxMusicMakerAudioProcessor::sustainTime, 1.0f);
+	//sliders[2].setValue(BlxMusicMakerAudioProcessor::sustainTime);
+	sliders[2].setRange(0.0f, 1.0f);
 
 	// Release value and range
-	sliders[3].setValue(BlxMusicMakerAudioProcessor::releaseTime);
-	sliders[3].setRange(BlxMusicMakerAudioProcessor::releaseTime, 5000.0f);
+	//sliders[3].setValue(BlxMusicMakerAudioProcessor::releaseTime);
+	sliders[3].setRange(0.0f, 5000.0f);
 
 	//Set slider decimal points, needs to be assigned after range
 	for (int i = 0; i < 4; i++) 
@@ -77,7 +77,6 @@ void EnvelopeSliders::resized()
 	{ 
 		sliders[i].setBounds(area.removeFromTop(36));
 	}
-	//juce::Logger::writeToLog(to_string(sliders[0].getHeight()));
 }
 
 void EnvelopeSliders::sliderValueChanged(int sliderIndex)
@@ -98,8 +97,6 @@ void EnvelopeSliders::sliderValueChanged(int sliderIndex)
 		BlxMusicMakerAudioProcessor::releaseTime = sliders[3].getValue();
 		break;
 	}
-	//juce::Logger::writeToLog(labels[sliderIndex].getText());
-	//juce::Logger::writeToLog(std::to_string(sliders[sliderIndex].getValue()));
 }
 
 

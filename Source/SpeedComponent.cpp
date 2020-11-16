@@ -16,12 +16,17 @@ SpeedComponent::SpeedComponent(std::string stateID)
     int radioID = BLXLookAndFeel::getNewRadioID();
     std::string speedTexts[] = { "1/32", "1/16", "1/8", "1/4", "1/2", "1" };
     for (int i = 0; i < 6; i++) {
+        /*
         buttons[i].setButtonText(speedTexts[i]);
         buttons[i].setClickingTogglesState(true);
         buttons[i].setRadioGroupId(radioID);
         buttons[i].onClick = [this, i] { onSpeedToggle(i); };
         addAndMakeVisible(buttons[i]);
+        */
+        speedBox.addItem(speedTexts[i], i + 1);
     }
+    addAndMakeVisible(speedBox);
+
     speedAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, stateID, speedSlider));
 
     label.setText("Speed", juce::NotificationType::dontSendNotification);
@@ -40,8 +45,9 @@ void SpeedComponent::paint(juce::Graphics&)
 void SpeedComponent::resized()
 {
     auto area = getLocalBounds();
-    label.setBounds(area.removeFromLeft(60));
+    label.setBounds(area.removeFromLeft(80));
 
+    /*
     juce::FlexBox flexBox;
     flexBox.flexWrap = juce::FlexBox::Wrap::noWrap;
     flexBox.justifyContent = juce::FlexBox::JustifyContent::flexStart;
@@ -50,6 +56,9 @@ void SpeedComponent::resized()
         flexBox.items.add(juce::FlexItem(buttons[i]).withMinWidth(50).withMinHeight(20).withMargin(2));
     }
     flexBox.performLayout(area);
+    */
+    area.reduce(0, 2);
+    speedBox.setBounds(area.removeFromLeft(80));
 }
 
 void SpeedComponent::onSpeedToggle(int i)

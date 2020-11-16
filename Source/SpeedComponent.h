@@ -30,6 +30,7 @@ private:
     juce::TextButton buttons[6];
 
     juce::Slider speedSlider;
+    juce::ComboBox speedBox;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> speedAttachment;
 
 };
