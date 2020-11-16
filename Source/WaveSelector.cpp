@@ -62,6 +62,6 @@ void TypeSelector::updateToggleState(int buttonIndex)
 {
 	if (waveButtons[buttonIndex].getToggleState())
 	{
-		SynthVoice::currentWaveFlag = (SynthVoice::waveFlag)buttonIndex;
+		SynthVoice::curWaveFlag = (SynthVoice::waveFlag)buttonIndex;
 	}
 }

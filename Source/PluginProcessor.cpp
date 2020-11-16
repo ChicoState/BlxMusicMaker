@@ -34,11 +34,11 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 
             std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
             std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 5, 0),
-            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0, 1, 0),
+            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0.01, 1, 0.01),
 
             std::make_unique <juce::AudioParameterBool>("Vibrato", "VibratoToggle", false),
             std::make_unique<juce::AudioParameterInt>("VibratoSpeed", "VibratoSpeed", 0, 5, 0),
-            std::make_unique<juce::AudioParameterFloat>("VibratoDepth", "VibratoDepth", -12, 12, 0),
+            std::make_unique<juce::AudioParameterInt>("VibratoDepth", "VibratoDepth", 1, 16, 1),
 
             std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
             std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 5, 0),

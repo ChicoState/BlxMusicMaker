@@ -23,10 +23,12 @@ public:
 	enum class waveFlag{ Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
 	enum class tremoloDurFlag{ Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
 	enum class noteSlideDurFlag{ Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
+	enum class vibratoDurFlag{ Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
 
-    static waveFlag currentWaveFlag;
-    static tremoloDurFlag currentTremoloDurFlag;
-    static noteSlideDurFlag currentNoteSlideDurFlag;
+    static waveFlag curWaveFlag;
+    static tremoloDurFlag curTremoloDurFlag;
+    static noteSlideDurFlag curNoteSlideDurFlag;
+    static vibratoDurFlag curVibratoDurFlag;
 
     bool canPlaySound(juce::SynthesiserSound* sound) 
     {
@@ -55,17 +57,24 @@ public:
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound,
         int currentPitchWheelPosition)
     {
-        setNoteSlideFromTree(midiNoteNumber);
-
         // init class vars
         env.trigger = 1;        // means envolope starts
         level = velocity;       // setting the volume
-        startLevel = level;
         osc.phaseReset(0.0);    // reset delta-theta
-		oscTremolo.phaseReset(0.0);
-        timer = 0;              // start time for note slide
-        freq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+        midiNoteNum = midiNoteNumber;
+        freq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum);
+
+        // for note slide
+        setNoteSlideFromTree();
 		originalFreq = freq;
+        noteSlideTimer = 0;              // start time for note slide
+
+        // for tremolo
+		tremoloOsc.phaseReset(0.0);
+        startLevel = level;
+
+        // for vibrato
+        vibratoOsc.phaseReset(0.0);
     }
 
     void stopNote(float velocity, bool allowTailOff) 
@@ -79,14 +88,22 @@ public:
         int numSamples)
     {
         setTremoloFromTree();
+        setVibratoFromTree();
 
 		for (int sample = 0; sample < numSamples; ++sample)
 		{
 			// osc the volume 
             if (tremoloActive)
             {
-                level = startLevel + depthTremolo * oscTremolo.sinewave(getTremoloDuration());
+                level = startLevel + tremoloDepth * tremoloOsc.sinewave(getTremoloDuration());
                 if (level < 0) level = 0;
+            }
+
+            if (vibratoActive)
+            {
+                double amp = (vibratoMaxFreq - vibratoMinFreq) * 0.5;
+                double offset = (vibratoMaxFreq + vibratoMinFreq) * 0.5;
+                freq = offset + amp * vibratoOsc.sinewave(getVibratoDuration());
             }
 
 			// slide the note
@@ -94,9 +111,9 @@ public:
 			{
 				double deltaTime = 1.0 / getSampleRate();
                 double duration = getNoteSlideDuration();
-				if (timer < duration)
-			        freq += (targetFreq - originalFreq) / duration * deltaTime;
-				timer += deltaTime;
+				if (noteSlideTimer < duration)
+			        freq += (noteSlideTargetFreq - originalFreq) / duration * deltaTime;
+				noteSlideTimer += deltaTime;
 			}
 
 			double theSound = env.adsr(getOscType(), env.trigger) * level;
@@ -111,22 +128,54 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) { }
 
 private:
-    double level, startLevel;               // volume
-    double freq, originalFreq, targetFreq;  // cycles per second
-    double timer;                 // for note slide
-    double depthTremolo;   // for tremolo
+    int midiNoteNum;
+    double level;               // volume
+    double freq;                // cycles per second
     double bpm, timeSigNum, timeSigDenom; 
 
+    // note slide vars
     bool noteSlideActive;
+    double originalFreq, noteSlideTargetFreq, noteSlideTimer;
+    
+    // tremolo vars
     bool tremoloActive;
+    double tremoloDepth;
+    double startLevel;
+    maxiOsc tremoloOsc;
 
+    // vibrato vars
+    bool vibratoActive;
+    int vibratoDepth;
+    double vibratoMaxFreq, vibratoMinFreq;
+    maxiOsc vibratoOsc;
+        
     maxiOsc osc;
-    maxiOsc oscTremolo;
     maxiEnv env;
     maxiFilter fil;
     maxiSettings set;
 
     // gets values from tree and updates synth voice accordingly
+    void setNoteSlideFromTree()
+    {
+        std::atomic<float>* nsOn =
+            StateManager::get().treeState->getRawParameterValue("Note Slide");
+	    std::atomic<float>* nsSpe =
+            StateManager::get().treeState->getRawParameterValue("NoteSlideSpeed");
+	    std::atomic<float>* nsDep =
+            StateManager::get().treeState->getRawParameterValue("NoteSlideDepth");
+
+        if (nsOn == nullptr || nsSpe == nullptr || nsDep == nullptr)
+        {
+            std::cerr << "note slide thing is null." << std::endl;
+            return;
+        }
+
+		int targetMidiOffset = (int) *nsDep; // in half-steps
+		noteSlideTargetFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum + targetMidiOffset); 
+        noteSlideActive = *nsOn > 0.5f;
+		curNoteSlideDurFlag = (noteSlideDurFlag) (int) *nsSpe;
+    }
+    
     void setTremoloFromTree()
     {
         std::atomic<float>* tremOn =
@@ -143,34 +192,37 @@ private:
         }
 
         tremoloActive = *tremOn > 0.5f;
-        currentTremoloDurFlag = (tremoloDurFlag)(int) *tremSpe;
-        depthTremolo = (double) *tremDep;
+        curTremoloDurFlag = (tremoloDurFlag)(int) *tremSpe;
+        tremoloDepth = (double) *tremDep;
     }
 
-    void setNoteSlideFromTree(int midiNoteNumber)
+    void setVibratoFromTree()
     {
-        std::atomic<float>* nsOn =
-            StateManager::get().treeState->getRawParameterValue("Note Slide");
-	    std::atomic<float>* nsSpe =
-            StateManager::get().treeState->getRawParameterValue("NoteSlideSpeed");
-	    std::atomic<float>* nsDep =
-            StateManager::get().treeState->getRawParameterValue("NoteSlideDepth");
+        std::atomic<float>* vibOn =
+            StateManager::get().treeState->getRawParameterValue("Vibrato");
+	    std::atomic<float>* vibSpe =
+            StateManager::get().treeState->getRawParameterValue("VibratoSpeed");
+	    std::atomic<float>* vibDep =
+            StateManager::get().treeState->getRawParameterValue("VibratoDepth");
 
-        if (nsOn == nullptr || nsSpe == nullptr || nsDep == nullptr)
+        if (vibOn == nullptr || vibSpe == nullptr || vibDep == nullptr)
         {
-            std::cerr << "note slide thing is null." << std::endl;
+            std::cerr << "vibrato thing is null." << std::endl;
             return;
         }
 
-		int targetMidiOffset = (int) *nsDep; // in half-steps
-		targetFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber+targetMidiOffset); 
-        noteSlideActive = *nsOn > 0.5f;
-		currentNoteSlideDurFlag = (noteSlideDurFlag) (int) *nsSpe;
+        vibratoActive = *vibOn > 0.5f;
+        curVibratoDurFlag = (vibratoDurFlag)(int) *vibSpe;
+
+        int vibratoDepth = (int) *vibDep;
+        double famitrackerIncrement = 0.93 * vibratoDepth;
+        vibratoMaxFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum) + famitrackerIncrement;
+        vibratoMinFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum) - famitrackerIncrement;
     }
 
     float getOscType()
     {
-		switch (currentWaveFlag)
+		switch (curWaveFlag)
 		{
 		case waveFlag::Saw:
 			return osc.saw(freq); break;
@@ -189,10 +241,32 @@ private:
 		}
     }
 
+    double getNoteSlideDuration()
+    {
+        if (!noteSlideActive) return 0.0;
+
+		// math'ed out for 4/4 time
+        switch (curNoteSlideDurFlag)
+        {
+        case noteSlideDurFlag::Whole:
+            return 4 * (60 / bpm);
+        case noteSlideDurFlag::Half:
+            return 2 * (60 / bpm);
+        case noteSlideDurFlag::Quarter:
+            return 1 * (60 / bpm);
+        case noteSlideDurFlag::Eighth:
+            return 0.5 * (60 / bpm);
+        case noteSlideDurFlag::Sixteenth:
+            return 0.25 * (60 / bpm);
+        case noteSlideDurFlag::Thirtysecond:
+            return 0.125 * (60 / bpm);
+        }
+    }
+
     double getTremoloDuration()
     {
         if (!tremoloActive) return 0.0;
-		switch (currentTremoloDurFlag)
+		switch (curTremoloDurFlag)
 		{
 		case tremoloDurFlag::Whole:
 			return 0.5 * (60 / bpm);
@@ -209,25 +283,23 @@ private:
 		}
     }
 
-    double getNoteSlideDuration()
+    double getVibratoDuration()
     {
-        if (!noteSlideActive) return 0.0;
-
-		// math'ed out for 4/4 time
-        switch (currentNoteSlideDurFlag)
-        {
-        case noteSlideDurFlag::Whole:
-            return 4 * (60 / bpm);
-        case noteSlideDurFlag::Half:
-            return 2 * (60 / bpm);
-        case noteSlideDurFlag::Quarter:
-            return 1 * (60 / bpm);
-        case noteSlideDurFlag::Eighth:
-            return 0.5 * (60 / bpm);
-        case noteSlideDurFlag::Sixteenth:
-            return 0.25 * (60 / bpm);
-        case noteSlideDurFlag::Thirtysecond:
-            return 0.125 * (60 / bpm);
-        }
+        if (!vibratoActive) return 0.0;
+		switch (curVibratoDurFlag)
+		{
+		case vibratoDurFlag::Whole:
+			return 0.5 * (60 / bpm);
+		case vibratoDurFlag::Half:
+			return 1 * (60 / bpm);
+		case vibratoDurFlag::Quarter:
+			return 2 * (60 / bpm);
+		case vibratoDurFlag::Eighth:
+		    return 4 * (60 / bpm);
+		case vibratoDurFlag::Sixteenth:
+			return 8 * (60 / bpm);
+		case vibratoDurFlag::Thirtysecond:
+			return 16 * (60 / bpm);
+		}
     }
 };
