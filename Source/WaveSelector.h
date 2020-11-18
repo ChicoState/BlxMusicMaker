@@ -16,6 +16,7 @@
 class TypeSelector : public juce::Component
 {
 public:
+
     TypeSelector();
     ~TypeSelector() override;
 
@@ -23,6 +24,11 @@ public:
     void resized() override;
 
 private:
-    void updateToggleState(int);
+
+    void onButtonSelect(int);
+    void onValueChange();
     juce::TextButton waveButtons[7];
+    juce::Slider slider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachment;
+
 };

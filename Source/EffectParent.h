@@ -27,13 +27,8 @@ public:
     int getNeededHeight();
 
     //Add Components
-    void addSliderComponent(std::string, std::string, int, int);
-    void addSpeedComponent(std::string);
-
-    //Callbacks
-    //virtual void onEffectToggle(juce::ToggleButton*) = 0;
-    //virtual void onSliderMove(juce::Slider*) {};
-    //virtual void onSpeedToggle(SpeedComponent::SpeedValue) = 0;
+    void addSliderComponent(std::string, std::string);
+    void addSpeedComponent(std::string, std::string);
 
 private:
 

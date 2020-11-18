@@ -31,16 +31,16 @@ int EffectParent::getNeededHeight()
     return (childCount * 26) + 6 + 4;
 }
 
-void EffectParent::addSliderComponent(std::string text, std::string stateID, int minValue, int maxValue)
+void EffectParent::addSliderComponent(std::string text, std::string stateID)
 {
-    SliderComponent* sliderComp = new SliderComponent(text, stateID, minValue, maxValue);
+    SliderComponent* sliderComp = new SliderComponent(text, stateID);
     addAndMakeVisible(sliderComp);
     components.push_back(sliderComp);
 }
 
-void EffectParent::addSpeedComponent(std::string stateID)
+void EffectParent::addSpeedComponent(std::string text, std::string stateID)
 {
-    SpeedComponent* speedComp = new SpeedComponent(stateID);
+    SpeedComponent* speedComp = new SpeedComponent(text, stateID);
     addAndMakeVisible(speedComp);
     components.push_back(speedComp);
 }

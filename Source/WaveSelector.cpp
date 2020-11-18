@@ -18,10 +18,12 @@ TypeSelector::TypeSelector()
 		waveButtons[i].setButtonText(buttonNames[i]);
 		waveButtons[i].setRadioGroupId(radioID);
 		waveButtons[i].setClickingTogglesState(true);
-		waveButtons[i].onClick = [this, i] { updateToggleState(i); };
+		waveButtons[i].onClick = [this, i] { onButtonSelect(i); };
 		addAndMakeVisible(waveButtons[i]);
 	}
-	waveButtons[0].triggerClick();
+
+	slider.onValueChange = [this] { onValueChange(); };
+    sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, "Wave", slider));
 }
 
 TypeSelector::~TypeSelector()
@@ -58,10 +60,12 @@ void TypeSelector::resized()
 	bottomFlexBox.performLayout(area.removeFromTop(100));
 }
 
-void TypeSelector::updateToggleState(int buttonIndex)
+void TypeSelector::onButtonSelect(int index)
 {
-	if (waveButtons[buttonIndex].getToggleState())
-	{
-		SynthVoice::curWaveFlag = (SynthVoice::waveFlag)buttonIndex;
-	}
+	slider.setValue(index);
+}
+
+void TypeSelector::onValueChange()
+{
+	waveButtons[(int)slider.getValue()].triggerClick();
 }

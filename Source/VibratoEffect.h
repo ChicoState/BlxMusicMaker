@@ -18,8 +18,8 @@ public:
 
     VibratoEffect() : EffectParent::EffectParent("Vibrato")
     {
-        EffectParent::addSpeedComponent("VibratoSpeed");
-        EffectParent::addSliderComponent("Depth", "VibratoDepth", -12, 12);
+        EffectParent::addSpeedComponent("Speed", "VibratoSpeed");
+        EffectParent::addSliderComponent("Depth", "VibratoDepth");
     };
 
 };

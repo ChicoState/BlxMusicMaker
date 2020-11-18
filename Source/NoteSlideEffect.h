@@ -18,8 +18,8 @@ public:
 
     NoteSlideEffect() : EffectParent::EffectParent("Note Slide")
     {
-        EffectParent::addSpeedComponent("NoteSlideSpeed");
-        EffectParent::addSliderComponent("Half-Steps", "NoteSlideDepth", -12, 12);
+        EffectParent::addSpeedComponent("Speed", "NoteSlideSpeed");
+        EffectParent::addSliderComponent("Half-Steps", "NoteSlideDepth");
     };
 
 };

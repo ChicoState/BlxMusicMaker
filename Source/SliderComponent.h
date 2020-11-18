@@ -16,7 +16,7 @@ class SliderComponent : public juce::Component
 {
 public:
 
-    SliderComponent(std::string, std::string, int, int);
+    SliderComponent(std::string, std::string);
     void paint(juce::Graphics&) override;
     void resized() override;
 

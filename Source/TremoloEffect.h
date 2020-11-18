@@ -18,8 +18,8 @@ public:
 
     TremoloEffect() : EffectParent::EffectParent("Tremolo")
     {
-        EffectParent::addSpeedComponent("TremoloSpeed");
-        EffectParent::addSliderComponent("Depth", "TremoloDepth", 0, 1);
+        EffectParent::addSpeedComponent("Speed", "TremoloSpeed");
+        EffectParent::addSliderComponent("Depth", "TremoloDepth");
     };
 
 };

@@ -19,7 +19,7 @@ public:
 
     ArpeggiatorEffect() : EffectParent("Arpeggiator") 
     {
-        addSpeedComponent("ArpegSpeed");
+        addSpeedComponent("Speed", "ArpegSpeed");
     };
 
 };

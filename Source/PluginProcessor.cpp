@@ -29,6 +29,15 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
     ),
     treeState(*this, &undoManager, "Params",
         {
+            std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 0, 6, 0),
+
+            //ADSR
+            std::make_unique<juce::AudioParameterInt>("Attack", "Attack", 0, 5000, 0),
+            std::make_unique<juce::AudioParameterInt>("Decay", "Decay", 0, 5000, 0),
+            std::make_unique<juce::AudioParameterFloat>("Sustain", "Sustain", 0.0f, 1.0f, 0.0f),
+            std::make_unique<juce::AudioParameterInt>("Release", "Release", 0, 5000, 0),
+
+            //Effects Panel
             std::make_unique<juce::AudioParameterBool>("Arpeggiator", "ArpeggiatorToggle", false),
             std::make_unique<juce::AudioParameterInt>("ArpegSpeed", "ArpegSpeed", 0, 5, 0),
 
@@ -43,8 +52,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
             std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 5, 0),
             std::make_unique<juce::AudioParameterInt>("NoteSlideDepth", "NoteSlideDepth", -12, 12, 0)
-        }),
-    valueTree("Presets")
+        })
 #endif
 {
     StateManager::get().setTreeState(treeState);

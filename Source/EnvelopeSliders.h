@@ -20,11 +20,11 @@ public:
 
     void paint(juce::Graphics&) override;
     void resized() override;
-    void sliderValueChanged(int);
 
 private:
     juce::Slider sliders[4];
     juce::Label labels[4];
 
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachment[4];
 };
 

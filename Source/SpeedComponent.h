@@ -13,12 +13,20 @@
 #include "BLXLookAndFeel.h"
 #include "PluginProcessor.h"
 
+class SpeedSlider : public juce::Slider
+{
+    juce::String stringValues[6] = { "1/32", "1/16", "1/8", "1/4", "1/2", "1" };
+    juce::String getTextFromValue(double value) override
+    {
+        return stringValues[(int)value];
+    }
+};
+
 class SpeedComponent : public juce::Component
 {
 public:
 
-    SpeedComponent(std::string stateID);
-    void onSpeedToggle(int i);
+    SpeedComponent(std::string, std::string);
     void onValueChange();
     void paint(juce::Graphics&) override;
     void resized() override;
@@ -27,10 +35,7 @@ private:
 
     juce::String stateID;
     juce::Label label;
-    juce::TextButton buttons[6];
-
-    juce::Slider speedSlider;
-    juce::ComboBox speedBox;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> speedAttachment;
+    SpeedSlider slider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachment;
 
 };

@@ -10,32 +10,20 @@
 
 #include "SpeedComponent.h"
 
-SpeedComponent::SpeedComponent(std::string stateID)
+SpeedComponent::SpeedComponent(std::string text, std::string stateID)
 {
     this->stateID = stateID;
-    int radioID = BLXLookAndFeel::getNewRadioID();
-    std::string speedTexts[] = { "1/32", "1/16", "1/8", "1/4", "1/2", "1" };
-    for (int i = 0; i < 6; i++) {
-        /*
-        buttons[i].setButtonText(speedTexts[i]);
-        buttons[i].setClickingTogglesState(true);
-        buttons[i].setRadioGroupId(radioID);
-        buttons[i].onClick = [this, i] { onSpeedToggle(i); };
-        addAndMakeVisible(buttons[i]);
-        */
-        speedBox.addItem(speedTexts[i], i + 1);
-    }
-    addAndMakeVisible(speedBox);
 
-    speedAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, stateID, speedSlider));
-
-    label.setText("Speed", juce::NotificationType::dontSendNotification);
+    label.setText(text, juce::NotificationType::dontSendNotification);
     addAndMakeVisible(label);
 
-    int i = StateManager::get().treeState->getRawParameterValue(stateID)->load();
-    buttons[i].triggerClick();
+    slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+    slider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, 50, 20);
+    slider.setNumDecimalPlacesToDisplay(0);
+    sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, stateID, slider));
+    addAndMakeVisible(slider);
 
-    speedSlider.onValueChange = [this] { onValueChange(); };
+    slider.onValueChange = [this] { onValueChange(); };
 }
 
 void SpeedComponent::paint(juce::Graphics&)
@@ -46,28 +34,10 @@ void SpeedComponent::resized()
 {
     auto area = getLocalBounds();
     label.setBounds(area.removeFromLeft(80));
-
-    /*
-    juce::FlexBox flexBox;
-    flexBox.flexWrap = juce::FlexBox::Wrap::noWrap;
-    flexBox.justifyContent = juce::FlexBox::JustifyContent::flexStart;
-    flexBox.alignContent = juce::FlexBox::AlignContent::center;
-    for (int i = 0; i < 6; i++) {
-        flexBox.items.add(juce::FlexItem(buttons[i]).withMinWidth(50).withMinHeight(20).withMargin(2));
-    }
-    flexBox.performLayout(area);
-    */
-    area.reduce(0, 2);
-    speedBox.setBounds(area.removeFromLeft(80));
-}
-
-void SpeedComponent::onSpeedToggle(int i)
-{
-    speedSlider.setValue(i);
+    slider.setBounds(area);
 }
 
 void SpeedComponent::onValueChange()
 {
-    int i = speedSlider.getValue();
-    buttons[i].triggerClick();
+    slider.setTextValueSuffix("1/8");
 }

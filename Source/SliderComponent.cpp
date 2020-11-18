@@ -10,14 +10,13 @@
 
 #include "SliderComponent.h"
 
-SliderComponent::SliderComponent(std::string text, std::string stateID, int minValue, int maxValue)
+SliderComponent::SliderComponent(std::string text, std::string stateID)
 {
 	label.setText(text, juce::NotificationType::dontSendNotification);
 	addAndMakeVisible(label);
 
     slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
     slider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, 50, 20);
-    slider.setRange(minValue, maxValue);
     slider.setNumDecimalPlacesToDisplay(0);
     sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, stateID, slider));
     addAndMakeVisible(slider);

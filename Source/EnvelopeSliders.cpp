@@ -12,43 +12,15 @@
 
 EnvelopeSliders::EnvelopeSliders()
 {
+	std::string IDs[4] = { "Attack", "Decay", "Sustain", "Release" };
 	for (int i = 0; i < 4; i++) 
 	{
 		sliders[i].setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
 		sliders[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, 50, 20);
-		sliders[i].onValueChange = [this, i] { sliderValueChanged(i); };
+		sliderAttachment[i].reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, IDs[i], sliders[i]));
 		addAndMakeVisible(sliders[i]);
 	}
 	
-	// Attack value and range
-	//sliders[0].setValue(BlxMusicMakerAudioProcessor::attackTime);
-	sliders[0].setRange(0.0f, 5000.0f);
-
-	// Decay value and range
-	//sliders[1].setValue(BlxMusicMakerAudioProcessor::decayTime);
-	sliders[1].setRange(0.0f, 5000.0f);
-
-	// Sustain value and range
-	//sliders[2].setValue(BlxMusicMakerAudioProcessor::sustainTime);
-	sliders[2].setRange(0.0f, 1.0f);
-
-	// Release value and range
-	//sliders[3].setValue(BlxMusicMakerAudioProcessor::releaseTime);
-	sliders[3].setRange(0.0f, 5000.0f);
-
-	//Set slider decimal points, needs to be assigned after range
-	for (int i = 0; i < 4; i++) 
-	{
-		if (i == 2) 
-		{
-			sliders[i].setNumDecimalPlacesToDisplay(2);
-		}
-		else
-		{
-			sliders[i].setNumDecimalPlacesToDisplay(0);
-		}
-	}
-
 	//Add labels to sliders
 	std::string sliderNames[] = { "Attack", "Decay", "Sustain", "Release" };
 	for (int i = 0; i < 4; i++) 
@@ -76,26 +48,6 @@ void EnvelopeSliders::resized()
 	for (int i = 0; i < 4; i++)
 	{ 
 		sliders[i].setBounds(area.removeFromTop(36));
-	}
-}
-
-void EnvelopeSliders::sliderValueChanged(int sliderIndex)
-{
-	// connection btw GUI and processor
-	switch (sliderIndex)
-	{
-	case 0:
-		BlxMusicMakerAudioProcessor::attackTime = sliders[0].getValue();
-		break;
-	case 1:
-		BlxMusicMakerAudioProcessor::decayTime = sliders[1].getValue();
-		break;
-	case 2:
-		BlxMusicMakerAudioProcessor::sustainTime = sliders[2].getValue();
-		break;
-	case 3:
-		BlxMusicMakerAudioProcessor::releaseTime = sliders[3].getValue();
-		break;
 	}
 }
 
