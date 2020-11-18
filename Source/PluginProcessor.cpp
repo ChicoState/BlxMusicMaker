@@ -12,7 +12,7 @@
 
 // default times for adsr
 float BlxMusicMakerAudioProcessor::attackTime = 0.1; 
-float BlxMusicMakerAudioProcessor::decayTime = 0.1;
+float BlxMusicMakerAudioProcessor::decayTime = 1.0;
 float BlxMusicMakerAudioProcessor::sustainTime = 0.1;
 float BlxMusicMakerAudioProcessor::releaseTime = 0.1;
 
@@ -43,7 +43,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 
             std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
             std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 5, 0),
-            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0.01, 1, 0.01),
+            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0.01, 0.50, 0.01),
 
             std::make_unique <juce::AudioParameterBool>("Vibrato", "VibratoToggle", false),
             std::make_unique<juce::AudioParameterInt>("VibratoSpeed", "VibratoSpeed", 0, 5, 0),
@@ -52,7 +52,16 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
             std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 5, 0),
             std::make_unique<juce::AudioParameterInt>("NoteSlideDepth", "NoteSlideDepth", -12, 12, 0)
+<<<<<<< Updated upstream
         })
+=======
+        }),
+    valueTree("Presets"),
+    myVoice(&SynthVoice()),
+    lastSampleRate(48000),
+    audioPlayHead(this->getPlayHead()),
+    currentPositionInfo(juce::AudioPlayHead::CurrentPositionInfo())
+>>>>>>> Stashed changes
 #endif
 {
     StateManager::get().setTreeState(treeState);
@@ -135,7 +144,7 @@ void BlxMusicMakerAudioProcessor::changeProgramName (int index, const juce::Stri
 //==============================================================================
 void BlxMusicMakerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // insures initialized sample rate
+    // ensures initialized sample rate
     juce::ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
 }
@@ -180,7 +189,10 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     audioPlayHead->getCurrentPosition(currentPositionInfo);
     mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
 
-    for (int i = 0; i < mySynth.getNumVoices(); i++)
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+        buffer.clear (i, 0, buffer.getNumSamples());
+
+    for (int i = 0; i < mySynth.getNumVoices(); ++i)
     {
 		// adjust the parameters of the voice
         if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
@@ -191,9 +203,6 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         }
     }
 
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
-    
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 

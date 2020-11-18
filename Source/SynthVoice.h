@@ -57,9 +57,10 @@ public:
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound,
         int currentPitchWheelPosition)
     {
+        std::cerr << "click!" << env.decay << " " << env.decayphase << std::endl;
         // init class vars
-        env.trigger = 1;        // means envolope starts
-        level = velocity;       // setting the volume
+        env.setTrigger(1);
+        level = velocity * 0.15;// setting the volume
         osc.phaseReset(0.0);    // reset delta-theta
         midiNoteNum = midiNoteNumber;
         freq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum);
@@ -79,14 +80,16 @@ public:
 
     void stopNote(float velocity, bool allowTailOff) 
     {
-        env.trigger = 0;
-		clearCurrentNote();
+        level = 0;
+        env.setTrigger(0);
 		osc.phaseReset(0.0);
+		clearCurrentNote();
     }
 
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample,
         int numSamples)
     {
+        std::cerr << "click!" << env.decay << " " << env.decayphase << std::endl;
         setTremoloFromTree();
         setVibratoFromTree();
 
@@ -116,7 +119,7 @@ public:
 				noteSlideTimer += deltaTime;
 			}
 
-			double theSound = env.adsr(getOscType(), env.trigger) * level;
+			double theSound = env.adsr(getOscType(), env.getTrigger()) * level;
 
 			for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
 				outputBuffer.addSample(channel, startSample, theSound);
