@@ -5,16 +5,19 @@ Blx Music Maker is a simple VST with 8-bit sounds.
 ![Plugin Image](https://i.imgur.com/RlDp806.png)
 
 ## Current Features ##
- - Seven different sounds: Sine, Saw, 3 types of Pulse, Noise, and Triangle
+ - Seven different sounds: sine, saw, three types of pulse, noise, and triangle
  - ASDR sliders
- - Midi Input
- - Opens in FL Studio
- - Stylized by Kyle Rhoads
+ - Midi input
+ - Vibrato and tremolo Effects
+ - Note Slides
+ - Saving/loading presets
+ - Verified to work with FL Studio
+ - Stylized by Kyle Rhoads!
 
 ## Getting Started ##
 If you're on Windows and use Visual Studio 2019:
- - You will need JUCE installed (https://juce.com/get-juce)
- - You'll need to link the Maximilian Sound library to the JUCE project
+ - You will need JUCE installed (https://juce.com/get-juce).
+ - You'll need to link the Maximilian Sound library to the JUCE project.
  - You will also need to build an Audio Plugin Host (located in the main JUCE directory),
    and hook that up to the project. This is because VST3's are not standalone, and rely
    on hosts such as FL studio.
