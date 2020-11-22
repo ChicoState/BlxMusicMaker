@@ -10,12 +10,6 @@
 #include "PluginEditor.h"
 #include "maximilian.h"
 
-// default times for adsr
-float BlxMusicMakerAudioProcessor::attackTime = 0.1; 
-float BlxMusicMakerAudioProcessor::decayTime = 1.0;
-float BlxMusicMakerAudioProcessor::sustainTime = 0.1;
-float BlxMusicMakerAudioProcessor::releaseTime = 0.1;
-
 //==============================================================================
 BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -33,8 +27,8 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 
             //ADSR
             std::make_unique<juce::AudioParameterInt>("Attack", "Attack", 0, 5000, 0),
-            std::make_unique<juce::AudioParameterInt>("Decay", "Decay", 0, 5000, 0),
-            std::make_unique<juce::AudioParameterFloat>("Sustain", "Sustain", 0.0f, 1.0f, 0.0f),
+            std::make_unique<juce::AudioParameterInt>("Decay", "Decay", 0, 5000, 500),
+            std::make_unique<juce::AudioParameterFloat>("Sustain", "Sustain", 0.0f, 1.0f, 0.1f),
             std::make_unique<juce::AudioParameterInt>("Release", "Release", 0, 5000, 0),
 
             //Effects Panel
@@ -52,16 +46,11 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             std::make_unique<juce::AudioParameterBool>("Note Slide", "NoteSlideToggle", false),
             std::make_unique<juce::AudioParameterInt>("NoteSlideSpeed", "NoteSlideSpeed", 0, 5, 0),
             std::make_unique<juce::AudioParameterInt>("NoteSlideDepth", "NoteSlideDepth", -12, 12, 0)
-<<<<<<< Updated upstream
-        })
-=======
         }),
-    valueTree("Presets"),
     myVoice(&SynthVoice()),
     lastSampleRate(48000),
     audioPlayHead(this->getPlayHead()),
     currentPositionInfo(juce::AudioPlayHead::CurrentPositionInfo())
->>>>>>> Stashed changes
 #endif
 {
     StateManager::get().setTreeState(treeState);
@@ -191,6 +180,20 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+
+    // set adsr from tree
+	std::atomic<float>* a =
+		StateManager::get().treeState->getRawParameterValue("Attack");
+    attackTime = *a;
+	std::atomic<float>* d =
+		StateManager::get().treeState->getRawParameterValue("Decay");
+    decayTime = *d;
+	std::atomic<float>* s =
+		StateManager::get().treeState->getRawParameterValue("Sustain");
+    sustainTime = *s;
+	std::atomic<float>* r =
+		StateManager::get().treeState->getRawParameterValue("Release");
+    releaseTime = *r;
 
     for (int i = 0; i < mySynth.getNumVoices(); ++i)
     {

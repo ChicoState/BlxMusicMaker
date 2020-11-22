@@ -56,13 +56,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    // accessed by envelope sliders
-    static float attackTime;
-    static float decayTime;
-    static float sustainTime;
-    static float releaseTime;
-
 private:
+	// default times for adsr
+    float attackTime;
+    float decayTime;
+	float sustainTime;
+    float releaseTime;
 
     juce::AudioProcessorValueTreeState treeState;
     juce::UndoManager undoManager;

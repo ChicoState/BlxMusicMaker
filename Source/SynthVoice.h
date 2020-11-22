@@ -15,20 +15,9 @@
 #include "StateManager.h"
 #include <cmath>
 
-
 class SynthVoice : public juce::SynthesiserVoice
 {
 public:
-    //Do not change the order
-	enum class waveFlag{ Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
-	enum class tremoloDurFlag{ Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
-	enum class noteSlideDurFlag{ Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
-	enum class vibratoDurFlag{ Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
-
-    static waveFlag curWaveFlag;
-    static tremoloDurFlag curTremoloDurFlag;
-    static noteSlideDurFlag curNoteSlideDurFlag;
-    static vibratoDurFlag curVibratoDurFlag;
 
     bool canPlaySound(juce::SynthesiserSound* sound) 
     {
@@ -57,10 +46,10 @@ public:
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound,
         int currentPitchWheelPosition)
     {
-        std::cerr << "click!" << env.decay << " " << env.decayphase << std::endl;
         // init class vars
         env.setTrigger(1);
         level = velocity * 0.15;// setting the volume
+        //std::cerr << "level: " << level << std::endl;
         osc.phaseReset(0.0);    // reset delta-theta
         midiNoteNum = midiNoteNumber;
         freq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum);
@@ -68,7 +57,7 @@ public:
         // for note slide
         setNoteSlideFromTree();
 		originalFreq = freq;
-        noteSlideTimer = 0;              // start time for note slide
+        noteSlideTimer = 0; // start time for note slide
 
         // for tremolo
 		tremoloOsc.phaseReset(0.0);
@@ -89,9 +78,9 @@ public:
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample,
         int numSamples)
     {
-        std::cerr << "click!" << env.decay << " " << env.decayphase << std::endl;
         setTremoloFromTree();
         setVibratoFromTree();
+        setWaveFromTree();
 
 		for (int sample = 0; sample < numSamples; ++sample)
 		{
@@ -157,6 +146,14 @@ private:
     maxiFilter fil;
     maxiSettings set;
 
+	enum class waveFlag{ Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
+	enum class durationFlag{ Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
+
+    waveFlag curWaveFlag;
+    durationFlag curTremoloDurFlag;
+    durationFlag curNoteSlideDurFlag;
+    durationFlag curVibratoDurFlag;
+
     // gets values from tree and updates synth voice accordingly
     void setNoteSlideFromTree()
     {
@@ -176,7 +173,7 @@ private:
 		int targetMidiOffset = (int) *nsDep; // in half-steps
 		noteSlideTargetFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum + targetMidiOffset); 
         noteSlideActive = *nsOn > 0.5f;
-		curNoteSlideDurFlag = (noteSlideDurFlag) (int) *nsSpe;
+		curNoteSlideDurFlag = (durationFlag) (int) *nsSpe;
     }
     
     void setTremoloFromTree()
@@ -195,7 +192,7 @@ private:
         }
 
         tremoloActive = *tremOn > 0.5f;
-        curTremoloDurFlag = (tremoloDurFlag)(int) *tremSpe;
+        curTremoloDurFlag = (durationFlag)(int) *tremSpe;
         tremoloDepth = (double) *tremDep;
     }
 
@@ -215,12 +212,24 @@ private:
         }
 
         vibratoActive = *vibOn > 0.5f;
-        curVibratoDurFlag = (vibratoDurFlag)(int) *vibSpe;
+        curVibratoDurFlag = (durationFlag)(int) *vibSpe;
 
         int vibratoDepth = (int) *vibDep;
         double famitrackerIncrement = 0.93 * vibratoDepth;
         vibratoMaxFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum) + famitrackerIncrement;
         vibratoMinFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum) - famitrackerIncrement;
+    }
+
+    void setWaveFromTree()
+    {
+        std::atomic<float>* wave =
+            StateManager::get().treeState->getRawParameterValue("Wave");
+        if (wave == nullptr)
+        {
+            std::cerr << "wave thing is null." << std::endl;
+            return;
+        }
+        curWaveFlag = (waveFlag)(int) *wave;
     }
 
     float getOscType()
@@ -251,17 +260,17 @@ private:
 		// math'ed out for 4/4 time
         switch (curNoteSlideDurFlag)
         {
-        case noteSlideDurFlag::Whole:
+        case durationFlag::Whole:
             return 4 * (60 / bpm);
-        case noteSlideDurFlag::Half:
+        case durationFlag::Half:
             return 2 * (60 / bpm);
-        case noteSlideDurFlag::Quarter:
+        case durationFlag::Quarter:
             return 1 * (60 / bpm);
-        case noteSlideDurFlag::Eighth:
+        case durationFlag::Eighth:
             return 0.5 * (60 / bpm);
-        case noteSlideDurFlag::Sixteenth:
+        case durationFlag::Sixteenth:
             return 0.25 * (60 / bpm);
-        case noteSlideDurFlag::Thirtysecond:
+        case durationFlag::Thirtysecond:
             return 0.125 * (60 / bpm);
         }
     }
@@ -271,17 +280,17 @@ private:
         if (!tremoloActive) return 0.0;
 		switch (curTremoloDurFlag)
 		{
-		case tremoloDurFlag::Whole:
+		case durationFlag::Whole:
 			return 0.5 * (60 / bpm);
-		case tremoloDurFlag::Half:
+		case durationFlag::Half:
 			return 1 * (60 / bpm);
-		case tremoloDurFlag::Quarter:
+		case durationFlag::Quarter:
 			return 2 * (60 / bpm);
-		case tremoloDurFlag::Eighth:
+		case durationFlag::Eighth:
 		    return 4 * (60 / bpm);
-		case tremoloDurFlag::Sixteenth:
+		case durationFlag::Sixteenth:
 			return 8 * (60 / bpm);
-		case tremoloDurFlag::Thirtysecond:
+		case durationFlag::Thirtysecond:
 			return 16 * (60 / bpm);
 		}
     }
@@ -291,18 +300,19 @@ private:
         if (!vibratoActive) return 0.0;
 		switch (curVibratoDurFlag)
 		{
-		case vibratoDurFlag::Whole:
+		case durationFlag::Whole:
 			return 0.5 * (60 / bpm);
-		case vibratoDurFlag::Half:
+		case durationFlag::Half:
 			return 1 * (60 / bpm);
-		case vibratoDurFlag::Quarter:
+		case durationFlag::Quarter:
 			return 2 * (60 / bpm);
-		case vibratoDurFlag::Eighth:
+		case durationFlag::Eighth:
 		    return 4 * (60 / bpm);
-		case vibratoDurFlag::Sixteenth:
+		case durationFlag::Sixteenth:
 			return 8 * (60 / bpm);
-		case vibratoDurFlag::Thirtysecond:
+		case durationFlag::Thirtysecond:
 			return 16 * (60 / bpm);
 		}
     }
+
 };
