@@ -19,10 +19,14 @@ If you're on Windows and use Visual Studio 2019:
    and hook that up to the project. This is because VST3's are not standalone, and rely
    on hosts such as FL studio.
 
-## How to open on FL Studio ##
- - Currently, this is only possible on Windows.
- - Install the VST3 by clicking on BlxMusicMaker-windows.exe. It will install in the correct
-   directory on its own.
+## How to Install ##
+ - The VST3 file needs to be put in a location your DAW checks for plugins.
+   - For mac, it's either Macintosh HD/Library/Audio/Plug-Ins/VST3 or ~/Library/Audio/Plug-Ins/VST3.
+   - For windows, its C:\Program Files\Common Files\VST3.
+ - If you're on Windows, you can use the BlxMusicMaker.exe, and it will install in the correct location.
+
+## How to Open on FL Studio ##
+ - Install the VST3.
  - Open FL Studio, and to Options-> Manage Plugins-> Find More Plugins. It will scan your 
    computer to find new VSTs.
  - BlxMusicMaker will now show up as a new VST. Click on the star icon next to it, so that

@@ -1,2 +1,3 @@
 # ignore the builds folder
 /Builds
+*.iss
