@@ -8,8 +8,8 @@ Blx Music Maker is a simple VST with 8-bit sounds.
  - Seven different sounds: sine, saw, three types of pulse, noise, and triangle
  - ASDR sliders
  - Midi input
- - Vibrato and tremolo Effects
- - Note Slides
+ - Vibrato and tremolo effects
+ - Note slides
  - Saving/loading presets
  - Verified to work with FL Studio
  - Stylized by Kyle Rhoads!

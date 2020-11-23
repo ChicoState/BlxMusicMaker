@@ -26,10 +26,10 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 0, 6, 0),
 
             //ADSR
-            std::make_unique<juce::AudioParameterInt>("Attack", "Attack", 0, 5000, 0),
-            std::make_unique<juce::AudioParameterInt>("Decay", "Decay", 0, 5000, 500),
-            std::make_unique<juce::AudioParameterFloat>("Sustain", "Sustain", 0.0f, 1.0f, 0.1f),
-            std::make_unique<juce::AudioParameterInt>("Release", "Release", 0, 5000, 0),
+            std::make_unique<juce::AudioParameterFloat>("Attack", "Attack", 0, 5000, 0.1f),
+            std::make_unique<juce::AudioParameterFloat>("Decay", "Decay", 0, 5000, 500.0f),
+            std::make_unique<juce::AudioParameterFloat>("Sustain", "Sustain", 0.0f, 1.0f, 0.125f),
+            std::make_unique<juce::AudioParameterFloat>("Release", "Release", 0, 5000, 100.0f),
 
             //Effects Panel
             std::make_unique<juce::AudioParameterBool>("Arpeggiator", "ArpeggiatorToggle", false),

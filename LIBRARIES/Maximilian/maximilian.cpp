@@ -1339,6 +1339,48 @@ double maxiEnv::adsr(double input, int trigger) {
 		output=input*(amplitude*=decay);
 		if (amplitude<=sustain) {
 			decayphase=0;
+			releasephase=1;
+			holdphase = 1;
+		}
+	}
+
+	if (releasephase==1 && amplitude>0.) {
+
+		output=input*(amplitude*=release);
+	}
+
+
+	return output;
+}
+
+/*
+double maxiEnv::adsr(double input, int trigger) {
+
+	if (trigger==1 && attackphase!=1 && holdphase!=1 && decayphase!=1){
+		holdcount=0;
+		decayphase=0;
+		sustainphase=0;
+		releasephase=0;
+		attackphase=1;
+	}
+
+	if (attackphase==1) {
+		releasephase=0;
+		amplitude+=(1*attack);
+		output=input*amplitude;
+
+		if (amplitude>=1) {
+			amplitude=1;
+			attackphase=0;
+			decayphase=1;
+		}
+	}
+
+
+	if (decayphase==1) {
+		output=input*(amplitude*=decay);
+		if (amplitude<=sustain) {
+			decayphase=0;
 			holdphase=1;
 		}
 	}
@@ -1362,9 +1404,12 @@ double maxiEnv::adsr(double input, int trigger) {
 
 	}
 
+	if (amplitude > 0)
+		std::cerr << "amp " << amplitude << " " << output << std::endl;
+
 	return output;
 }
-
+*/
 
 void maxiEnv::setAttack(double attackMS) {
 	attack = 1-pow( 0.01, 1.0 / ( attackMS * maxiSettings::sampleRate * 0.001 ) );

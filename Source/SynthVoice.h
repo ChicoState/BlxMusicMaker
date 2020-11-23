@@ -48,8 +48,13 @@ public:
     {
         // init class vars
         env.setTrigger(1);
+        env.holdphase = 0;
+        env.attackphase = 0;
+        env.decayphase = 0;
+        env.sustainphase = 0;
+        env.releasephase = 0;
+
         level = velocity * 0.15;// setting the volume
-        //std::cerr << "level: " << level << std::endl;
         osc.phaseReset(0.0);    // reset delta-theta
         midiNoteNum = midiNoteNumber;
         freq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum);
@@ -69,10 +74,6 @@ public:
 
     void stopNote(float velocity, bool allowTailOff) 
     {
-        level = 0;
-        env.setTrigger(0);
-		osc.phaseReset(0.0);
-		clearCurrentNote();
     }
 
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample,
@@ -109,6 +110,13 @@ public:
 			}
 
 			double theSound = env.adsr(getOscType(), env.getTrigger()) * level;
+            if (env.getTrigger() == 0) clearCurrentNote();
+
+            if (curWaveFlag == waveFlag::Noise)
+            {
+                double midiKeyNum = 1.0 + midiNoteNum % 12;
+                theSound = fil.lores(theSound, 500 * midiKeyNum, 0.1f * midiKeyNum);
+            }
 
 			for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
 				outputBuffer.addSample(channel, startSample, theSound);
