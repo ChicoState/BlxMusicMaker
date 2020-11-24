@@ -82,6 +82,8 @@ public:
         setTremoloFromTree();
         setVibratoFromTree();
         setWaveFromTree();
+        if (getTremoloDuration() > 0) std::cerr << "note duration trem : " << getTremoloDuration() << std::endl;
+        if (getNoteSlideDuration() > 0) std::cerr << "note duration note slide : " << getNoteSlideDuration() << std::endl;
 
 		for (int sample = 0; sample < numSamples; ++sample)
 		{

@@ -66,13 +66,19 @@ private:
     juce::AudioProcessorValueTreeState treeState;
     juce::UndoManager undoManager;
 
+    // arp vars
+    int time, currentNote, lastNoteValue;
+    juce::SortedSet<int> notes;
+
     juce::Synthesiser mySynth;
     SynthVoice* myVoice;
-    double lastSampleRate;
+    float lastSampleRate;
 
     // get info of DAW
     juce::AudioPlayHead* audioPlayHead; 
     juce::AudioPlayHead::CurrentPositionInfo currentPositionInfo;
+
+    float getArpDuration(int);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessor)
 };

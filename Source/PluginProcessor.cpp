@@ -34,7 +34,6 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             //Effects Panel
             std::make_unique<juce::AudioParameterBool>("Arpeggiator", "ArpeggiatorToggle", false),
             std::make_unique<juce::AudioParameterInt>("ArpegSpeed", "ArpegSpeed", 0, 5, 0),
-
             std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
             std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 5, 0),
             std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0.01, 0.50, 0.01),
@@ -48,7 +47,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             std::make_unique<juce::AudioParameterInt>("NoteSlideDepth", "NoteSlideDepth", -12, 12, 0)
         }),
     myVoice(&SynthVoice()),
-    lastSampleRate(48000),
+    lastSampleRate(48000.0f),
     audioPlayHead(this->getPlayHead()),
     currentPositionInfo(juce::AudioPlayHead::CurrentPositionInfo())
 #endif
@@ -135,7 +134,11 @@ void BlxMusicMakerAudioProcessor::prepareToPlay (double sampleRate, int samplesP
 {
     // ensures initialized sample rate
     juce::ignoreUnused(samplesPerBlock);
-    lastSampleRate = sampleRate;
+    notes.clear();
+    currentNote = 0;
+    lastNoteValue = -1;
+    time = 0;
+    lastSampleRate = static_cast<float>(sampleRate);
 }
 
 void BlxMusicMakerAudioProcessor::releaseResources()
@@ -173,15 +176,16 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
+    auto numSamples = buffer.getNumSamples();
 
     audioPlayHead = this->getPlayHead();
     audioPlayHead->getCurrentPosition(currentPositionInfo);
     mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+        buffer.clear (i, 0, numSamples);
 
-    // set adsr from tree
+    // set adsr/arp from tree
 	std::atomic<float>* a =
 		StateManager::get().treeState->getRawParameterValue("Attack");
     attackTime = *a;
@@ -195,6 +199,52 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
 		StateManager::get().treeState->getRawParameterValue("Release");
     releaseTime = *r;
 
+	std::atomic<float>* arpSpd =
+		StateManager::get().treeState->getRawParameterValue("ArpegSpeed");
+	std::atomic<float>* arpOn =
+		StateManager::get().treeState->getRawParameterValue("Arpeggiator");
+
+    int speed = 0;
+    bool arpActive = false;
+
+    if (arpSpd == nullptr) std::cerr << "arp spd null" << std::endl;
+    else speed = (int)*arpSpd;
+
+    if (arpOn == nullptr) std::cerr << "arp toggle null" << std::endl;
+    else arpActive = *arpOn > 0.5f;
+
+    if (arpActive)
+    {
+		// do arp stuff
+        auto noteDuration = static_cast<int> (std::ceil(lastSampleRate * getArpDuration(speed)));
+		for (const auto metadata : midiMessages)
+		{
+            const auto msg = metadata.getMessage();
+            if      (msg.isNoteOn())  notes.add(msg.getNoteNumber());
+            else if (msg.isNoteOff()) notes.removeValue(msg.getNoteNumber());
+		}
+        midiMessages.clear();
+        if (time + numSamples >= noteDuration)
+        {
+            auto offset = jmax(0, jmin((int)(noteDuration - time), numSamples - 1));
+            if (lastNoteValue > 0)
+            {
+                midiMessages.addEvent(juce::MidiMessage::noteOff(1, lastNoteValue), offset);
+                lastNoteValue = -1;
+            }
+
+            if (notes.size() > 0)
+            {
+                currentNote = (currentNote + 1) % notes.size();
+                lastNoteValue = notes[currentNote];
+                midiMessages.addEvent(juce::MidiMessage::noteOn(1, lastNoteValue, (uint8)127), offset);
+            }
+        }
+
+        time = (time + numSamples) % noteDuration;
+    }
+
+
     for (int i = 0; i < mySynth.getNumVoices(); ++i)
     {
 		// adjust the parameters of the voice
@@ -202,11 +252,33 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         {
             myVoice->getParam(attackTime, decayTime, sustainTime, releaseTime, currentPositionInfo.bpm,
                 currentPositionInfo.timeSigNumerator, currentPositionInfo.timeSigDenominator);
-            myVoice->setMaxiSettings(lastSampleRate, totalNumOutputChannels, buffer.getNumSamples());
+            myVoice->setMaxiSettings(lastSampleRate, totalNumOutputChannels, numSamples);
         }
     }
 
-    mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    mySynth.renderNextBlock(buffer, midiMessages, 0, numSamples);
+}
+
+float BlxMusicMakerAudioProcessor::getArpDuration(int speed)
+{
+    // thirty second note returns => 1/64
+    float bpm2Sec = 60 / currentPositionInfo.bpm;
+    switch (speed)
+    {
+    case 0: // 1/32
+        return (float)0.125 * bpm2Sec;
+    case 1: // 1/16
+        return (float)0.25 * bpm2Sec;
+    case 2: // 1/8
+        return (float)0.5 * bpm2Sec;
+    case 3: // 1/4
+        return (float)1 * bpm2Sec;
+    case 4: // 1/2
+        return (float)2 * bpm2Sec;
+    case 5: // 1/1
+        return (float)4 * bpm2Sec;
+    }
+    return (float)0.125 * bpm2Sec;
 }
 
 //==============================================================================
