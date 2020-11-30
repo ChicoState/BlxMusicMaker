@@ -26,7 +26,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 0, 6, 0),
 
             //ADSR
-            std::make_unique<juce::AudioParameterFloat>("Attack", "Attack", 0, 5000, 0.1f),
+            std::make_unique<juce::AudioParameterFloat>("Attack", "Attack", 0, 5000, 0.2f),
             std::make_unique<juce::AudioParameterFloat>("Decay", "Decay", 0, 5000, 500.0f),
             std::make_unique<juce::AudioParameterFloat>("Sustain", "Sustain", 0.0f, 1.0f, 0.125f),
             std::make_unique<juce::AudioParameterFloat>("Release", "Release", 0, 5000, 100.0f),
@@ -34,6 +34,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
             //Effects Panel
             std::make_unique<juce::AudioParameterBool>("Arpeggiator", "ArpeggiatorToggle", false),
             std::make_unique<juce::AudioParameterInt>("ArpegSpeed", "ArpegSpeed", 0, 5, 0),
+
             std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
             std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 5, 0),
             std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0.01, 0.50, 0.01),
@@ -49,10 +50,11 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
     myVoice(&SynthVoice()),
     lastSampleRate(48000.0f),
     audioPlayHead(this->getPlayHead()),
-    currentPositionInfo(juce::AudioPlayHead::CurrentPositionInfo())
+    currentPositionInfo(juce::AudioPlayHead::CurrentPositionInfo()),
+    currentNote(0), lastNoteValue(-1), time(0)
 #endif
 {
-    StateManager::get().setTreeState(treeState);
+    StateManager::get().setTreeState(treeState); // TODO remove??
 
     // init voices and add them to synth
     mySynth.clearVoices();
@@ -185,44 +187,20 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, numSamples);
 
-    // set adsr/arp from tree
-	std::atomic<float>* a =
-		StateManager::get().treeState->getRawParameterValue("Attack");
-    attackTime = *a;
-	std::atomic<float>* d =
-		StateManager::get().treeState->getRawParameterValue("Decay");
-    decayTime = *d;
-	std::atomic<float>* s =
-		StateManager::get().treeState->getRawParameterValue("Sustain");
-    sustainTime = *s;
-	std::atomic<float>* r =
-		StateManager::get().treeState->getRawParameterValue("Release");
-    releaseTime = *r;
-
-	std::atomic<float>* arpSpd =
-		StateManager::get().treeState->getRawParameterValue("ArpegSpeed");
-	std::atomic<float>* arpOn =
-		StateManager::get().treeState->getRawParameterValue("Arpeggiator");
-
-    int speed = 0;
-    bool arpActive = false;
-
-    if (arpSpd == nullptr) std::cerr << "arp spd null" << std::endl;
-    else speed = (int)*arpSpd;
-
-    if (arpOn == nullptr) std::cerr << "arp toggle null" << std::endl;
-    else arpActive = *arpOn > 0.5f;
+    // arp
+    int speed = (int) *treeState.getRawParameterValue("ArpegSpeed");
+    bool arpActive = *treeState.getRawParameterValue("Arpeggiator") > 0.5f;
 
     if (arpActive)
     {
-		// do arp stuff
+        // do arp stuff
         auto noteDuration = static_cast<int> (std::ceil(lastSampleRate * getArpDuration(speed)));
-		for (const auto metadata : midiMessages)
-		{
+        for (const auto metadata : midiMessages)
+        {
             const auto msg = metadata.getMessage();
-            if      (msg.isNoteOn())  notes.add(msg.getNoteNumber());
+            if (msg.isNoteOn())  notes.add(msg.getNoteNumber());
             else if (msg.isNoteOff()) notes.removeValue(msg.getNoteNumber());
-		}
+        }
         midiMessages.clear();
         if (time + numSamples >= noteDuration)
         {
@@ -243,15 +221,29 @@ void BlxMusicMakerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
 
         time = (time + numSamples) % noteDuration;
     }
-
+    else if (notes.size() > 0) notes.clear();
 
     for (int i = 0; i < mySynth.getNumVoices(); ++i)
     {
 		// adjust the parameters of the voice
         if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
         {
-            myVoice->getParam(attackTime, decayTime, sustainTime, releaseTime, currentPositionInfo.bpm,
-                currentPositionInfo.timeSigNumerator, currentPositionInfo.timeSigDenominator);
+            myVoice->getParam(
+                treeState.getRawParameterValue("Wave"),
+                treeState.getRawParameterValue("Attack"),
+                treeState.getRawParameterValue("Decay"),
+                treeState.getRawParameterValue("Sustain"),
+                treeState.getRawParameterValue("Release"),
+                treeState.getRawParameterValue("Tremolo"),
+                treeState.getRawParameterValue("TremoloSpeed"),
+                treeState.getRawParameterValue("TremoloDepth"),
+                treeState.getRawParameterValue("Vibrato"),
+                treeState.getRawParameterValue("VibratoSpeed"),
+                treeState.getRawParameterValue("VibratoDepth"),
+                treeState.getRawParameterValue("Note Slide"),
+                treeState.getRawParameterValue("NoteSlideSpeed"),
+                treeState.getRawParameterValue("NoteSlideDepth"),
+                currentPositionInfo.bpm);
             myVoice->setMaxiSettings(lastSampleRate, totalNumOutputChannels, numSamples);
         }
     }
@@ -293,22 +285,20 @@ juce::AudioProcessorEditor* BlxMusicMakerAudioProcessor::createEditor()
 }
 
 //==============================================================================
-void BlxMusicMakerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+void BlxMusicMakerAudioProcessor::getStateInformation(juce::MemoryBlock & destData)
 {
-    auto state = StateManager::get().treeState->copyState();
+    auto state = treeState.copyState();
     std::unique_ptr<juce::XmlElement> xml(state.createXml());
     copyXmlToBinary(*xml, destData);
 }
 
-void BlxMusicMakerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void BlxMusicMakerAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
     std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
     if (xmlState.get() != nullptr)
     {
-        if (xmlState->hasTagName(StateManager::get().treeState->state.getType())) 
-        {
-            StateManager::get().treeState->replaceState(juce::ValueTree::fromXml(*xmlState));
-        }
+        if (xmlState->hasTagName(treeState.state.getType())) 
+            treeState.replaceState(juce::ValueTree::fromXml(*xmlState));
     }
 }
 

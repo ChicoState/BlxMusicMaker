@@ -22,7 +22,5 @@ public:
     juce::AudioProcessorValueTreeState* treeState;
 
 private:
-
     static StateManager instance;
-
 };

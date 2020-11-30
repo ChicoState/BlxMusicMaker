@@ -53,16 +53,10 @@ public:
     void changeProgramName (int index, const juce::String& newName) override;
 
     //==============================================================================
-    void getStateInformation (juce::MemoryBlock& destData) override;
-    void setStateInformation (const void* data, int sizeInBytes) override;
+    void getStateInformation(juce::MemoryBlock& destData) override;
+    void setStateInformation(const void* data, int sizeInBytes) override;
 
 private:
-	// default times for adsr
-    float attackTime;
-    float decayTime;
-	float sustainTime;
-    float releaseTime;
-
     juce::AudioProcessorValueTreeState treeState;
     juce::UndoManager undoManager;
 

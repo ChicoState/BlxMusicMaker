@@ -7,9 +7,11 @@ Blx Music Maker is a simple VST with 8-bit sounds.
 ## Current Features ##
  - Seven different sounds: sine, saw, three types of pulse, noise, and triangle
  - ASDR sliders
- - Midi input
- - Vibrato and tremolo effects
+ - Midi support
+ - Vibrato 
+ - Tremolo 
  - Note slides
+ - Arpeggiation 
  - Saving/loading presets
  - Verified to work with FL Studio
  - Stylized by Kyle Rhoads!
@@ -26,7 +28,8 @@ If you're on Windows and use Visual Studio 2019:
  - The VST3 file needs to be put in a location your DAW checks for plugins.
    - For mac, it's either Macintosh HD/Library/Audio/Plug-Ins/VST3 or ~/Library/Audio/Plug-Ins/VST3.
    - For windows, its C:\Program Files\Common Files\VST3.
- - If you're on Windows, you can use the BlxMusicMaker.exe, and it will install in the correct location.
+ - If you're on Windows, you can use the BlxMusicMaker.exe (located in the Output directory),
+   and it will install in the correct location.
 
 ## How to Open on FL Studio ##
  - Install the VST3.
