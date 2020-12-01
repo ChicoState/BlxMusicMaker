@@ -16,7 +16,7 @@ class TremoloEffect : public EffectParent
 {
 public:
 
-    TremoloEffect(BlxMusicMakerAudioProcessor& p) : EffectParent::EffectParent("Tremolo")
+    TremoloEffect(BlxMusicMakerAudioProcessor& p) : EffectParent::EffectParent("Tremolo", p)
     {
         EffectParent::addSpeedComponent("Speed", "TremoloSpeed", p);
         EffectParent::addSliderComponent("Depth", "TremoloDepth", p);

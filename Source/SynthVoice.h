@@ -12,7 +12,6 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 #include "maximilian.h"
-#include "StateManager.h"
 #include <cmath>
 
 class SynthVoice : public juce::SynthesiserVoice

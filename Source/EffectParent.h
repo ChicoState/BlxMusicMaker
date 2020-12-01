@@ -14,13 +14,12 @@
 #include "SliderComponent.h" 
 #include "SpeedComponent.h" 
 #include "BLXLookAndFeel.h"
-#include "StateManager.h"
 
 class EffectParent : public juce::Component
 {
 public:
     
-    EffectParent(std::string);
+    EffectParent(std::string, BlxMusicMakerAudioProcessor&);
     ~EffectParent();
     void paint(juce::Graphics&) override;
     void resized() override;

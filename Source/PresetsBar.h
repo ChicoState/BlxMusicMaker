@@ -1,6 +1,5 @@
 #pragma once
 #include <JuceHeader.h>
-#include "StateManager.h"
 #include "BLXLookAndFeel.h"
 
 class PresetsBar : public juce::Component, public juce::MenuBarModel

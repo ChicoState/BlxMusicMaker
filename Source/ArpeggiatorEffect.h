@@ -16,7 +16,7 @@ class ArpeggiatorEffect : public EffectParent
 {
 public:
 
-    ArpeggiatorEffect(BlxMusicMakerAudioProcessor& p) : EffectParent("Arpeggiator") 
+    ArpeggiatorEffect(BlxMusicMakerAudioProcessor& p) : EffectParent("Arpeggiator", p) 
     {
         addSpeedComponent("Speed", "ArpegSpeed", p);
     };

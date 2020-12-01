@@ -54,8 +54,6 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
     currentNote(0), lastNoteValue(-1), time(0)
 #endif
 {
-    StateManager::get().setTreeState(treeState); // TODO remove??
-
     // init voices and add them to synth
     mySynth.clearVoices();
     int numVoices = 10;

@@ -23,6 +23,7 @@ TypeSelector::TypeSelector(BlxMusicMakerAudioProcessor& p)
 	}
 	slider.onValueChange = [this] { onValueChange(); };
     sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(p.treeState, "Wave", slider));
+	waveButtons[0].setToggleState();
 }
 
 TypeSelector::~TypeSelector()

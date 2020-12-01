@@ -3,7 +3,6 @@
 
 #include "SynthSound.h"
 #include "maximilian.h"
-#include "StateManager.h"
 #include "SynthVoice.h"
 
 // connection between processor and voice

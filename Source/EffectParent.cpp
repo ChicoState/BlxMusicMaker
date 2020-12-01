@@ -10,11 +10,11 @@
 
 #include "EffectParent.h"
 
-EffectParent::EffectParent(std::string effectName)
+EffectParent::EffectParent(std::string effectName, BlxMusicMakerAudioProcessor& p)
 {
     toggle.setButtonText(effectName);
     addAndMakeVisible(toggle);
-    toggleAttachment.reset(new juce::AudioProcessorValueTreeState::ButtonAttachment(*StateManager::get().treeState, effectName, toggle));
+    toggleAttachment.reset(new juce::AudioProcessorValueTreeState::ButtonAttachment(p.treeState, effectName, toggle));
 }
 
 EffectParent::~EffectParent()
