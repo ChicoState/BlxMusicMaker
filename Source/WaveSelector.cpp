@@ -10,7 +10,7 @@
 
 #include "WaveSelector.h"
 
-TypeSelector::TypeSelector()
+TypeSelector::TypeSelector(BlxMusicMakerAudioProcessor& p)
 {
 	int radioID = BLXLookAndFeel::getNewRadioID();
 	std::string buttonNames[] = { "Pulse25", "Pulse50", "Pulse75", "Triangle", "Saw", "Sine", "Noise" };
@@ -23,7 +23,7 @@ TypeSelector::TypeSelector()
 	}
 
 	slider.onValueChange = [this] { onValueChange(); };
-    sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, "Wave", slider));
+    sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(p.treeState, "Wave", slider));
 }
 
 TypeSelector::~TypeSelector()

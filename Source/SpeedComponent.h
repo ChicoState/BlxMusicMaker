@@ -26,7 +26,7 @@ class SpeedComponent : public juce::Component
 {
 public:
 
-    SpeedComponent(std::string, std::string);
+    SpeedComponent(std::string, std::string, BlxMusicMakerAudioProcessor&);
     void onValueChange();
     void paint(juce::Graphics&) override;
     void resized() override;

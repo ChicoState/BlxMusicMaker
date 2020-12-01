@@ -17,14 +17,14 @@
 class EnvelopePanel : public juce::Component
 {
 public:
-    EnvelopePanel();
-
+    EnvelopePanel(BlxMusicMakerAudioProcessor&);
+    ~EnvelopePanel();
     void paint(juce::Graphics&) override;
     void resized() override;
 
 private:
 
     juce::Label panelLabel;
-    EnvelopeSliders sliders;
+    EnvelopeSliders* sliders;
 
 };

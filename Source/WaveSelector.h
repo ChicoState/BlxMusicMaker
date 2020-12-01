@@ -12,12 +12,13 @@
 #include <JuceHeader.h>
 #include "SynthVoice.h"
 #include "BLXLookAndFeel.h"
+#include "PluginProcessor.h"
 
 class TypeSelector : public juce::Component
 {
 public:
 
-    TypeSelector();
+    TypeSelector(BlxMusicMakerAudioProcessor&);
     ~TypeSelector() override;
 
     void paint(juce::Graphics&) override;

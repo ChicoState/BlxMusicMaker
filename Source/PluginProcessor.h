@@ -56,9 +56,10 @@ public:
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
-private:
     juce::AudioProcessorValueTreeState treeState;
     juce::UndoManager undoManager;
+
+private:
 
     // arp vars
     int time, currentNote, lastNoteValue;
@@ -73,6 +74,8 @@ private:
     juce::AudioPlayHead::CurrentPositionInfo currentPositionInfo;
 
     float getArpDuration(int);
+    const int internalPresetCount = 4;
+    juce::String internalPresetNames[4] = {"Internal1", "Internal2", "Internal3", "Internal4"};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessor)
 };

@@ -16,10 +16,10 @@ class NoteSlideEffect : public EffectParent
 {
 public:
 
-    NoteSlideEffect() : EffectParent::EffectParent("Note Slide")
+    NoteSlideEffect(BlxMusicMakerAudioProcessor& p) : EffectParent::EffectParent("Note Slide")
     {
-        EffectParent::addSpeedComponent("Speed", "NoteSlideSpeed");
-        EffectParent::addSliderComponent("Half-Steps", "NoteSlideDepth");
+        EffectParent::addSpeedComponent("Speed", "NoteSlideSpeed", p);
+        EffectParent::addSliderComponent("Half-Steps", "NoteSlideDepth", p);
     };
 
 };

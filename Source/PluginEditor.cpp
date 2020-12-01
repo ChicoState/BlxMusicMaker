@@ -14,14 +14,24 @@ BlxMusicMakerAudioProcessorEditor::BlxMusicMakerAudioProcessorEditor(BlxMusicMak
                                                                     : AudioProcessorEditor(&p), audioProcessor(p)
 {
     juce::LookAndFeel::setDefaultLookAndFeel(&blxLookAndFeel);
+
+    wavePanel = new WavePanel(p);
     addAndMakeVisible(wavePanel);
+
+    envelopePanel = new EnvelopePanel(p);
     addAndMakeVisible(envelopePanel);
+
+    effectsPanel = new EffectsPanel(p);
     addAndMakeVisible(effectsPanel);
+
     setSize(800, 500);
 }
 
 BlxMusicMakerAudioProcessorEditor::~BlxMusicMakerAudioProcessorEditor()
 {
+    delete wavePanel;
+    delete envelopePanel;
+    delete effectsPanel;
 }
 
 //==============================================================================
@@ -37,8 +47,8 @@ void BlxMusicMakerAudioProcessorEditor::resized()
     auto area = getLocalBounds();
     auto waveArea = area.removeFromLeft(area.getWidth() / 2);
     auto envelopeArea = waveArea.removeFromBottom(200);
-    wavePanel.setBounds(waveArea);
-    envelopePanel.setBounds(envelopeArea);
-    effectsPanel.setBounds(area);
+    wavePanel->setBounds(waveArea);
+    envelopePanel->setBounds(envelopeArea);
+    effectsPanel->setBounds(area);
 }
 

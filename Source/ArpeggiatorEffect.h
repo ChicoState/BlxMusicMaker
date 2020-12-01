@@ -11,15 +11,14 @@
 #pragma once
 #include <JuceHeader.h>
 #include "EffectParent.h"
-#include "StateManager.h"
 
 class ArpeggiatorEffect : public EffectParent
 {
 public:
 
-    ArpeggiatorEffect() : EffectParent("Arpeggiator") 
+    ArpeggiatorEffect(BlxMusicMakerAudioProcessor& p) : EffectParent("Arpeggiator") 
     {
-        addSpeedComponent("Speed", "ArpegSpeed");
+        addSpeedComponent("Speed", "ArpegSpeed", p);
     };
 
 };

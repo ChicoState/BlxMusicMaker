@@ -20,7 +20,7 @@ class EffectsPanel : public juce::Component
 {
 public:
 
-    EffectsPanel();
+    EffectsPanel(BlxMusicMakerAudioProcessor&);
     ~EffectsPanel();
     void paint(juce::Graphics&) override;
     void resized() override;
@@ -28,9 +28,9 @@ public:
 private:
     
     juce::Label panelLabel;
-    ArpeggiatorEffect arpegEffect;
-    TremoloEffect tremEffect;
-    VibratoEffect vibEffect;
-    NoteSlideEffect noteEffect;
+    ArpeggiatorEffect* arpegEffect;
+    TremoloEffect* tremEffect;
+    VibratoEffect* vibEffect;
+    NoteSlideEffect* noteEffect;
 
 };

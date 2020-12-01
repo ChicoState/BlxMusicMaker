@@ -27,8 +27,8 @@ public:
     int getNeededHeight();
 
     //Add Components
-    void addSliderComponent(std::string, std::string);
-    void addSpeedComponent(std::string, std::string);
+    void addSliderComponent(std::string, std::string, BlxMusicMakerAudioProcessor&);
+    void addSpeedComponent(std::string, std::string, BlxMusicMakerAudioProcessor&);
 
 private:
 

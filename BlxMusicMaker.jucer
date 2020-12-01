@@ -20,18 +20,10 @@
           <FILE id="iZQZVV" name="EnvelopePanel.h" compile="0" resource="0" file="Source/EnvelopePanel.h"/>
         </GROUP>
         <GROUP id="{DF63CF60-94DE-8FC1-C103-B23E8490960F}" name="EffectsPanel">
-          <FILE id="A6CcxI" name="NoteSlideEffect.cpp" compile="1" resource="0"
-                file="Source/NoteSlideEffect.cpp"/>
           <FILE id="Bi53rU" name="NoteSlideEffect.h" compile="0" resource="0"
                 file="Source/NoteSlideEffect.h"/>
-          <FILE id="dLfOXT" name="VibratoEffect.cpp" compile="1" resource="0"
-                file="Source/VibratoEffect.cpp"/>
           <FILE id="XTJE82" name="VibratoEffect.h" compile="0" resource="0" file="Source/VibratoEffect.h"/>
-          <FILE id="QURPOn" name="TremoloEffect.cpp" compile="1" resource="0"
-                file="Source/TremoloEffect.cpp"/>
           <FILE id="l8vW3u" name="TremoloEffect.h" compile="0" resource="0" file="Source/TremoloEffect.h"/>
-          <FILE id="lVF7tM" name="ArpeggiatorEffect.cpp" compile="1" resource="0"
-                file="Source/ArpeggiatorEffect.cpp"/>
           <FILE id="udogQg" name="ArpeggiatorEffect.h" compile="0" resource="0"
                 file="Source/ArpeggiatorEffect.h"/>
           <FILE id="Ahf1yp" name="EffectsPanel.cpp" compile="1" resource="0"

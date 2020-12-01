@@ -10,7 +10,7 @@
 
 #include "SpeedComponent.h"
 
-SpeedComponent::SpeedComponent(std::string text, std::string stateID)
+SpeedComponent::SpeedComponent(std::string text, std::string stateID, BlxMusicMakerAudioProcessor& p)
 {
     this->stateID = stateID;
 
@@ -20,7 +20,7 @@ SpeedComponent::SpeedComponent(std::string text, std::string stateID)
     slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
     slider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, 50, 20);
     slider.setNumDecimalPlacesToDisplay(0);
-    sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, stateID, slider));
+    sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(p.treeState, stateID, slider));
     addAndMakeVisible(slider);
 
     slider.onValueChange = [this] { onValueChange(); };

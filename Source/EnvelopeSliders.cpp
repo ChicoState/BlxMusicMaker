@@ -10,14 +10,14 @@
 
 #include "EnvelopeSliders.h"
 
-EnvelopeSliders::EnvelopeSliders()
+EnvelopeSliders::EnvelopeSliders(BlxMusicMakerAudioProcessor& p)
 {
 	std::string IDs[4] = { "Attack", "Decay", "Sustain", "Release" };
 	for (int i = 0; i < 4; i++) 
 	{
 		sliders[i].setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
 		sliders[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, 50, 20);
-		sliderAttachment[i].reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, IDs[i], sliders[i]));
+		sliderAttachment[i].reset(new juce::AudioProcessorValueTreeState::SliderAttachment(p.treeState, IDs[i], sliders[i]));
 		addAndMakeVisible(sliders[i]);
 	}
 	

@@ -31,16 +31,16 @@ int EffectParent::getNeededHeight()
     return (childCount * 26) + 6 + 4;
 }
 
-void EffectParent::addSliderComponent(std::string text, std::string stateID)
+void EffectParent::addSliderComponent(std::string text, std::string stateID, BlxMusicMakerAudioProcessor& p)
 {
-    SliderComponent* sliderComp = new SliderComponent(text, stateID);
+    SliderComponent* sliderComp = new SliderComponent(text, stateID, p);
     addAndMakeVisible(sliderComp);
     components.push_back(sliderComp);
 }
 
-void EffectParent::addSpeedComponent(std::string text, std::string stateID)
+void EffectParent::addSpeedComponent(std::string text, std::string stateID, BlxMusicMakerAudioProcessor& p)
 {
-    SpeedComponent* speedComp = new SpeedComponent(text, stateID);
+    SpeedComponent* speedComp = new SpeedComponent(text, stateID, p);
     addAndMakeVisible(speedComp);
     components.push_back(speedComp);
 }

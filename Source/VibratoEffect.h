@@ -16,10 +16,10 @@ class VibratoEffect : public EffectParent
 {
 public:
 
-    VibratoEffect() : EffectParent::EffectParent("Vibrato")
+    VibratoEffect(BlxMusicMakerAudioProcessor& p) : EffectParent::EffectParent("Vibrato")
     {
-        EffectParent::addSpeedComponent("Speed", "VibratoSpeed");
-        EffectParent::addSliderComponent("Depth", "VibratoDepth");
+        EffectParent::addSpeedComponent("Speed", "VibratoSpeed", p);
+        EffectParent::addSliderComponent("Depth", "VibratoDepth", p);
     };
 
 };

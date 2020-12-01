@@ -10,7 +10,7 @@
 
 #include "SliderComponent.h"
 
-SliderComponent::SliderComponent(std::string text, std::string stateID)
+SliderComponent::SliderComponent(std::string text, std::string stateID, BlxMusicMakerAudioProcessor& p)
 {
 	label.setText(text, juce::NotificationType::dontSendNotification);
 	addAndMakeVisible(label);
@@ -18,12 +18,8 @@ SliderComponent::SliderComponent(std::string text, std::string stateID)
     slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
     slider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, 50, 20);
     slider.setNumDecimalPlacesToDisplay(0);
-    sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(*StateManager::get().treeState, stateID, slider));
+    sliderAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(p.treeState, stateID, slider));
     addAndMakeVisible(slider);
-}
-
-void SliderComponent::paint(juce::Graphics&)
-{
 }
 
 void SliderComponent::resized()

@@ -10,14 +10,13 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "StateManager.h"
+#include "PluginProcessor.h"
 
 class SliderComponent : public juce::Component
 {
 public:
 
-    SliderComponent(std::string, std::string);
-    void paint(juce::Graphics&) override;
+    SliderComponent(std::string, std::string, BlxMusicMakerAudioProcessor&);
     void resized() override;
 
 private:

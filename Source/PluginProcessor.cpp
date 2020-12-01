@@ -109,8 +109,9 @@ double BlxMusicMakerAudioProcessor::getTailLengthSeconds() const
 
 int BlxMusicMakerAudioProcessor::getNumPrograms()
 {
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-                // so this should be at least 1, even if you're not really implementing programs.
+    return internalPresetNames->length();   
+    // NB: some hosts don't cope very well if you tell them there are 0 programs,
+    // so this should be at least 1, even if you're not really implementing programs.
 }
 
 int BlxMusicMakerAudioProcessor::getCurrentProgram()
@@ -120,11 +121,20 @@ int BlxMusicMakerAudioProcessor::getCurrentProgram()
 
 void BlxMusicMakerAudioProcessor::setCurrentProgram (int index)
 {
+
 }
 
 const juce::String BlxMusicMakerAudioProcessor::getProgramName (int index)
 {
-    return {};
+    if(index == 0)
+        return "InternalTest";
+    if (index == 1)
+        return "InternalTest2";
+    if (index == 2)
+        return "InternalTest3";
+    if (index == 3)
+        return "InternalTest4";
+    return "Default";
 }
 
 void BlxMusicMakerAudioProcessor::changeProgramName (int index, const juce::String& newName)

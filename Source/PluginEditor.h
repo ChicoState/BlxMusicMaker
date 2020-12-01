@@ -29,9 +29,9 @@ private:
 
     //Main GUI Classes
     BLXLookAndFeel blxLookAndFeel;
-    WavePanel wavePanel;
-    EnvelopePanel envelopePanel;
-    EffectsPanel effectsPanel;
+    WavePanel* wavePanel;
+    EnvelopePanel* envelopePanel;
+    EffectsPanel* effectsPanel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessorEditor)
 };

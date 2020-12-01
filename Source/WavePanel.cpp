@@ -10,13 +10,20 @@
 
 #include "WavePanel.h"
 
-WavePanel::WavePanel()
+WavePanel::WavePanel(BlxMusicMakerAudioProcessor& p)
 {
     BLXLookAndFeel blx;
     panelLabel.setText("Waves", juce::NotificationType::dontSendNotification);
     panelLabel.setColour(juce::Label::backgroundColourId, blx.getCurrentColourScheme().getUIColour(juce::LookAndFeel_V4::ColourScheme::menuBackground));
     addAndMakeVisible(panelLabel);
+
+    typeSelector = new TypeSelector(p);
     addAndMakeVisible(typeSelector);
+}
+
+WavePanel::~WavePanel()
+{
+    delete typeSelector;
 }
 
 void WavePanel::paint(juce::Graphics& g)
@@ -32,5 +39,5 @@ void WavePanel::resized()
     auto labelArea = area.removeFromTop(BLXLookAndFeel::getPanelLabelHeight());
     panelLabel.setBounds(labelArea);
     panelLabel.setJustificationType(juce::Justification::centred);
-    typeSelector.setBounds(area);
+    typeSelector->setBounds(area);
 }

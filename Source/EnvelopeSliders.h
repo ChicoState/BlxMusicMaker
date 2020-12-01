@@ -15,7 +15,7 @@
 class EnvelopeSliders : public juce::Component
 {
 public:
-    EnvelopeSliders();
+    EnvelopeSliders(BlxMusicMakerAudioProcessor&);
     ~EnvelopeSliders() override;
 
     void paint(juce::Graphics&) override;

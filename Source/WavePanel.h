@@ -12,18 +12,20 @@
 #include <JuceHeader.h>
 #include "BLXLookAndFeel.h"
 #include "WaveSelector.h"
+#include "PluginProcessor.h"
 
 class WavePanel : public juce::Component 
 {
 public:
 
-    WavePanel();
+    WavePanel(BlxMusicMakerAudioProcessor&);
+    ~WavePanel();
     void paint(juce::Graphics&) override;
     void resized() override;
 
 private:
     
     juce::Label panelLabel;
-    TypeSelector typeSelector;
+    TypeSelector* typeSelector;
 
 };

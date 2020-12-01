@@ -10,21 +10,32 @@
 
 #include "EffectsPanel.h"
 
-EffectsPanel::EffectsPanel()
+EffectsPanel::EffectsPanel(BlxMusicMakerAudioProcessor& p)
 {
     BLXLookAndFeel blx;
     panelLabel.setText("Effects", juce::NotificationType::dontSendNotification);
     panelLabel.setColour(juce::Label::backgroundColourId, blx.getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::menuBackground));
     addAndMakeVisible(panelLabel);
 
+    arpegEffect = new ArpeggiatorEffect(p);
     addAndMakeVisible(arpegEffect);
+
+    tremEffect = new TremoloEffect(p);
     addAndMakeVisible(tremEffect);
+
+    vibEffect = new VibratoEffect(p);
     addAndMakeVisible(vibEffect);
+
+    noteEffect = new NoteSlideEffect(p);
     addAndMakeVisible(noteEffect);
 }
 
 EffectsPanel::~EffectsPanel()
 {
+    delete arpegEffect;
+    delete tremEffect;
+    delete vibEffect;
+    delete noteEffect;
 }
 
 void EffectsPanel::paint(juce::Graphics& g)
@@ -42,14 +53,14 @@ void EffectsPanel::resized()
     panelLabel.setJustificationType(juce::Justification::centred);
 
     area.reduce(10, 18);
-    arpegEffect.setBounds(area.removeFromTop(arpegEffect.getNeededHeight()));
+    arpegEffect->setBounds(area.removeFromTop(arpegEffect->getNeededHeight()));
 
     area.removeFromTop(10);
-    tremEffect.setBounds(area.removeFromTop(tremEffect.getNeededHeight()));
+    tremEffect->setBounds(area.removeFromTop(tremEffect->getNeededHeight()));
 
     area.removeFromTop(10);
-    vibEffect.setBounds(area.removeFromTop(vibEffect.getNeededHeight()));
+    vibEffect->setBounds(area.removeFromTop(vibEffect->getNeededHeight()));
 
     area.removeFromTop(10);
-    noteEffect.setBounds(area.removeFromTop(noteEffect.getNeededHeight()));
+    noteEffect->setBounds(area.removeFromTop(noteEffect->getNeededHeight()));
 }

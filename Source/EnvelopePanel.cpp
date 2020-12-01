@@ -10,13 +10,20 @@
 
 #include "EnvelopePanel.h"
 
-EnvelopePanel::EnvelopePanel()
+EnvelopePanel::EnvelopePanel(BlxMusicMakerAudioProcessor& p)
 {
     BLXLookAndFeel blx;
     panelLabel.setText("Envelopes", juce::NotificationType::dontSendNotification);
     panelLabel.setColour(juce::Label::backgroundColourId, blx.getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::menuBackground));
     addAndMakeVisible(panelLabel);
+
+    sliders = new EnvelopeSliders(p);
     addAndMakeVisible(sliders);
+}
+
+EnvelopePanel::~EnvelopePanel()
+{
+    delete sliders;
 }
 
 void EnvelopePanel::paint(juce::Graphics& g)
@@ -32,5 +39,5 @@ void EnvelopePanel::resized()
     auto labelArea = area.removeFromTop(BLXLookAndFeel::getPanelLabelHeight());
     panelLabel.setBounds(labelArea);
     panelLabel.setJustificationType(juce::Justification::centred);
-    sliders.setBounds(area);
+    sliders->setBounds(area);
 }
