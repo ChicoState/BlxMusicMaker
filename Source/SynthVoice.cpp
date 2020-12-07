@@ -5,10 +5,11 @@
 #include "maximilian.h"
 #include "SynthVoice.h"
 
+
 // connection between processor and voice
-void SynthVoice::getParam(
-	std::atomic<float>* wave, std::atomic<float>* attack,
-	std::atomic<float>* decay, std::atomic<float>* sustain,
+bool SynthVoice::getParam(
+	std::atomic<float>* wave,	 std::atomic<float>* attack,
+	std::atomic<float>* decay,	 std::atomic<float>* sustain,
 	std::atomic<float>* release, std::atomic<float>* tremTog,
 	std::atomic<float>* tremSpd, std::atomic<float>* tremDep,
 	std::atomic<float>* vibrTog, std::atomic<float>* vibrSpd,
@@ -17,6 +18,17 @@ void SynthVoice::getParam(
 	double bpm
 )
 {
+	if (wave == nullptr	   || attack == nullptr  ||
+		decay == nullptr   || sustain == nullptr ||
+		release == nullptr || tremTog == nullptr ||
+		tremSpd == nullptr || tremDep == nullptr ||
+		vibrTog == nullptr || vibrSpd == nullptr ||
+		vibrDep == nullptr || noslTog == nullptr ||
+		noslSpd == nullptr || noslDep == nullptr)
+	{
+		return false;
+	}
+
 	// wave
 	curWaveFlag = (waveFlag)(int) *wave;
 
@@ -37,25 +49,29 @@ void SynthVoice::getParam(
 
 	int vibratoDepth = (int) *vibrDep;
 	double famitrackerIncrement = 0.93 * vibratoDepth;
-	vibratoMaxFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum) + famitrackerIncrement;
-	vibratoMinFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum) - famitrackerIncrement;
+	double midiNoteHertz = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum);
+	vibratoMaxFreq = midiNoteHertz + famitrackerIncrement;
+	vibratoMinFreq = midiNoteHertz - famitrackerIncrement;
 
 	// note slide
 	int targetMidiOffset = (int) *noslDep; // in half-steps
-	noteSlideTargetFreq = juce::MidiMessage::getMidiNoteInHertz(midiNoteNum + targetMidiOffset); 
+	noteSlideTargetFreq = juce::MidiMessage::getMidiNoteInHertz(
+		midiNoteNum + targetMidiOffset); 
 	noteSlideActive = *noslTog > 0.5f;
 	noteSlideDurFlag = (durationFlag) (int) *noslSpd;
 
 	this->bpm = bpm;
+	return true;
 }
 
-void SynthVoice::setMaxiSettings(double sampleRate, double channels, double bufferSize)
+void SynthVoice::setMaxiSettings(double sampleRate, double channels,
+	double bufferSize)
 {
 	set.setup(sampleRate, channels, bufferSize);
 }
 
-void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound,
-	int currentPitchWheelPosition)
+void SynthVoice::startNote(int midiNoteNumber, float velocity,
+	juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
 	// reset adsr phases 
 	env.setTrigger(1);
@@ -162,7 +178,7 @@ double SynthVoice::getNoteSlideDuration()
 		return 0.5 * (60 / bpm);
 	case durationFlag::Sixteenth:
 		return 0.25 * (60 / bpm);
-	case durationFlag::Thirtysecond:
+	default: //case durationFlag::Thirtysecond:
 		return 0.125 * (60 / bpm);
 	}
 }
@@ -181,7 +197,7 @@ double SynthVoice::convertDuration(durationFlag flag)
 		return 4 * (60 / bpm);
 	case durationFlag::Sixteenth:
 		return 8 * (60 / bpm);
-	case durationFlag::Thirtysecond:
+	default: //case durationFlag::Thirtysecond:
 		return 16 * (60 / bpm);
 	}
 }

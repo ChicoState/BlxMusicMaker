@@ -15,7 +15,7 @@
 //==============================================================================
 /**
 */
-class BlxMusicMakerAudioProcessor : public juce::AudioProcessor
+class BlxMusicMakerAudioProcessor : public juce::AudioProcessor, public juce::UnitTest
 {
 public:
     //==============================================================================
@@ -75,6 +75,8 @@ private:
     float getArpDuration(int);
     const int internalPresetCount = 4;
     juce::String internalPresetNames[4] = {"Internal1", "Internal2", "Internal3", "Internal4"};
+
+    void runTest() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BlxMusicMakerAudioProcessor)
 };

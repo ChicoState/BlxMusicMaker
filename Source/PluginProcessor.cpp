@@ -9,6 +9,8 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "maximilian.h"
+#include "MyUnitTest.h"
+
 
 //==============================================================================
 BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
@@ -21,6 +23,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
         .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
     ),
+    UnitTest("AudioProcessorTest"),
     treeState(*this, &undoManager, "Params",
         {
             std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 0, 6, 0),
@@ -37,7 +40,7 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
 
             std::make_unique<juce::AudioParameterBool>("Tremolo", "TremoloToggle", false),
             std::make_unique<juce::AudioParameterInt>("TremoloSpeed", "TremoloSpeed", 0, 5, 0),
-            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0.01, 0.50, 0.01),
+            std::make_unique<juce::AudioParameterFloat>("TremoloDepth", "TremoloDepth", 0.01, 0.30, 0.01),
 
             std::make_unique <juce::AudioParameterBool>("Vibrato", "VibratoToggle", false),
             std::make_unique<juce::AudioParameterInt>("VibratoSpeed", "VibratoSpeed", 0, 5, 0),
@@ -61,6 +64,12 @@ BlxMusicMakerAudioProcessor::BlxMusicMakerAudioProcessor()
         mySynth.addVoice(new SynthVoice());
     mySynth.clearSounds();
     mySynth.addSound(new SynthSound());
+
+    // running test
+	#ifdef JUCE_DEBUG 
+		juce::UnitTestRunner unitTestRunner;
+		unitTestRunner.runAllTests();
+	#endif
 }
 
 BlxMusicMakerAudioProcessor::~BlxMusicMakerAudioProcessor()
@@ -316,3 +325,41 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new BlxMusicMakerAudioProcessor();
 }
+
+void BlxMusicMakerAudioProcessor::runTest()
+{
+    beginTest("Values in proper ranges?");
+    expect(time >= 0);
+    expect(currentNote >= 0);
+    expect(lastNoteValue >= -1);
+
+    beginTest("Any null parameters?");
+    expect(treeState.getRawParameterValue("ArpegSpeed") != nullptr);
+    expect(treeState.getRawParameterValue("Arpeggiator") != nullptr);
+
+    for (int i = 0; i < mySynth.getNumVoices(); ++i)
+    {
+        bool result = false;
+        if (myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))
+        {
+            result = myVoice->getParam(
+                treeState.getRawParameterValue("Wave"),
+                treeState.getRawParameterValue("Attack"),
+                treeState.getRawParameterValue("Decay"),
+                treeState.getRawParameterValue("Sustain"),
+                treeState.getRawParameterValue("Release"),
+                treeState.getRawParameterValue("Tremolo"),
+                treeState.getRawParameterValue("TremoloSpeed"),
+                treeState.getRawParameterValue("TremoloDepth"),
+                treeState.getRawParameterValue("Vibrato"),
+                treeState.getRawParameterValue("VibratoSpeed"),
+                treeState.getRawParameterValue("VibratoDepth"),
+                treeState.getRawParameterValue("Note Slide"),
+                treeState.getRawParameterValue("NoteSlideSpeed"),
+                treeState.getRawParameterValue("NoteSlideDepth"),
+                currentPositionInfo.bpm);
+        }
+        expect(result == true);
+    }
+}
+

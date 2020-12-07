@@ -6,6 +6,8 @@
               pluginVST3Category="Instrument" pluginManufacturer="gamers_inc">
   <MAINGROUP id="Gv2P3l" name="BlxMusicMaker">
     <GROUP id="{E50457CE-4ACC-3235-9851-C6276EC786C1}" name="Source">
+      <FILE id="xDvI8t" name="MyUnitTest.cpp" compile="1" resource="0" file="Source/MyUnitTest.cpp"/>
+      <FILE id="SBezD1" name="MyUnitTest.h" compile="0" resource="0" file="Source/MyUnitTest.h"/>
       <GROUP id="{825F6C46-BBB0-076D-48F2-776BECE174A9}" name="GUI">
         <GROUP id="{FF69F01A-716F-84E9-C153-8C5114DAD69E}" name="EnvelopePanel">
           <FILE id="qIiwXB" name="EnvelopeSliders.h" compile="0" resource="0"

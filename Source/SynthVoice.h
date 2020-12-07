@@ -17,7 +17,7 @@
 class SynthVoice : public juce::SynthesiserVoice
 {
 public:
-	void getParam(
+	bool getParam(
 		std::atomic<float>*, std::atomic<float>*, std::atomic<float>*, std::atomic<float>*,
 		std::atomic<float>*, std::atomic<float>*, std::atomic<float>*, std::atomic<float>*,
 		std::atomic<float>*, std::atomic<float>*, std::atomic<float>*, std::atomic<float>*,
@@ -35,6 +35,9 @@ public:
 	{ return dynamic_cast<SynthSound*>(sound) != nullptr; } 
 
 private:
+	enum class waveFlag { Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
+	enum class durationFlag { Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
+
 	int midiNoteNum;
 	double level, startLevel;   // volume
 	double freq;                // cycles per second
@@ -59,11 +62,7 @@ private:
 	maxiEnv env;
 	maxiFilter fil;
 	maxiSettings set;
-
-	enum class waveFlag { Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
 	waveFlag curWaveFlag;
-
-	enum class durationFlag { Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
 	durationFlag tremoloDurFlag, noteSlideDurFlag, vibratoDurFlag;
 
 	// gets values from tree and updates synth voice accordingly
