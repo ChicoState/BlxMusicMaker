@@ -19,7 +19,7 @@ class EffectParent : public juce::Component
 {
 public:
     
-    EffectParent(std::string, BlxMusicMakerAudioProcessor&);
+    EffectParent(std::string, BlxMusicMakerAudioProcessor&, bool isLastComponent = false);
     ~EffectParent();
     void paint(juce::Graphics&) override;
     void resized() override;
@@ -31,8 +31,12 @@ public:
 
 private:
 
+    const int componentHeight = 33;
+    const int spaceAfterLastCopmonent = 12;
+    const int dividerHeight = 4;
     juce::ToggleButton toggle;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
     std::vector<juce::Component*> components;
+    bool isLast;
 
 };

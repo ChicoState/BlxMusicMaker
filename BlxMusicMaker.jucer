@@ -9,6 +9,29 @@
       <FILE id="xDvI8t" name="MyUnitTest.cpp" compile="1" resource="0" file="Source/MyUnitTest.cpp"/>
       <FILE id="SBezD1" name="MyUnitTest.h" compile="0" resource="0" file="Source/MyUnitTest.h"/>
       <GROUP id="{825F6C46-BBB0-076D-48F2-776BECE174A9}" name="GUI">
+        <GROUP id="{208D7C1C-547A-98D4-C27E-4EADB0FDF825}" name="Res">
+          <FILE id="x86Pgl" name="SawNP.png" compile="0" resource="1" file="../Homework/BLXIcons/SawNP.png"/>
+          <FILE id="jFc4kM" name="SawP.png" compile="0" resource="1" file="../Homework/BLXIcons/SawP.png"/>
+          <FILE id="fl3cCJ" name="SawH.png" compile="0" resource="1" file="../Homework/BLXIcons/SawH.png"/>
+          <FILE id="vdoUxz" name="TriangleP.png" compile="0" resource="1" file="../Homework/BLXIcons/TriangleP.png"/>
+          <FILE id="x3yrWX" name="NoiseH.png" compile="0" resource="1" file="../Homework/BLXIcons/NoiseH.png"/>
+          <FILE id="FyhGBP" name="NoiseNP.png" compile="0" resource="1" file="../Homework/BLXIcons/NoiseNP.png"/>
+          <FILE id="RvXnfU" name="NoiseP.png" compile="0" resource="1" file="../Homework/BLXIcons/NoiseP.png"/>
+          <FILE id="f2cuGD" name="TriangleH.png" compile="0" resource="1" file="../Homework/BLXIcons/TriangleH.png"/>
+          <FILE id="aakG9g" name="TriangleNP.png" compile="0" resource="1" file="../Homework/BLXIcons/TriangleNP.png"/>
+          <FILE id="eCdsh9" name="Pulse25NP.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse25NP.png"/>
+          <FILE id="d7keCO" name="Pulse25P.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse25P.png"/>
+          <FILE id="K5CLPq" name="Pulse50H.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse50H.png"/>
+          <FILE id="koYwu8" name="Pulse50NP.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse50NP.png"/>
+          <FILE id="VqCClU" name="Pulse50P.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse50P.png"/>
+          <FILE id="p4Ojra" name="Pulse75H.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse75H.png"/>
+          <FILE id="tlboAy" name="Pulse75NP.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse75NP.png"/>
+          <FILE id="KZrMQZ" name="Pulse75P.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse75P.png"/>
+          <FILE id="uIvgQd" name="Pulse25H.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse25H.png"/>
+          <FILE id="WldI69" name="SineP.png" compile="0" resource="1" file="../Homework/BLXIcons/SineP.png"/>
+          <FILE id="KWZrAy" name="SineH.png" compile="0" resource="1" file="../Homework/BLXIcons/SineH.png"/>
+          <FILE id="iizFlE" name="SineNP.png" compile="0" resource="1" file="../Homework/BLXIcons/SineNP.png"/>
+        </GROUP>
         <GROUP id="{FF69F01A-716F-84E9-C153-8C5114DAD69E}" name="EnvelopePanel">
           <FILE id="qIiwXB" name="EnvelopeSliders.h" compile="0" resource="0"
                 file="Source/EnvelopeSliders.h"/>
@@ -53,8 +76,6 @@
               file="Source/BLXLookAndFeel.cpp"/>
         <FILE id="kPEXxI" name="BLXLookAndFeel.h" compile="0" resource="0"
               file="Source/BLXLookAndFeel.h"/>
-        <FILE id="iVZ9VU" name="PresetsBar.h" compile="0" resource="0" file="Source/PresetsBar.h"/>
-        <FILE id="nSsIOQ" name="PresetsBar.cpp" compile="1" resource="0" file="Source/PresetsBar.cpp"/>
       </GROUP>
       <GROUP id="{DCCFAB2E-1263-46E5-D01A-F1EFE9B1096F}" name="Maximilian">
         <GROUP id="{6C782ACD-A28A-D8B6-D8F5-8B774FDBE998}" name="libs">

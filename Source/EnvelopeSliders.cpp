@@ -12,42 +12,43 @@
 
 EnvelopeSliders::EnvelopeSliders(BlxMusicMakerAudioProcessor& p)
 {
-	std::string IDs[4] = { "Attack", "Decay", "Sustain", "Release" };
-	for (int i = 0; i < 4; i++) 
+	int textBoxWidth = 50;
+	int textBoxHeight = 20;
+	juce::Colour textBackgroundColor = BLXLookAndFeel().getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::widgetBackground);
+	std::string IDs[] = { "Attack", "Decay", "Sustain", "Release" };
+	for (int i = 0; i < sliderCount; i++) 
 	{
+		sliders[i].setColour(Slider::textBoxBackgroundColourId, textBackgroundColor);
 		sliders[i].setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-		sliders[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, 50, 20);
+		sliders[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, false, textBoxWidth, textBoxHeight);
 		sliderAttachment[i].reset(new juce::AudioProcessorValueTreeState::SliderAttachment(p.treeState, IDs[i], sliders[i]));
 		addAndMakeVisible(sliders[i]);
 	}
 	
 	//Add labels to sliders
 	std::string sliderNames[] = { "Attack", "Decay", "Sustain", "Release" };
-	for (int i = 0; i < 4; i++) 
+	for (int i = 0; i < sliderCount; i++) 
 	{
-		addAndMakeVisible(labels[i]);
 		labels[i].setText(sliderNames[i], juce::NotificationType::dontSendNotification);
 		labels[i].attachToComponent(&sliders[i], true);
+		addAndMakeVisible(labels[i]);
 	}
-}
-
-EnvelopeSliders::~EnvelopeSliders()
-{
-}
-
-void EnvelopeSliders::paint(juce::Graphics& g)
-{
 }
 
 void EnvelopeSliders::resized()
 {
+	int insetY = 10;
+	int leftPadding = 70;
+	int rightPadding = 20;
+	int sliderHeight = 36;
+
 	auto area = getLocalBounds();
-	area.reduce(0, 10);
-	area.removeFromLeft(70);
-	area.removeFromRight(20);
-	for (int i = 0; i < 4; i++)
+	area.reduce(0, insetY);
+	area.removeFromLeft(leftPadding);
+	area.removeFromRight(rightPadding);
+	for (int i = 0; i < sliderCount; i++)
 	{ 
-		sliders[i].setBounds(area.removeFromTop(36));
+		sliders[i].setBounds(area.removeFromTop(sliderHeight));
 	}
 }
 

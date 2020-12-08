@@ -18,15 +18,8 @@ class BLXLookAndFeel : public juce::LookAndFeel_V4
 public:
     
     BLXLookAndFeel();
-    static int getNewRadioID();
-    static int getPanelLabelHeight();
-    static juce::Rectangle<int> getEffectsInsetArea(juce::Rectangle<int>);
-    static juce::Rectangle<int> getWaveInsetArea(juce::Rectangle<int>);
-    static juce::Rectangle<int> getEnvelopeInsetArea(juce::Rectangle<int>);
     void drawMenuBarBackground (Graphics&, int width, int height, bool isMouseOverBar, MenuBarComponent&) override;
-
-private:
-    
-    static int currentRadioID;
+    void drawTickBox(Graphics& g, Component& component, float x, float y, float w, float h, const bool ticked,
+        const bool isEnabled, const bool shouldDrawButtonAsHighlighted, const bool shouldDrawButtonAsDown) override;
 
 };

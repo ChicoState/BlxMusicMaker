@@ -12,9 +12,9 @@
 
 WavePanel::WavePanel(BlxMusicMakerAudioProcessor& p)
 {
-    BLXLookAndFeel blx;
     panelLabel.setText("Waves", juce::NotificationType::dontSendNotification);
-    panelLabel.setColour(juce::Label::backgroundColourId, blx.getCurrentColourScheme().getUIColour(juce::LookAndFeel_V4::ColourScheme::menuBackground));
+    panelLabel.setColour(juce::Label::backgroundColourId, 
+        BLXLookAndFeel().getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::menuBackground));
     addAndMakeVisible(panelLabel);
 
     typeSelector = new TypeSelector(p);
@@ -28,16 +28,26 @@ WavePanel::~WavePanel()
 
 void WavePanel::paint(juce::Graphics& g)
 {
-    BLXLookAndFeel blx;
-    g.setColour(blx.getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::windowBackground));
-    g.fillRect(BLXLookAndFeel::getWaveInsetArea(getLocalBounds()));
+    g.setColour(BLXLookAndFeel().getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::windowBackground));
+    g.fillRect(getInsetArea(getLocalBounds()));
 }
 
 void WavePanel::resized()
 {
-    auto area = BLXLookAndFeel::getWaveInsetArea(getLocalBounds());
-    auto labelArea = area.removeFromTop(BLXLookAndFeel::getPanelLabelHeight());
+    int panelLabelHeight = 25;
+    auto area = getInsetArea(getLocalBounds());
+    auto labelArea = area.removeFromTop(panelLabelHeight);
     panelLabel.setBounds(labelArea);
     panelLabel.setJustificationType(juce::Justification::centred);
     typeSelector->setBounds(area);
+}
+
+juce::Rectangle<int> WavePanel::getInsetArea(juce::Rectangle<int> area)
+{
+    int panelInset = 4;
+    area.removeFromTop(panelInset);
+    area.removeFromLeft(panelInset);
+    area.removeFromRight(panelInset / 2);
+    area.removeFromBottom(panelInset / 2);
+    return area;
 }

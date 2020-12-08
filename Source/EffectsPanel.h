@@ -27,6 +27,7 @@ public:
 
 private:
     
+    juce::Rectangle<int> getInsetArea(juce::Rectangle<int>);
     juce::Label panelLabel;
     ArpeggiatorEffect* arpegEffect;
     TremoloEffect* tremEffect;

@@ -17,6 +17,7 @@
 class EnvelopePanel : public juce::Component
 {
 public:
+
     EnvelopePanel(BlxMusicMakerAudioProcessor&);
     ~EnvelopePanel();
     void paint(juce::Graphics&) override;
@@ -24,6 +25,7 @@ public:
 
 private:
 
+    juce::Rectangle<int> getInsetArea(juce::Rectangle<int>);
     juce::Label panelLabel;
     EnvelopeSliders* sliders;
 

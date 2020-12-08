@@ -33,9 +33,9 @@ public:
 	void controllerMoved(int controllerNumber, int newControllerValue) {}
 	bool canPlaySound(juce::SynthesiserSound* sound)
 	{ return dynamic_cast<SynthSound*>(sound) != nullptr; } 
+	enum class waveFlag { Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
 
 private:
-	enum class waveFlag { Pulse25, Pulse50, Pulse75, Triangle, Saw, Sine, Noise };
 	enum class durationFlag { Thirtysecond, Sixteenth, Eighth, Quarter, Half, Whole };
 
 	int midiNoteNum;

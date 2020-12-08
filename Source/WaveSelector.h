@@ -13,22 +13,26 @@
 #include "SynthVoice.h"
 #include "BLXLookAndFeel.h"
 #include "PluginProcessor.h"
+#include "SynthVoice.h"
 
 class TypeSelector : public juce::Component
 {
 public:
 
     TypeSelector(BlxMusicMakerAudioProcessor&);
-    ~TypeSelector() override;
-
-    void paint(juce::Graphics&) override;
     void resized() override;
 
 private:
 
     void onButtonSelect(int);
     void onValueChange();
-    juce::TextButton waveButtons[7];
+    juce::Image getPressedImage(int);
+    juce::Image getHighlightedImage(int);
+    juce::Image getNotPressedImage(int);
+
+    const int buttonCount = 7;
+    juce::ImageButton waveButtons[7];
+    juce::Label labels[7];
     juce::Slider slider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachment;
 

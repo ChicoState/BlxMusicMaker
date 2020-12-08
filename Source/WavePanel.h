@@ -24,7 +24,8 @@ public:
     void resized() override;
 
 private:
-    
+
+    juce::Rectangle<int> getInsetArea(juce::Rectangle<int>);
     juce::Label panelLabel;
     TypeSelector* typeSelector;
 

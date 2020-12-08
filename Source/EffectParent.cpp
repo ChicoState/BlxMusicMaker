@@ -10,8 +10,9 @@
 
 #include "EffectParent.h"
 
-EffectParent::EffectParent(std::string effectName, BlxMusicMakerAudioProcessor& p)
+EffectParent::EffectParent(std::string effectName, BlxMusicMakerAudioProcessor &p, bool isLastComponent)
 {
+    isLast = isLastComponent;
     toggle.setButtonText(effectName);
     addAndMakeVisible(toggle);
     toggleAttachment.reset(new juce::AudioProcessorValueTreeState::ButtonAttachment(p.treeState, effectName, toggle));
@@ -28,7 +29,7 @@ EffectParent::~EffectParent()
 int EffectParent::getNeededHeight()
 {
     int childCount = getNumChildComponents();
-    return (childCount * 26) + 6 + 4;
+    return (childCount * componentHeight) + spaceAfterLastCopmonent + dividerHeight;
 }
 
 void EffectParent::addSliderComponent(std::string text, std::string stateID, BlxMusicMakerAudioProcessor& p)
@@ -47,12 +48,12 @@ void EffectParent::addSpeedComponent(std::string text, std::string stateID, BlxM
 
 void EffectParent::paint(juce::Graphics& g)
 {
+    if (isLast) return;
     int childCount = getNumChildComponents();
     auto area = getLocalBounds();
-    area.removeFromTop((childCount * 26) + 6);
-    BLXLookAndFeel blx;
-    g.setColour(blx.getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::outline));
-    g.fillRect(area.removeFromTop(4));
+    area.removeFromTop((childCount * componentHeight) + spaceAfterLastCopmonent);
+    g.setColour(BLXLookAndFeel().getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::outline));
+    g.fillRect(area.removeFromTop(dividerHeight));
 }
 
 void EffectParent::resized()
@@ -60,13 +61,11 @@ void EffectParent::resized()
     auto area = getLocalBounds();
     int childCount = getNumChildComponents();
     for (int i = 0; i < childCount; i++) {
-        if (i == 1) {
-            area.removeFromLeft(35);
-        }
-        getChildComponent(i)->setBounds(area.removeFromTop(24));
-        if (i != 0)
+        if (i == 1) 
         {
-            area.removeFromTop(2);
+            int tabWidth = 35;
+            area.removeFromLeft(tabWidth);
         }
+        getChildComponent(i)->setBounds(area.removeFromTop(componentHeight));
     }
 }

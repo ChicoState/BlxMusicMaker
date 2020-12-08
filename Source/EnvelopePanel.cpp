@@ -12,9 +12,9 @@
 
 EnvelopePanel::EnvelopePanel(BlxMusicMakerAudioProcessor& p)
 {
-    BLXLookAndFeel blx;
     panelLabel.setText("Envelopes", juce::NotificationType::dontSendNotification);
-    panelLabel.setColour(juce::Label::backgroundColourId, blx.getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::menuBackground));
+    panelLabel.setColour(juce::Label::backgroundColourId, 
+        BLXLookAndFeel().getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::menuBackground));
     addAndMakeVisible(panelLabel);
 
     sliders = new EnvelopeSliders(p);
@@ -28,16 +28,27 @@ EnvelopePanel::~EnvelopePanel()
 
 void EnvelopePanel::paint(juce::Graphics& g)
 {
-    BLXLookAndFeel blx;
-    g.setColour(blx.getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::windowBackground));
-    g.fillRect(BLXLookAndFeel::getEnvelopeInsetArea(getLocalBounds()));
+    g.setColour(BLXLookAndFeel().getCurrentColourScheme().getUIColour(BLXLookAndFeel::ColourScheme::windowBackground));
+    g.fillRect(getInsetArea(getLocalBounds()));
 }
 
 void EnvelopePanel::resized()
 {
-    auto area = BLXLookAndFeel::getEnvelopeInsetArea(getLocalBounds());
-    auto labelArea = area.removeFromTop(BLXLookAndFeel::getPanelLabelHeight());
+    int panelLabelHeight = 25;
+    auto area = getInsetArea(getLocalBounds());
+    auto labelArea = area.removeFromTop(panelLabelHeight);
     panelLabel.setBounds(labelArea);
     panelLabel.setJustificationType(juce::Justification::centred);
     sliders->setBounds(area);
 }
+
+juce::Rectangle<int> EnvelopePanel::getInsetArea(juce::Rectangle<int> area)
+{
+    int panelInset = 4;
+    area.removeFromTop(panelInset / 2);
+    area.removeFromLeft(panelInset);
+    area.removeFromRight(panelInset / 2);
+    area.removeFromBottom(panelInset);
+    return area;
+}
+

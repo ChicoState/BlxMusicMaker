@@ -75,6 +75,7 @@ private:
     float getArpDuration(int);
     const int internalPresetCount = 4;
     juce::String internalPresetNames[4] = {"Internal1", "Internal2", "Internal3", "Internal4"};
+    juce::ValueTree* preset;
 
     void runTest() override;
 
