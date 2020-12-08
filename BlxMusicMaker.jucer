@@ -29,6 +29,8 @@
       <FILE id="SszBSc" name="TriangleP.png" compile="0" resource="1" file="Source/Imgaes/TriangleP.png"/>
     </GROUP>
     <GROUP id="{E50457CE-4ACC-3235-9851-C6276EC786C1}" name="Source">
+      <FILE id="JiEY3h" name="BinaryData.h" compile="0" resource="0" file="Source/BinaryData.h"/>
+      <FILE id="n1czhi" name="BinaryData.cpp" compile="1" resource="0" file="Source/BinaryData.cpp"/>
       <FILE id="xDvI8t" name="MyUnitTest.cpp" compile="1" resource="0" file="Source/MyUnitTest.cpp"/>
       <FILE id="SBezD1" name="MyUnitTest.h" compile="0" resource="0" file="Source/MyUnitTest.h"/>
       <GROUP id="{825F6C46-BBB0-076D-48F2-776BECE174A9}" name="GUI">
@@ -117,7 +119,7 @@
   <EXPORTFORMATS>
     <VS2019 targetFolder="Builds/VisualStudio2019">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="Blx Music Maker" headerPath="C:\Users\alext\Documents\cs430_software_engineering\BlxMusicMaker\LIBRARIES\Maximilian;F:\BlxMusicMaker\LIBRARIES\Maximilian"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="Blx Music Maker" headerPath="C:\Users\alext\Documents\cs430_software_engineering\BlxMusicMaker\LIBRARIES\Maximilian;F:\BlxMusicMaker\LIBRARIES\Maximilian;&#10;"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="Blx Music Maker" headerPath="C:\Users\alext\Documents\cs430_software_engineering\BlxMusicMaker\LIBRARIES\Maximilian;F:\BlxMusicMaker\LIBRARIES\Maximilian"/>
       </CONFIGURATIONS>
       <MODULEPATHS>

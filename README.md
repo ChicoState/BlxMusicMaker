@@ -2,7 +2,7 @@ Blx Music Maker
 
 Blx Music Maker is a simple VST with 8-bit sounds.
 
-![Plugin Image](https://i.imgur.com/FwltAxk.png)
+![Plugin Image](https://i.imgur.com/YoJpD7g.png)
 
 ## Current Features ##
  - Seven different sounds: sine, saw, three types of pulse, noise, and triangle
