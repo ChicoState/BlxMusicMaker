@@ -8,18 +8,6 @@
 
 namespace BinaryData
 {
-    extern const char*   SawNP_png;
-    const int            SawNP_pngSize = 1505;
-
-    extern const char*   SawP_png;
-    const int            SawP_pngSize = 1465;
-
-    extern const char*   SawH_png;
-    const int            SawH_pngSize = 1530;
-
-    extern const char*   TriangleP_png;
-    const int            TriangleP_pngSize = 1769;
-
     extern const char*   NoiseH_png;
     const int            NoiseH_pngSize = 1914;
 
@@ -29,11 +17,8 @@ namespace BinaryData
     extern const char*   NoiseP_png;
     const int            NoiseP_pngSize = 1900;
 
-    extern const char*   TriangleH_png;
-    const int            TriangleH_pngSize = 1789;
-
-    extern const char*   TriangleNP_png;
-    const int            TriangleNP_pngSize = 1757;
+    extern const char*   Pulse25H_png;
+    const int            Pulse25H_pngSize = 508;
 
     extern const char*   Pulse25NP_png;
     const int            Pulse25NP_pngSize = 500;
@@ -59,17 +44,32 @@ namespace BinaryData
     extern const char*   Pulse75P_png;
     const int            Pulse75P_pngSize = 503;
 
-    extern const char*   Pulse25H_png;
-    const int            Pulse25H_pngSize = 508;
+    extern const char*   SawH_png;
+    const int            SawH_pngSize = 1530;
 
-    extern const char*   SineP_png;
-    const int            SineP_pngSize = 1856;
+    extern const char*   SawNP_png;
+    const int            SawNP_pngSize = 1505;
+
+    extern const char*   SawP_png;
+    const int            SawP_pngSize = 1465;
 
     extern const char*   SineH_png;
     const int            SineH_pngSize = 1781;
 
     extern const char*   SineNP_png;
     const int            SineNP_pngSize = 1873;
+
+    extern const char*   SineP_png;
+    const int            SineP_pngSize = 1856;
+
+    extern const char*   TriangleH_png;
+    const int            TriangleH_pngSize = 1789;
+
+    extern const char*   TriangleNP_png;
+    const int            TriangleNP_pngSize = 1757;
+
+    extern const char*   TriangleP_png;
+    const int            TriangleP_pngSize = 1769;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 21;

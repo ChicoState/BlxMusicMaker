@@ -5,33 +5,33 @@
               pluginFormats="buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               pluginVST3Category="Instrument" pluginManufacturer="gamers_inc">
   <MAINGROUP id="Gv2P3l" name="BlxMusicMaker">
+    <GROUP id="{64E9DC07-CFF9-525B-19C4-21B07C46C909}" name="Imgaes">
+      <FILE id="n5EqpO" name="NoiseH.png" compile="0" resource="1" file="Source/Imgaes/NoiseH.png"/>
+      <FILE id="MZ3aL6" name="NoiseNP.png" compile="0" resource="1" file="Source/Imgaes/NoiseNP.png"/>
+      <FILE id="EcnMln" name="NoiseP.png" compile="0" resource="1" file="Source/Imgaes/NoiseP.png"/>
+      <FILE id="iYw51A" name="Pulse25H.png" compile="0" resource="1" file="Source/Imgaes/Pulse25H.png"/>
+      <FILE id="wBDrUE" name="Pulse25NP.png" compile="0" resource="1" file="Source/Imgaes/Pulse25NP.png"/>
+      <FILE id="UTnpAZ" name="Pulse25P.png" compile="0" resource="1" file="Source/Imgaes/Pulse25P.png"/>
+      <FILE id="LC5BwL" name="Pulse50H.png" compile="0" resource="1" file="Source/Imgaes/Pulse50H.png"/>
+      <FILE id="OjSx9D" name="Pulse50NP.png" compile="0" resource="1" file="Source/Imgaes/Pulse50NP.png"/>
+      <FILE id="RjFb59" name="Pulse50P.png" compile="0" resource="1" file="Source/Imgaes/Pulse50P.png"/>
+      <FILE id="iyT0QI" name="Pulse75H.png" compile="0" resource="1" file="Source/Imgaes/Pulse75H.png"/>
+      <FILE id="SXH0E9" name="Pulse75NP.png" compile="0" resource="1" file="Source/Imgaes/Pulse75NP.png"/>
+      <FILE id="wEHyqn" name="Pulse75P.png" compile="0" resource="1" file="Source/Imgaes/Pulse75P.png"/>
+      <FILE id="ohqeyO" name="SawH.png" compile="0" resource="1" file="Source/Imgaes/SawH.png"/>
+      <FILE id="Sfj0fC" name="SawNP.png" compile="0" resource="1" file="Source/Imgaes/SawNP.png"/>
+      <FILE id="vqm96a" name="SawP.png" compile="0" resource="1" file="Source/Imgaes/SawP.png"/>
+      <FILE id="kFF6Lr" name="SineH.png" compile="0" resource="1" file="Source/Imgaes/SineH.png"/>
+      <FILE id="rnpTdx" name="SineNP.png" compile="0" resource="1" file="Source/Imgaes/SineNP.png"/>
+      <FILE id="wEbTtM" name="SineP.png" compile="0" resource="1" file="Source/Imgaes/SineP.png"/>
+      <FILE id="Kq4l6w" name="TriangleH.png" compile="0" resource="1" file="Source/Imgaes/TriangleH.png"/>
+      <FILE id="H5nAtu" name="TriangleNP.png" compile="0" resource="1" file="Source/Imgaes/TriangleNP.png"/>
+      <FILE id="SszBSc" name="TriangleP.png" compile="0" resource="1" file="Source/Imgaes/TriangleP.png"/>
+    </GROUP>
     <GROUP id="{E50457CE-4ACC-3235-9851-C6276EC786C1}" name="Source">
       <FILE id="xDvI8t" name="MyUnitTest.cpp" compile="1" resource="0" file="Source/MyUnitTest.cpp"/>
       <FILE id="SBezD1" name="MyUnitTest.h" compile="0" resource="0" file="Source/MyUnitTest.h"/>
       <GROUP id="{825F6C46-BBB0-076D-48F2-776BECE174A9}" name="GUI">
-        <GROUP id="{208D7C1C-547A-98D4-C27E-4EADB0FDF825}" name="Res">
-          <FILE id="x86Pgl" name="SawNP.png" compile="0" resource="1" file="../Homework/BLXIcons/SawNP.png"/>
-          <FILE id="jFc4kM" name="SawP.png" compile="0" resource="1" file="../Homework/BLXIcons/SawP.png"/>
-          <FILE id="fl3cCJ" name="SawH.png" compile="0" resource="1" file="../Homework/BLXIcons/SawH.png"/>
-          <FILE id="vdoUxz" name="TriangleP.png" compile="0" resource="1" file="../Homework/BLXIcons/TriangleP.png"/>
-          <FILE id="x3yrWX" name="NoiseH.png" compile="0" resource="1" file="../Homework/BLXIcons/NoiseH.png"/>
-          <FILE id="FyhGBP" name="NoiseNP.png" compile="0" resource="1" file="../Homework/BLXIcons/NoiseNP.png"/>
-          <FILE id="RvXnfU" name="NoiseP.png" compile="0" resource="1" file="../Homework/BLXIcons/NoiseP.png"/>
-          <FILE id="f2cuGD" name="TriangleH.png" compile="0" resource="1" file="../Homework/BLXIcons/TriangleH.png"/>
-          <FILE id="aakG9g" name="TriangleNP.png" compile="0" resource="1" file="../Homework/BLXIcons/TriangleNP.png"/>
-          <FILE id="eCdsh9" name="Pulse25NP.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse25NP.png"/>
-          <FILE id="d7keCO" name="Pulse25P.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse25P.png"/>
-          <FILE id="K5CLPq" name="Pulse50H.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse50H.png"/>
-          <FILE id="koYwu8" name="Pulse50NP.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse50NP.png"/>
-          <FILE id="VqCClU" name="Pulse50P.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse50P.png"/>
-          <FILE id="p4Ojra" name="Pulse75H.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse75H.png"/>
-          <FILE id="tlboAy" name="Pulse75NP.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse75NP.png"/>
-          <FILE id="KZrMQZ" name="Pulse75P.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse75P.png"/>
-          <FILE id="uIvgQd" name="Pulse25H.png" compile="0" resource="1" file="../Homework/BLXIcons/Pulse25H.png"/>
-          <FILE id="WldI69" name="SineP.png" compile="0" resource="1" file="../Homework/BLXIcons/SineP.png"/>
-          <FILE id="KWZrAy" name="SineH.png" compile="0" resource="1" file="../Homework/BLXIcons/SineH.png"/>
-          <FILE id="iizFlE" name="SineNP.png" compile="0" resource="1" file="../Homework/BLXIcons/SineNP.png"/>
-        </GROUP>
         <GROUP id="{FF69F01A-716F-84E9-C153-8C5114DAD69E}" name="EnvelopePanel">
           <FILE id="qIiwXB" name="EnvelopeSliders.h" compile="0" resource="0"
                 file="Source/EnvelopeSliders.h"/>
